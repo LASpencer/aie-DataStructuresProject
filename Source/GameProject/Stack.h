@@ -38,16 +38,17 @@ namespace las {
 
 		/** Removes element from top of stack
 		* @return element removed from stack*/
-		T& pop() {
+		T pop() {
 			//TODO document exception if empty stack
 			return m_array.pop_back();
 		}
 
-		/** Returns top element of stack
+		/** Returns value of top element of stack
 		* @return top element of stack*/
-		T& top() const {
+		T top() const {
 			//TODO document exception if empty stack
-			return m_array[m_array.size() - 1];
+			T top = m_array[m_array.size() - 1];
+			return top;
 		}
 
 		/** Returns value of element in stack
@@ -55,7 +56,14 @@ namespace las {
 		* @return constant reference to element chosen*/
 		const T& peek(size_t pos) const {
 			//TODO document exception if empty stack
-			return m_array[std::max(0, m_array.size()-(pos+1))]
+			size_t index;
+			if (pos >= m_array.size()) {
+				index = 0;
+			}
+			else {
+				index = m_array.size() - (pos + 1);
+			}
+		return	m_array[index];
 		}
 
 	private:

@@ -104,7 +104,7 @@ TEST_CASE("Integer Array", "[array][container]") {
 		REQUIRE(arr.size() == 1);
 		REQUIRE(arr.pop_back() == 7);
 		CHECK(arr.empty());
-		//TODO popping empty array throws exception
+		REQUIRE_THROWS_AS(arr.pop_back(), std::out_of_range);	//Popping empty array throws exception
 	}
 
 	SECTION("Insert") {
@@ -143,9 +143,60 @@ TEST_CASE("Integer Stack", "[stack][container]") {
 	las::Stack<int> s;
 	//TODO test cases
 	SECTION("Push and Pop") {
-		//Pop value from empty stack
-		REQUIRE(s.pop())
+		//Pop value from empty stack throws exception
+		REQUIRE_THROWS_AS(s.pop(), std::out_of_range);
+		REQUIRE_THROWS_AS(s.top(), std::out_of_range);
+		s.push(8);
+		REQUIRE(s.top() == 8);
+		s.push(3);
+		REQUIRE(s.top() == 3);
+		REQUIRE(s.pop() == 3);
+		REQUIRE(s.top() == 8);
+		REQUIRE(s.pop() == 8);
+		REQUIRE_THROWS_AS(s.top(), std::out_of_range);
+		//TODO complicated series of push and pops
 	}
+	SECTION("Size and Empty") {
+		//TODO test size and empty
+		REQUIRE(s.empty());
+		REQUIRE(s.size() == 0);
+		s.push(3);
+		REQUIRE_FALSE(s.empty());
+		REQUIRE(s.size() == 1);
+		s.push(1);
+		s.push(19);
+		s.push(-2423);
+		REQUIRE(s.size() == 4);
+		// add enough elements to force resize
+		s.push(1);
+		s.push(19);
+		s.push(-2423);
+		s.push(1);
+		s.push(19);
+		REQUIRE(s.size() == 9);
+		s.pop();
+		s.pop();
+		s.pop();
+		REQUIRE(s.size() == 6);
+		s.pop();
+		s.pop();
+		s.pop();
+		s.pop();
+		s.pop();
+		s.pop();
+		REQUIRE(s.empty());
+	}
+	//TODO test peek (w/exception for empty)
+	SECTION("Peek") {
+		REQUIRE_THROWS_AS(s.peek(0), std::out_of_range);
+		s.push(3);
+		s.push(8);
+		REQUIRE(s.peek(0) == 8);	//Peek at top
+		REQUIRE(s.peek(1) == 3);		//Peek at next element
+		REQUIRE(s.peek(2) == 3);		//Peeking past bottom hits bottom
+		//TODO deeper stack
+	}
+	//TODO test value constructor
 }
 
 
