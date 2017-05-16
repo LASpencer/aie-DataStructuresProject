@@ -53,6 +53,7 @@ TEST_CASE("Integer Array", "[array][container]") {
 	}
 
 	SECTION("Subscript operator") {
+		//TODO this is invalid, rewrite test
 		arr[3] = 5;
 		REQUIRE(arr[3] == 5);
 		REQUIRE(arr.size() == 4);	//Adding beyond range increases array size
@@ -139,6 +140,10 @@ TEST_CASE("Integer Array", "[array][container]") {
 	}
 }
 
+TEST_CASE("Array Iterator", "[array][container][iterator]") {
+	//TODO test array iterator
+}
+
 TEST_CASE("Integer Stack", "[stack][container]") {
 	las::Stack<int> s;
 	//TODO test cases
@@ -194,9 +199,15 @@ TEST_CASE("Integer Stack", "[stack][container]") {
 		REQUIRE(s.peek(0) == 8);	//Peek at top
 		REQUIRE(s.peek(1) == 3);		//Peek at next element
 		REQUIRE(s.peek(2) == 3);		//Peeking past bottom hits bottom
-		//TODO deeper stack
 	}
 	//TODO test value constructor
+	SECTION("Value Constructor") {
+		s = { 12,16,4,72,5 };
+		REQUIRE(s.size() == 5);
+		REQUIRE(s.top() == 5);
+		REQUIRE(s.peek(1) == 72);
+		REQUIRE(s.peek(3) == 16);
+	}
 }
 
 

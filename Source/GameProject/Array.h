@@ -10,6 +10,9 @@ namespace las {
 	public:
 
 		static const size_t DEF_CAPACITY = 8;	// Default elements to allocate
+		typedef T* iterator;
+		typedef const T* const_iterator;
+		
 
 		Array() : m_size(0), m_capacity(DEF_CAPACITY)
 		{
@@ -51,6 +54,8 @@ namespace las {
 			}
 		}
 
+		//TODO construct from range (iterator to iterator)
+
 		/** Copy constructor
 		* @param other array to copy*/
 		Array(const Array<T>& other) : m_size(other.m_size), m_capacity(other.m_capacity)
@@ -84,6 +89,7 @@ namespace las {
 		/** Returns a reference to an element
 		* @param pos index of element*/
 		T& operator[](size_t pos) {
+			//TODO WRONG! instead throw exception if outside size
 			// If no element at index, expand array
 			while (pos >= m_size) {
 				push_back(T());
@@ -98,6 +104,14 @@ namespace las {
 				throw std::out_of_range("pos greater than Array size");
 			}
 			return m_array[pos];
+		}
+
+		iterator begin() {
+			return m_array[0];
+		}
+
+		iterator end() {
+			return m_array[m_size]
 		}
 
 		/** Equality operator
@@ -240,8 +254,11 @@ namespace las {
 			}
 		}
 
+		//TODO insert from range
+
 		/** Erase element from array
 		* @param pos index of element to erase*/
+		//TODO returns iterator after erased element
 		void erase(size_t pos) {
 			if (pos < m_size) {
 				// Move elements back, overwriting pos
@@ -253,6 +270,8 @@ namespace las {
 				--m_size;
 			}
 		}
+
+		//TODO erase over iterator range
 
 		/** Insert element at end of array
 		* @param value element to insert*/
