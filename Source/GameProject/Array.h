@@ -1,4 +1,5 @@
 #pragma once
+#include <initializer_list>
 
 namespace las {
 
@@ -18,13 +19,12 @@ namespace las {
 		/** Constructs an array of count elements initialized to value
 		* @param count number of elements in array
 		* @param value value of elements*/
-		Array(size_t count, const T& value = T()) : m_size(count)
+		Array(size_t count, T value = T()) : m_size(count), m_capacity(DEF_SIZE)
 		{
-			m_capacity = DEF_SIZE;
 			// Double capacity until enough space for elements
 			while (count > m_capacity) {
 				m_capacity *= 2;
-			}
+			} 
 			// Allocate memory on heap
 			m_array = new T[m_capacity];
 			// Fill array with values
@@ -33,8 +33,26 @@ namespace las {
 			}
 		}
 
+		/** Constructs an array from initializer list
+		* @param list initializer list of elements*/
+		Array(std::initializer_list<T> list) : m_size(list.size()), m_capacity(DEF_SIZE)
+		{
+			// Double capacity until enough space for elements
+			while (m_size > m_capacity) {
+				m_capacity *= 2;
+			}
+			// Allocate memory on heap
+			m_array = new T[m_capacity];
+			// Fill array with values
+			size_t i = 0;
+			for (auto element : list) {
+				m_array[i] = element;
+				++i;
+			}
+		}
+
 		/** Copy constructor
-		* <param name='other'>array to copy*/
+		* @param other array to copy*/
 		Array(const Array<T>& other) : m_size(other.m_size), m_capacity(other.m_capacity)
 		{
 			// Allocate memory on heap
@@ -46,9 +64,9 @@ namespace las {
 		}
 
 		/** copy assignment operator
-		*/
-		T& operator=(const T& other) {
-			delete m_array;
+		* @param other array to copy*/
+		Array<T>& operator=(const Array<T>& other) {
+			delete[] m_array;
 			m_size = other.m_size;
 			m_capacity = other.m_capacity;
 			m_array = new T[m_capacity];
@@ -60,7 +78,7 @@ namespace las {
 
 		~Array()
 		{
-			delete m_array;
+			delete[] m_array;
 		}
 
 		/** Returns a reference to an element
@@ -77,6 +95,31 @@ namespace las {
 		* @param pos index of element	*/
 		const T& operator[](size_t pos) const {
 			return m_array[pos];
+		}
+
+		/** Equality operator
+		* @param other array of same type to be compared
+		* @return true if sizes equal and all elements equal*/
+		const bool operator==(const Array<T>& other) {
+			bool equal;
+			// Check equal sizes
+			if (m_size == other.m_size) {
+				// If equal size, check for matching values
+				equal = true;
+				for (size_t i = 0; i < m_size; ++i) {
+					if (m_array[i] != other.m_array[i]) {
+						equal = false;
+						break;
+					}
+				}
+			} else{
+				equal = false;
+			}
+			return equal;
+		}
+
+		const bool operator!=(const Array<T>& other) {
+			return !(*this==(other));
 		}
 
 		/** Return size of the array
@@ -112,7 +155,7 @@ namespace las {
 				for (size_t i = 0; i < m_size; ++i) {
 					resizedArr[i] = m_array[i];
 				}
-				delete m_array;
+				delete[] m_array;
 				m_array = resizedArr;
 			}
 		}
@@ -120,7 +163,6 @@ namespace las {
 		/** Frees memory by resizing array
 		* @param capacity minimim capacity required*/
 		void shrink_to_fit(size_t capacity = 0) {
-			//TODO shrink to fit
 			// Resize to size or capacity, whichever is greater
 			size_t capNeeded = std::max(capacity, m_size);
 			size_t newCapacity = 2;
@@ -133,36 +175,85 @@ namespace las {
 				for (size_t i = 0; i < m_size; ++i) {
 					resizedArr[i] = m_array[i];
 				}
-				delete m_array;
+				delete[] m_array;
 				m_array = resizedArr;
 			}
 		}
 
+		/** Erases all elements in array
+		*/
 		void clear() {
-			//TODO clear
-			// remove all elements from array
+			// replace all elements with default
+			for (size_t i = 0; i < m_size; ++i) {
+				m_array[i] = T();
+			}
+			m_size = 0;
 		}
 
+		/** Insert element into array
+		* @param pos position to insert element at
+		* @param value value of new element*/
 		void insert(size_t pos, const T& value) {
-			// TODO insert
-			// insert value in space before pos
+			// If inserting at or past end, push back to end
+			if (pos >= m_size) {
+				push_back(value);
+			}
+			else {// insert value in space before pos
+				// Reallocate memory if needed
+				if (m_size >= m_capacity) {
+					reserve(m_size + 1);
+				}
+				// Shift elements forward in array
+				for (size_t i = m_size; i >= pos; --i) {
+					m_array[i+1] = m_array[i];
+				} 
+				// Insert new element at pos
+				m_array[pos] = value;
+				++m_size;
+			}
 		}
 
-
-		void insert(size_t pos, size_t count, const T& value) {
-			//TODO insert multiple
-			// insert count elements of value before pos
+		/** Insert multiple elements into array
+		*/
+		void insert(size_t pos, const T& value, size_t count) {
+			// If inserting at or past end, push back to end
+			if (pos >= m_size) {
+				push_back(value, count);
+			}else {// Insert elements in space before pos
+				//Reallocate memory if needed
+				if (m_size + count > m_capacity) {
+					reserve(m_size + count);
+				}
+				// Shift elements forward in array
+				for (size_t i = m_size; i >= pos; --i) {
+					m_array[i + count] = m_array[i];
+				}
+				// Insert new elements into array
+				// HACK check if std::copy is legal and use instead
+				for (size_t i = 0; i < count; ++i) {
+					m_array[pos + i] = value;
+				}
+				m_size += count;
+			}
 		}
 
+		/** Erase element from array
+		* @param pos index of element to erase*/
 		void erase(size_t pos) {
-			// TODO erase
-			// Remove element at pos
+			if (pos < m_size) {
+				// Move elements back, overwriting pos
+				for (size_t i = pos + 1; i < m_size; ++i) {
+					m_array[i - 1] = m_array[i];
+				}
+				// remove last element
+				m_array[m_size - 1] = T();
+				--m_size;
+			}
 		}
 
 		/** Insert element at end of array
 		* @param value element to insert*/
 		void push_back(const T& value) {
-			//TODO push_back
 			// Allocate memory if needed
 			if (m_size >= m_capacity) {
 				reserve(m_size + 1);
@@ -172,9 +263,28 @@ namespace las {
 			++m_size;
 		}
 
+		/** Insert multiple elements at end of array
+		* @param value element to insert
+		* @param count number of elements to insert*/
+		void push_back(const T& value, size_t count) {
+			// Allocate memory if needed
+			if (m_size + count > m_capacity) {
+				reserve(m_size + count);
+			}
+			//HACK check if std::copy is legal and use instead if so
+			for (size_t i = 0; i < count; ++i) {
+				m_array[m_size] = value;
+				++m_size;
+			}
+		}
+
+		/** Remove last element from array
+		* @return element removed*/
 		T pop_back() {
-			//TODO pop_back
-			//
+			T popped = m_array[m_size-1];
+			m_array[m_size-1] = T();
+			--m_size;
+			return popped;
 		}
 
 	private:
