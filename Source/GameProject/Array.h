@@ -186,10 +186,10 @@ namespace las {
 		/** Erases all elements in array
 		*/
 		void clear() {
-			// replace all elements with default
-			for (size_t i = 0; i < m_size; ++i) {
-				m_array[i] = T();
-			}
+			// destroy all elements
+			delete[] m_array;
+			// allocate new array with no elements
+			m_array = new T[m_capacity];
 			m_size = 0;
 		}
 
@@ -284,10 +284,13 @@ namespace las {
 		/** Remove last element from array
 		* @return element removed*/
 		T pop_back() {
-			T popped = m_array[m_size-1];
-			m_array[m_size-1] = T();
-			--m_size;
-			return popped;
+			if (m_size == 0) {
+				throw std::out_of_range("Cannot pop element from empty array");
+			}
+				T popped = m_array[m_size - 1];
+				m_array[m_size - 1] = T();
+				--m_size;
+				return popped;
 		}
 
 	private:

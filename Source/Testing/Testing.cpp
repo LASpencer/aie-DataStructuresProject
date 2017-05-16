@@ -5,6 +5,7 @@
 #define CATCH_CONFIG_RUNNER
 #include "catch.hpp"
 #include "Array.h"
+#include "Stack.h"
 #include <algorithm>
 
 TEST_CASE("Integer Array", "[array][container]") {
@@ -101,6 +102,9 @@ TEST_CASE("Integer Array", "[array][container]") {
 		REQUIRE(arr.pop_back() == 8);
 		REQUIRE(arr.pop_back() == 3);
 		REQUIRE(arr.size() == 1);
+		REQUIRE(arr.pop_back() == 7);
+		CHECK(arr.empty());
+		//TODO popping empty array throws exception
 	}
 
 	SECTION("Insert") {
@@ -135,6 +139,14 @@ TEST_CASE("Integer Array", "[array][container]") {
 	}
 }
 
+TEST_CASE("Integer Stack", "[stack][container]") {
+	las::Stack<int> s;
+	//TODO test cases
+	SECTION("Push and Pop") {
+		//Pop value from empty stack
+		REQUIRE(s.pop())
+	}
+}
 
 
 int main(int argc, char* const argv[]) {
