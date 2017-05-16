@@ -12,13 +12,13 @@ TEST_CASE("Integer Array", "[array][container]") {
 
 	REQUIRE((arr.size() == 0));
 	REQUIRE(arr.empty());
-	REQUIRE(arr.capacity() == las::Array<int>::DEF_SIZE);
+	REQUIRE(arr.capacity() == las::Array<int>::DEF_CAPACITY);
 
 	SECTION("Value constructor") {
 		las::Array<int> arr2(5, 2);
 		REQUIRE(arr2.size() == 5);
 		REQUIRE(arr2[4] == 2);
-		CHECK(arr2.capacity() == std::max(las::Array<int>::DEF_SIZE, 8u));
+		CHECK(arr2.capacity() == std::max(las::Array<int>::DEF_CAPACITY, 8u));
 	}
 
 	SECTION("Copy Constructor") {
@@ -38,39 +38,54 @@ TEST_CASE("Integer Array", "[array][container]") {
 	SECTION("Equality operator") {
 		arr = las::Array<int>(2, 5);
 		las::Array<int> arr2(3, 5);
-		REQUIRE((arr == arr2) == false);
+		// Different sizes are not equal
+		REQUIRE(!(arr == arr2));
 		REQUIRE(arr != arr2);
 		arr[2] = 5;
+		// Same size and elements
 		REQUIRE(arr == arr2);
-		REQUIRE((arr != arr2) == false);
+		REQUIRE(!(arr != arr2));
+		// Different elements are not equal
 		arr[2] = 3;
-		REQUIRE((arr != arr2)==true);
+		REQUIRE(arr != arr2);
+		REQUIRE(!(arr == arr2));
 	}
 
 	SECTION("Subscript operator") {
 		arr[3] = 5;
 		REQUIRE(arr[3] == 5);
-		REQUIRE(arr.size() == 4);
+		REQUIRE(arr.size() == 4);	//Adding beyond range increases array size
 		arr[2] = 9;
 		REQUIRE(arr[2] == 9);
 		REQUIRE(arr.size() == 4);
 		arr[8] = 6;
 		REQUIRE(arr[8] == 6);
+		REQUIRE(arr[7] == 0);		// Extra elements have default value
 		REQUIRE(arr.size() == 9);
 		CHECK(arr.capacity() == 16);
 	}
 
+	//TODO const subscript operator throws out of bounds exception
+
 	SECTION("Reserve and shrink array") {
+		// Reserve less than current capacity
 		arr.reserve(3);
-		REQUIRE(arr.capacity() == las::Array<int>::DEF_SIZE);
+		REQUIRE(arr.capacity() == las::Array<int>::DEF_CAPACITY);
+		// Reserve increases to next power of 2
 		arr.reserve(12);
 		REQUIRE(arr.capacity() == 16);
+		// Shrink to greater capacity does nothing
 		arr.shrink_to_fit(30);
 		REQUIRE(arr.capacity () == 16);
+		// Shrink to smaller capacity
 		arr.shrink_to_fit(3);
 		REQUIRE(arr.capacity() == 4);
+		// Shrink to current size
 		arr.shrink_to_fit();
 		REQUIRE(arr.capacity() == 2);
+		arr[9] = 5;
+		arr.shrink_to_fit();
+		REQUIRE(arr.capacity() == 16);
 	}
 
 	SECTION("Push and Pop") {

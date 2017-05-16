@@ -9,17 +9,17 @@ namespace las {
 	{
 	public:
 
-		static const size_t DEF_SIZE = 8;	// Default elements to allocate
+		static const size_t DEF_CAPACITY = 8;	// Default elements to allocate
 
-		Array() : m_size(0), m_capacity(DEF_SIZE)
+		Array() : m_size(0), m_capacity(DEF_CAPACITY)
 		{
-			m_array = new T[DEF_SIZE];
+			m_array = new T[DEF_CAPACITY];
 		}
 
 		/** Constructs an array of count elements initialized to value
 		* @param count number of elements in array
 		* @param value value of elements*/
-		Array(size_t count, T value = T()) : m_size(count), m_capacity(DEF_SIZE)
+		Array(size_t count, T value = T()) : m_size(count), m_capacity(DEF_CAPACITY)
 		{
 			// Double capacity until enough space for elements
 			while (count > m_capacity) {
@@ -35,7 +35,7 @@ namespace las {
 
 		/** Constructs an array from initializer list
 		* @param list initializer list of elements*/
-		Array(std::initializer_list<T> list) : m_size(list.size()), m_capacity(DEF_SIZE)
+		Array(std::initializer_list<T> list) : m_size(list.size()), m_capacity(DEF_CAPACITY)
 		{
 			// Double capacity until enough space for elements
 			while (m_size > m_capacity) {
@@ -94,6 +94,9 @@ namespace las {
 		/** Returns a constant reference to an element
 		* @param pos index of element	*/
 		const T& operator[](size_t pos) const {
+			if (pos >= m_size) {
+				throw std::out_of_range("pos greater than Array size");
+			}
 			return m_array[pos];
 		}
 
