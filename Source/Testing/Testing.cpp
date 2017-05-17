@@ -144,6 +144,7 @@ TEST_CASE("Array Iterator", "[array][container][iterator]") {
 		las::Array<int> arr3(start, end);
 		REQUIRE(arr3 == las::Array<int>({ 3,5,8 }));
 	}
+
 }
 
 TEST_CASE("Integer Stack", "[stack][container]") {

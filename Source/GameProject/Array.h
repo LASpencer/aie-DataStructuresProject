@@ -2,6 +2,7 @@
 #include <initializer_list>
 #include <iterator>
 #include <type_traits>
+#include "IteratorChecks.h"
 
 namespace las {
 
@@ -62,7 +63,9 @@ namespace las {
 		//TODO testing
 		//TODO documentation
 		template <typename Iter,
-			typename = typename std::enable_if<std::is_same<std::iterator_traits<Iter>::value_type, T>::value, Iter>> //Substitution failure if Iter is not input iterator containing T
+			//TODO fixRequireIteratorType
+			//typename = RequireIteratorType<Iter,T>> //Substitution failure if Iter is not input iterator containing T
+			typename = typename std::enable_if<std::is_same<std::iterator_traits<Iter>::value_type, T>::value, Iter >>
 		Array(Iter first, Iter last) : m_size(std::distance(first, last)), m_capacity(DEF_CAPACITY)	//TODO document distance may throw exception
 		{
 			// Double capacity until enough space for elements
