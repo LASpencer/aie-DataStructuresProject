@@ -23,9 +23,9 @@ TEST_CASE("Integer Array", "[array][container]") {
 	}
 
 	SECTION("Copy Constructor") {
-		arr[3] = 5;
+		arr = { 1,1,2,3,5 };
 		las::Array<int> arr2 = arr;
-		REQUIRE(arr2[3] == 5);
+		REQUIRE(arr2[4] == 5);
 	}
 
 	SECTION("Initializer list") {
@@ -42,7 +42,7 @@ TEST_CASE("Integer Array", "[array][container]") {
 		// Different sizes are not equal
 		REQUIRE(!(arr == arr2));
 		REQUIRE(arr != arr2);
-		arr[2] = 5;
+		arr.push_back(5);
 		// Same size and elements
 		REQUIRE(arr == arr2);
 		REQUIRE(!(arr != arr2));
@@ -53,21 +53,16 @@ TEST_CASE("Integer Array", "[array][container]") {
 	}
 
 	SECTION("Subscript operator") {
-		//TODO this is invalid, rewrite test
-		arr[3] = 5;
+		// Out of Bounds exception when index >= size
+		REQUIRE_THROWS_AS(arr[3], std::out_of_range);
+		arr = { 3,2,1,5,6 };
+		REQUIRE_THROWS_AS(arr[5], std::out_of_range);
+		// Can read from subscript
 		REQUIRE(arr[3] == 5);
-		REQUIRE(arr.size() == 4);	//Adding beyond range increases array size
-		arr[2] = 9;
-		REQUIRE(arr[2] == 9);
-		REQUIRE(arr.size() == 4);
-		arr[8] = 6;
-		REQUIRE(arr[8] == 6);
-		REQUIRE(arr[7] == 0);		// Extra elements have default value
-		REQUIRE(arr.size() == 9);
-		CHECK(arr.capacity() == 16);
+		// Can write with subscript
+		arr[2] = 7;
+		REQUIRE(arr[2] == 7);
 	}
-
-	//TODO const subscript operator throws out of bounds exception
 
 	SECTION("Reserve and shrink array") {
 		// Reserve less than current capacity
@@ -85,7 +80,7 @@ TEST_CASE("Integer Array", "[array][container]") {
 		// Shrink to current size
 		arr.shrink_to_fit();
 		REQUIRE(arr.capacity() == 2);
-		arr[9] = 5;
+		arr.push_back(3, 9);
 		arr.shrink_to_fit();
 		REQUIRE(arr.capacity() == 16);
 	}
@@ -109,11 +104,7 @@ TEST_CASE("Integer Array", "[array][container]") {
 	}
 
 	SECTION("Insert") {
-		arr[0] = 1;
-		arr[1] = 2;
-		arr[2] = 3;
-		arr[3] = 4;
-		arr[4] = 5;
+		arr = { 1,2,3,4,5 };
 		arr.insert(3, 9);
 		REQUIRE(arr[3] == 9);
 		REQUIRE(arr[2] == 3);
@@ -131,9 +122,10 @@ TEST_CASE("Integer Array", "[array][container]") {
 
 	SECTION("Erase and clear") {
 		arr = { 1,2,3,4,5,6 };
-		arr.erase(7);
-		REQUIRE(arr == las::Array<int>({ 1, 2, 3, 4, 5, 6 }));
-		arr.erase(3);
+		REQUIRE_THROWS_AS(arr.erase(7), std::out_of_range);
+		las::Array<int>::iterator next = arr.erase(3);
+		REQUIRE(next == &(arr[3]));
+		REQUIRE(*next == 5);
 		REQUIRE(arr == las::Array<int>({1, 2, 3, 5, 6}));
 		arr.clear();
 		REQUIRE(arr == las::Array<int>());
@@ -142,6 +134,16 @@ TEST_CASE("Integer Array", "[array][container]") {
 
 TEST_CASE("Array Iterator", "[array][container][iterator]") {
 	//TODO test array iterator
+	las::Array<int> arr{ 1,2,3,5,8,13 };
+	SECTION("Range Constructor") {
+		las::Array<int>::iterator start, end;
+		las::Array<int> arr2(arr.begin(), arr.end());
+		REQUIRE(arr == arr2);
+		start = arr.begin() + 2;
+		end = start + 3;
+		las::Array<int> arr3(start, end);
+		REQUIRE(arr3 == las::Array<int>({ 3,5,8 }));
+	}
 }
 
 TEST_CASE("Integer Stack", "[stack][container]") {

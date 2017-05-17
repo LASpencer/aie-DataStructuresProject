@@ -1,5 +1,7 @@
 #pragma once
 #include <initializer_list>
+#include <iterator>
+#include <type_traits>
 
 namespace las {
 
@@ -54,7 +56,29 @@ namespace las {
 			}
 		}
 
-		//TODO construct from range (iterator to iterator)
+		/** Range constructor
+		* @param first input iterator to first element in range
+		* @param last input iterator to end of range*/
+		//TODO testing
+		//TODO documentation
+		template <typename Iter,
+			typename = typename std::enable_if<std::is_same<std::iterator_traits<Iter>::value_type, T>::value, Iter>> //Substitution failure if Iter is not input iterator containing T
+		Array(Iter first, Iter last) : m_size(std::distance(first, last)), m_capacity(DEF_CAPACITY)	//TODO document distance may throw exception
+		{
+			// Double capacity until enough space for elements
+			while (m_size > m_capacity) {
+				m_capacity *= 2;
+			}
+			//Allocate memory on heap
+			m_array = new T[m_capacity];
+			// Fill array with values
+			size_t i = 0;
+			for (Iter it = first; it != last; ++it) 
+			{
+				m_array[i] = *it;
+				++i;
+			}
+		}
 
 		/** Copy constructor
 		* @param other array to copy*/
@@ -89,10 +113,8 @@ namespace las {
 		/** Returns a reference to an element
 		* @param pos index of element*/
 		T& operator[](size_t pos) {
-			//TODO WRONG! instead throw exception if outside size
-			// If no element at index, expand array
-			while (pos >= m_size) {
-				push_back(T());
+			if (pos >= m_size) {
+				throw std::out_of_range("pos is past last element");
 			}
 			return m_array[pos];
 		}
@@ -101,17 +123,17 @@ namespace las {
 		* @param pos index of element	*/
 		const T& operator[](size_t pos) const {
 			if (pos >= m_size) {
-				throw std::out_of_range("pos greater than Array size");
+				throw std::out_of_range("pos is past last element");
 			}
 			return m_array[pos];
 		}
 
 		iterator begin() {
-			return m_array[0];
+			return &(m_array[0]);
 		}
 
 		iterator end() {
-			return m_array[m_size]
+			return &(m_array[m_size]);
 		}
 
 		/** Equality operator
@@ -257,18 +279,22 @@ namespace las {
 		//TODO insert from range
 
 		/** Erase element from array
-		* @param pos index of element to erase*/
-		//TODO returns iterator after erased element
-		void erase(size_t pos) {
-			if (pos < m_size) {
-				// Move elements back, overwriting pos
-				for (size_t i = pos + 1; i < m_size; ++i) {
-					m_array[i - 1] = m_array[i];
-				}
-				// remove last element
-				m_array[m_size - 1] = T();
-				--m_size;
+		* @param pos index of element to erase
+		* @return iterator following erased element*/
+		iterator erase(size_t pos) {
+			iterator next;
+			if (pos >= m_size) {
+				throw std::out_of_range("Cannot erase: pos is past last element");
 			}
+			// Move elements back, overwriting pos
+			for (size_t i = pos + 1; i < m_size; ++i) {
+				m_array[i - 1] = m_array[i];
+			}
+			// remove last element
+			m_array[m_size - 1] = T();
+			--m_size;
+			next = m_array + pos;
+			return next;
 		}
 
 		//TODO erase over iterator range
