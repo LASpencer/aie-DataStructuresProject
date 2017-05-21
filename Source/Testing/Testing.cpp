@@ -9,19 +9,20 @@
 #include <algorithm>
 
 #include <vector>
+#include <sstream>
 
 TEST_CASE("Integer Array", "[array][container]") {
 	las::Array<int> arr;
 
 	REQUIRE((arr.size() == 0));
 	REQUIRE(arr.empty());
-	REQUIRE(arr.capacity() == las::Array<int>::DEF_CAPACITY);
+	REQUIRE(arr.capacity() == las::Array<int>::def_capacity);
 
 	SECTION("Value constructor") {
 		las::Array<int> arr2(5, 2);
 		REQUIRE(arr2.size() == 5);
 		REQUIRE(arr2[4] == 2);
-		CHECK(arr2.capacity() == std::max(las::Array<int>::DEF_CAPACITY, 8u));
+		CHECK(arr2.capacity() == std::max(las::Array<int>::def_capacity, 8u));
 	}
 
 	SECTION("Copy Constructor") {
@@ -69,7 +70,7 @@ TEST_CASE("Integer Array", "[array][container]") {
 	SECTION("Reserve and shrink array") {
 		// Reserve less than current capacity
 		arr.reserve(3);
-		REQUIRE(arr.capacity() == las::Array<int>::DEF_CAPACITY);
+		REQUIRE(arr.capacity() == las::Array<int>::def_capacity);
 		// Reserve increases to next power of 2
 		arr.reserve(12);
 		REQUIRE(arr.capacity() == 16);
@@ -135,8 +136,9 @@ TEST_CASE("Integer Array", "[array][container]") {
 }
 
 TEST_CASE("Array Iterator", "[array][container][iterator]") {
-	//TODO test array iterator
 	las::Array<int> arr{ 1,2,3,5,8,13 };
+	las::Array<int> arr2{ 2,4,8,16,32 };
+	std::vector<int> vec = { 3,5,6,7,4 };
 	SECTION("Range Constructor") {
 		las::Array<int>::iterator start, end;
 		las::Array<int> arr2(arr.begin(), arr.end());
@@ -146,11 +148,55 @@ TEST_CASE("Array Iterator", "[array][container][iterator]") {
 		las::Array<int> arr3(start, end);
 		REQUIRE(arr3 == las::Array<int>({ 3,5,8 }));
 		// Test Array
-		std::vector<int> vec = { 3,5,6,7,4 };
 		arr3 = las::Array<int>(vec.begin(), vec.end());
 		REQUIRE(arr3 == las::Array<int>({ 3,5,6,7,4 }));
 	}
+	SECTION("Insert") {
+		arr.insert(arr.begin() + 2, 4);
+		REQUIRE(arr == las::Array<int>({ 1,2,4,3,5,8,13 }));
+		arr.insert(arr.begin() + 4, 9, 3);
+		REQUIRE(arr == las::Array<int>({ 1,2,4,3,9,9,9,5,8,13 }));
+		REQUIRE_THROWS(arr.insert(arr.end() + 1, 2));
+		REQUIRE_THROWS(arr.insert(arr.begin() - 1, 2));
+		REQUIRE_THROWS(arr.insert(arr.end() + 1, 2, 2));
+		REQUIRE_THROWS(arr.insert(arr.begin() - 1, 2, 2));
+	}
+	SECTION("Insert from range") {
+		arr.insert(arr.begin() + 3, arr2.begin() + 2, arr2.end());
+		REQUIRE(arr == las::Array<int>({ 1,2,3,8,16,32,5,8,13 }));
+		REQUIRE_THROWS(arr.insert(arr.begin() - 1, arr2.begin() + 2, arr2.end()));
+		REQUIRE_THROWS(arr.insert(arr.end() + 1, arr2.begin() + 2, arr2.end()));
+		REQUIRE_THROWS(arr.insert(arr.begin() + 3, arr2.end(), arr2.begin()+2));
+		arr2.insert(arr2.begin() + 1, vec.begin()+1, vec.begin()+3);
+		REQUIRE(arr2 == las::Array<int>({ 2,5,6,4,8,16,32 }));
+	}
+	SECTION("Erase from range") {
+		REQUIRE(*(arr.erase(arr.begin() + 2)) == 5);
+		REQUIRE(arr == las::Array<int>({ 1,2,5,8,13 }));
+		las::Array<int>::iterator newEnd = arr.erase(arr.begin() + 3, arr.end());
+		REQUIRE(newEnd == arr.end());
+		REQUIRE(arr == las::Array<int>({ 1,2,5 }));
+		REQUIRE_THROWS(arr.erase(arr.end() + 1));
+		REQUIRE_THROWS(arr.erase(arr.begin() - 1));
+		REQUIRE_THROWS(arr.erase(arr.begin(), arr.end() + 1));
+		REQUIRE_THROWS(arr.erase(arr.begin() - 1, arr.begin() + 1));
+		REQUIRE_THROWS(arr.erase(arr.end(), arr.end() + 1));
+		REQUIRE_THROWS(arr.erase(arr.begin() + 2, arr.begin()+1));
+	}
+}
 
+TEST_CASE("Array Input Iterator", "[array][container][iterator][io]") {
+	std::istringstream in("Hello, world!");
+	las::Array<char> arrchar;
+	SECTION("Range Constructor") {
+		las::Array<char>arrchar = las::Array<char>(std::istreambuf_iterator<char>(in), std::istreambuf_iterator<char>());
+		REQUIRE(arrchar == las::Array<char>({ 'H','e','l','l','o',',',' ','w','o','r','l','d','!' }));
+	}
+	SECTION("Insert from range") {
+		arrchar.push_back('n', 4);
+		arrchar.insert(arrchar.begin() + 2, std::istreambuf_iterator<char>(in), std::istreambuf_iterator<char>());
+		REQUIRE(arrchar == las::Array<char>({ 'n','n','H','e','l','l','o',',',' ','w','o','r','l','d','!','n','n' }));
+	}
 }
 
 TEST_CASE("Integer Stack", "[stack][container]") {

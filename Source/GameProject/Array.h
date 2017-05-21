@@ -2,6 +2,7 @@
 #include <initializer_list>
 #include <iterator>
 #include <type_traits>
+#include <functional>
 
 namespace las {
 
@@ -11,21 +12,20 @@ namespace las {
 	{
 	public:
 
-		//TODO rename constant
-		static const size_t DEF_CAPACITY = 8;	// Default elements to allocate
+		static const size_t def_capacity = 8;	// Default elements to allocate
 		typedef T* iterator;
 		typedef const T* const_iterator;
 		
 
-		Array() : m_size(0), m_capacity(DEF_CAPACITY)
+		Array() : m_size(0), m_capacity(def_capacity)
 		{
-			m_array = new T[DEF_CAPACITY];
+			m_array = new T[def_capacity];
 		}
 
 		/** Constructs an array of count elements initialized to value
 		* @param count number of elements in array
 		* @param value value of elements*/
-		Array(size_t count, T value = T()) : m_size(count), m_capacity(DEF_CAPACITY)
+		Array(size_t count, T value = T()) : m_size(count), m_capacity(def_capacity)
 		{
 			// Double capacity until enough space for elements
 			while (count > m_capacity) {
@@ -41,7 +41,7 @@ namespace las {
 
 		/** Constructs an array from initializer list
 		* @param list initializer list of elements*/
-		Array(std::initializer_list<T> list) : m_size(list.size()), m_capacity(DEF_CAPACITY)
+		Array(std::initializer_list<T> list) : m_size(list.size()), m_capacity(def_capacity)
 		{
 			// Double capacity until enough space for elements
 			while (m_size > m_capacity) {
@@ -57,31 +57,44 @@ namespace las {
 			}
 		}
 
-		/** Range constructor
+		/** Range constructor 
 		* @param first input iterator to first element in range
 		* @param last input iterator to end of range*/
 		//TODO testing
 		//TODO documentation
 		template <typename Iter,
 		typename = typename std::enable_if<std::is_same<std::iterator_traits<Iter>::value_type, T>::value, Iter >::type> //Substitution failure if Iter is not input iterator containing T
-		Array(Iter first, Iter last) : m_capacity(DEF_CAPACITY)	//TODO document distance may throw exception
+		Array(Iter first, Iter last) : m_capacity(def_capacity)	//TODO document distance may throw exception
 		{
-			//HACK may fail with single pass InputIterator, should make special version for non-random access
-			m_size = std::distance(first, last);
-			// Double capacity until enough space for elements
-			while (m_size > m_capacity) {
-				m_capacity *= 2;
+			if (std::is_base_of<std::forward_iterator_tag, std::iterator_traits<Iter>::iterator_category>::value){	//Check multipass guarantee
+				int distance = std::distance(first, last);
+				if (distance < 0) {
+					throw std::invalid_argument("last must be reachable by incrementing first");
+				}
+				m_size = distance;
+																// Double capacity until enough space for elements
+				while (m_size > m_capacity) {
+					m_capacity *= 2;
+				}
+				//Allocate memory on heap
+				m_array = new T[m_capacity];
+				// Fill array with values
+				size_t i = 0;
+				for (Iter it = first; it != last; ++it)
+				{
+					m_array[i] = *it;
+					++i;
+				}
 			}
-			//Allocate memory on heap
-			m_array = new T[m_capacity];
-			// Fill array with values
-			size_t i = 0;
-			for (Iter it = first; it != last; ++it) 
-			{
-				m_array[i] = *it;
-				++i;
+			else {	// Multipass guarantee does not hold, so distance cannot be checked
+				m_size = 0;
+				m_array = new T[m_capacity];
+				for (Iter it = first; it != last; ++it) {
+					push_back(*it);
+				}
 			}
 		}
+
 
 		/** Copy constructor
 		* @param other array to copy*/
@@ -235,19 +248,19 @@ namespace las {
 		/** Insert element into array
 		* @param pos position to insert element at
 		* @param value value of new element*/
-		void insert(size_t pos, const T& value) {//TODO make pos an iterator
+		void insert(size_t pos, const T& value) {
 			// If inserting at or past end, push back to end
 			if (pos >= m_size) {
 				push_back(value);
 			}
 			else {// insert value in space before pos
 				// Reallocate memory if needed
-				if (m_size >= m_capacity) {
+				if (m_size +1 > m_capacity) {
 					reserve(m_size + 1);
 				}
 				// Shift elements forward in array
-				for (size_t i = m_size; i >= pos; --i) {
-					m_array[i+1] = m_array[i];
+				for (size_t i = m_size; i > pos; --i) {
+					m_array[i] = m_array[i-1];
 				} 
 				// Insert new element at pos
 				m_array[pos] = value;
@@ -256,8 +269,10 @@ namespace las {
 		}
 
 		/** Insert multiple elements into array
-		*/
-		void insert(size_t pos, const T& value, size_t count) {//TODO make pos an iterator
+		* @param pos position to insert element at
+		* @param value value of new element
+		* @param count number of elements to insert */
+		void insert(size_t pos, const T& value, size_t count) {
 			// If inserting at or past end, push back to end
 			if (pos >= m_size) {
 				push_back(value, count);
@@ -267,8 +282,8 @@ namespace las {
 					reserve(m_size + count);
 				}
 				// Shift elements forward in array
-				for (size_t i = m_size; i >= pos; --i) {
-					m_array[i + count] = m_array[i];
+				for (size_t i = m_size+count; i > pos; --i) {
+					m_array[i] = m_array[i-count];
 				}
 				// Insert new elements into array
 				// HACK check if std::copy is legal and use instead
@@ -279,13 +294,79 @@ namespace las {
 			}
 		}
 
-		//TODO insert from range
+		//TODO document iterator inserts
+		/** Insert element into array
+		* @param pos iterator of element to insert before
+		* @param value value of new element*/
+		void insert(iterator pos, const T& value) {
+			if (std::less<iterator>()(pos, begin()) || std::greater<iterator>()(pos, end())) {
+				throw std::out_of_range("pos must be within Array.begin() and Array.end()");
+			}
+			size_t index = pos - begin();
+			insert(index, value);
+		}
+
+		/** Insert multiple elements into array
+		* @param pos iterator of element to insert before
+		* @param value value of new element
+		* @param count number of elements to insert */
+		void insert(iterator pos, const T& value, size_t count) {
+			if (std::less<iterator>()(pos, begin()) || std::greater<iterator>()(pos, end())) {
+				throw std::out_of_range("pos must be within Array.begin() and Array.end()");
+			}
+			size_t index = pos - begin();
+			insert(index, value, count);
+		}
+
+		/** Insert from range
+		* @param pos iterator of element to insert before
+		* @param first start of range to insert from
+		* @param last end of range to insert from*/
 		template <typename Iter,
 			typename = typename std::enable_if<std::is_same<std::iterator_traits<Iter>::value_type, T>::value, Iter >::type> //Substitution failure if Iter is not input iterator containing T
 			void insert(iterator pos, Iter first, Iter last) {
-			//TODO
+			// Check pos is within range
+			if (std::less<iterator>()(pos, begin()) || std::greater<iterator>()(pos, end())) {
+				throw std::out_of_range("pos must be within Array.begin() and Array.end()");
+			}
+			//TODO check if inserting from self, and if so copy values to be inserted to temporary array and use that
 			//if pos == end() or greater, push back each in range
-			//else get distance between first and last
+			if (pos==end()) {
+				for (Iter it = first; it != last; ++it) {
+					push_back(*it);
+				}
+			}
+			else {
+				// Get index of element pointed to by pos
+				size_t index = pos - begin();
+				if (std::is_base_of<std::forward_iterator_tag, std::iterator_traits<Iter>::iterator_category>::value) {
+					int distance = std::distance(first, last);
+					if (distance < 0) {
+						throw std::invalid_argument("last must be reachable by incrementing first");
+					}
+					// Reallocate memory if needed
+					if (m_size + distance > m_capacity) {
+						reserve(m_size + distance);
+					}
+					//Shift elements forward in array
+					for (size_t i = m_size; i >= index; --i) {
+						m_array[i + distance] = m_array[i];
+					}
+					//Insert elements from range
+					for (Iter it = first; it != last; ++it) {
+						m_array[index] = *it;
+						++index;
+					}
+					m_size += distance;
+				}
+				else {
+					// If no multipass guarantee, insert each value from range
+					for (Iter it = first; it != last; ++it) {
+						insert(index, *it);
+						++index;
+					}
+				}
+			}
 		}
 
 		/** Erase element from array
@@ -301,13 +382,47 @@ namespace las {
 				m_array[i - 1] = m_array[i];
 			}
 			// remove last element
-			m_array[m_size - 1] = T();
 			--m_size;
 			next = m_array + pos;
 			return next;
 		}
 
-		//TODO erase over iterator range
+		/** Erase element from array
+		* @param pos iterator of element to erase
+		* @return iterator following erased element*/
+		iterator erase(iterator pos) {
+			if (std::less<iterator>()(pos, begin()) || std::greater_equal<iterator>()(pos, end())) {
+				throw std::out_of_range("pos must be equal to or after Array.begin() and before Array.end()");
+			}
+			// Move elements back, overwriting pos
+			for (iterator it = pos + 1; it != end(); ++it) {
+				*(it - 1) = *it;
+			}
+			// remove last element
+			--m_size;
+			return pos;
+		}
+
+		/** Erase range of elements
+		* @param first start of range to erase
+		* @param last end of range to erase
+		* @return iterator following erased element*/
+		iterator erase(iterator first, iterator last) {
+			if (std::less<iterator>()(first, begin()) || std::greater_equal<iterator>()(first, end())) {
+				throw std::out_of_range("first must be equal to or after Array.begin() and before Array.end()");
+			}
+			if (std::less_equal<iterator>()(last, first) || std::greater<iterator>()(last, end())) {
+				throw std::out_of_range("last must be after first and before or equal to Array.end()");
+			}
+			size_t distance = std::distance(first, last);
+			// Move elements back, overwriting from first to last
+			for (iterator it = last; it != end(); ++it) {
+				*(it - distance) = *it;
+			}
+			// Remove elements at end
+			m_size -= distance;
+			return first;
+		}
 
 		/** Insert element at end of array
 		* @param value element to insert*/
