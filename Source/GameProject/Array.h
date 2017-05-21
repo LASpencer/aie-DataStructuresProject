@@ -60,7 +60,6 @@ namespace las {
 		/** Range constructor 
 		* @param first input iterator to first element in range
 		* @param last input iterator to end of range*/
-		//TODO testing
 		//TODO documentation
 		template <typename Iter,
 		typename = typename std::enable_if<std::is_same<std::iterator_traits<Iter>::value_type, T>::value, Iter >::type> //Substitution failure if Iter is not input iterator containing T
@@ -205,7 +204,7 @@ namespace las {
 					m_capacity *= 2;
 				}
 				// Create new array
-				T* resizedArr = new T[m_capacity];
+				T* resizedArr = new T[m_capacity];	//HACK deal with bad_alloc
 				// Copy elements to new array
 				for (size_t i = 0; i < m_size; ++i) {
 					resizedArr[i] = m_array[i];
@@ -294,7 +293,6 @@ namespace las {
 			}
 		}
 
-		//TODO document iterator inserts
 		/** Insert element into array
 		* @param pos iterator of element to insert before
 		* @param value value of new element*/
@@ -329,7 +327,8 @@ namespace las {
 			if (std::less<iterator>()(pos, begin()) || std::greater<iterator>()(pos, end())) {
 				throw std::out_of_range("pos must be within Array.begin() and Array.end()");
 			}
-			//TODO check if inserting from self, and if so copy values to be inserted to temporary array and use that
+			/*TODO check if inserting from self, and if so throw an exception for using invalid iterators
+			*/
 			//if pos == end() or greater, push back each in range
 			if (pos==end()) {
 				for (Iter it = first; it != last; ++it) {

@@ -6,6 +6,7 @@
 #include "catch.hpp"
 #include "Array.h"
 #include "Stack.h"
+#include "List.h"
 #include <algorithm>
 
 #include <vector>
@@ -199,6 +200,21 @@ TEST_CASE("Array Input Iterator", "[array][container][iterator][io]") {
 	}
 }
 
+TEST_CASE("Array Algorithms", "[array][container][iterator][algorithm]") {
+	las::Array<int> arr{6,99,-3,48,12,354,-98,1,35,0};
+	SECTION("Sort") {
+		std::sort(arr.begin(), arr.end());
+		REQUIRE(arr == las::Array<int>({ -98,-3,0,1,6,12,35,48,99,354 }));
+	}
+	SECTION("Rotate") {
+		std::rotate(arr.begin(), arr.begin() + 4, arr.end());
+		REQUIRE(arr == las::Array<int>({ 12,354,-98,1,35,0,6,99,-3,48 }));
+	}
+	SECTION("Search") {
+		REQUIRE(std::find(arr.begin(), arr.end(), 48) == arr.begin() + 3);
+	}
+}
+
 TEST_CASE("Integer Stack", "[stack][container]") {
 	las::Stack<int> s;
 	//TODO test cases
@@ -214,10 +230,8 @@ TEST_CASE("Integer Stack", "[stack][container]") {
 		REQUIRE(s.top() == 8);
 		REQUIRE(s.pop() == 8);
 		REQUIRE_THROWS(s.top());
-		//TODO complicated series of push and pops
 	}
 	SECTION("Size and Empty") {
-		//TODO test size and empty
 		REQUIRE(s.empty());
 		REQUIRE(s.size() == 0);
 		s.push(3);
@@ -265,6 +279,12 @@ TEST_CASE("Integer Stack", "[stack][container]") {
 	}
 }
 
+//TODO test list
+TEST_CASE("Integer List", "[list][container]") {
+
+}
+
+/* TODO test ListIter, based on http://www.cplusplus.com/reference/iterator/ */
 
 int main(int argc, char* const argv[]) {
 	int result = Catch::Session().run(argc, argv);
