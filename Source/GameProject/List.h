@@ -60,7 +60,6 @@ namespace las {
 		typedef ListIter<T> iterator;
 		//TODO typedef ListConstIter<T> const_iterator;
 		typedef std::ptrdiff_t difference_type;
-		typedef size_t size_type;
 		typedef T value_type;
 		typedef T* pointer;
 		typedef T& reference;
@@ -178,7 +177,7 @@ namespace las {
 			return iterator();
 		}
 
-		void insert(iterator position, size_type count, const T& value) {
+		void insert(iterator position, size_t count, const T& value) {
 			//TODO fill before position with count elements of value
 		}
 
