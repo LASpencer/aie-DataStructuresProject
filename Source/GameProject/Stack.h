@@ -45,25 +45,30 @@ namespace las {
 
 		/** Returns value of top element of stack
 		* @return top element of stack*/
-		T top() const {
+		T& top() const {
 			//TODO document exception if empty stack
-			T top = m_array[m_array.size() - 1];
-			return top;
+			if (empty()) {
+				throw std::logic_error("Empty stack has no top element");
+			}
+			return *(m_array.end() - 1);
 		}
 
 		/** Returns value of element in stack
 		* @param pos number of elements above element chosen
 		* @return constant reference to element chosen*/
-		const T& peek(size_t pos) const {
+		const T& peek(size_t pos) const{
 			//TODO document exception if empty stack
-			size_t index;
+			if (empty()) {
+				throw std::logic_error("Empty stack has no elements");
+			}
+			las::Array<T>::iterator element;
 			if (pos >= m_array.size()) {
-				index = 0;
+				element = m_array.begin();
 			}
 			else {
-				index = m_array.size() - (pos + 1);
+				element = m_array.end() - (pos + 1);
 			}
-		return	m_array[index];
+		return	*element;
 		}
 
 	private:

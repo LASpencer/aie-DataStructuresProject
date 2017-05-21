@@ -2,7 +2,6 @@
 #include <initializer_list>
 #include <iterator>
 #include <type_traits>
-#include "IteratorChecks.h"
 
 namespace las {
 
@@ -12,6 +11,7 @@ namespace las {
 	{
 	public:
 
+		//TODO rename constant
 		static const size_t DEF_CAPACITY = 8;	// Default elements to allocate
 		typedef T* iterator;
 		typedef const T* const_iterator;
@@ -63,11 +63,11 @@ namespace las {
 		//TODO testing
 		//TODO documentation
 		template <typename Iter,
-			//TODO fixRequireIteratorType
-			//typename = RequireIteratorType<Iter,T>> //Substitution failure if Iter is not input iterator containing T
-			typename = typename std::enable_if<std::is_same<std::iterator_traits<Iter>::value_type, T>::value, Iter >>
-		Array(Iter first, Iter last) : m_size(std::distance(first, last)), m_capacity(DEF_CAPACITY)	//TODO document distance may throw exception
+		typename = typename std::enable_if<std::is_same<std::iterator_traits<Iter>::value_type, T>::value, Iter >::type> //Substitution failure if Iter is not input iterator containing T
+		Array(Iter first, Iter last) : m_capacity(DEF_CAPACITY)	//TODO document distance may throw exception
 		{
+			//HACK may fail with single pass InputIterator, should make special version for non-random access
+			m_size = std::distance(first, last);
 			// Double capacity until enough space for elements
 			while (m_size > m_capacity) {
 				m_capacity *= 2;
@@ -131,11 +131,11 @@ namespace las {
 			return m_array[pos];
 		}
 
-		iterator begin() {
+		iterator begin() const {
 			return &(m_array[0]);
 		}
 
-		iterator end() {
+		iterator end() const {
 			return &(m_array[m_size]);
 		}
 
@@ -235,7 +235,7 @@ namespace las {
 		/** Insert element into array
 		* @param pos position to insert element at
 		* @param value value of new element*/
-		void insert(size_t pos, const T& value) {
+		void insert(size_t pos, const T& value) {//TODO make pos an iterator
 			// If inserting at or past end, push back to end
 			if (pos >= m_size) {
 				push_back(value);
@@ -257,7 +257,7 @@ namespace las {
 
 		/** Insert multiple elements into array
 		*/
-		void insert(size_t pos, const T& value, size_t count) {
+		void insert(size_t pos, const T& value, size_t count) {//TODO make pos an iterator
 			// If inserting at or past end, push back to end
 			if (pos >= m_size) {
 				push_back(value, count);
@@ -280,6 +280,13 @@ namespace las {
 		}
 
 		//TODO insert from range
+		template <typename Iter,
+			typename = typename std::enable_if<std::is_same<std::iterator_traits<Iter>::value_type, T>::value, Iter >::type> //Substitution failure if Iter is not input iterator containing T
+			void insert(iterator pos, Iter first, Iter last) {
+			//TODO
+			//if pos == end() or greater, push back each in range
+			//else get distance between first and last
+		}
 
 		/** Erase element from array
 		* @param pos index of element to erase

@@ -8,6 +8,8 @@
 #include "Stack.h"
 #include <algorithm>
 
+#include <vector>
+
 TEST_CASE("Integer Array", "[array][container]") {
 	las::Array<int> arr;
 
@@ -143,6 +145,10 @@ TEST_CASE("Array Iterator", "[array][container][iterator]") {
 		end = start + 3;
 		las::Array<int> arr3(start, end);
 		REQUIRE(arr3 == las::Array<int>({ 3,5,8 }));
+		// Test Array
+		std::vector<int> vec = { 3,5,6,7,4 };
+		arr3 = las::Array<int>(vec.begin(), vec.end());
+		REQUIRE(arr3 == las::Array<int>({ 3,5,6,7,4 }));
 	}
 
 }
@@ -152,8 +158,8 @@ TEST_CASE("Integer Stack", "[stack][container]") {
 	//TODO test cases
 	SECTION("Push and Pop") {
 		//Pop value from empty stack throws exception
-		REQUIRE_THROWS_AS(s.pop(), std::out_of_range);
-		REQUIRE_THROWS_AS(s.top(), std::out_of_range);
+		REQUIRE_THROWS(s.pop());
+		REQUIRE_THROWS(s.top());
 		s.push(8);
 		REQUIRE(s.top() == 8);
 		s.push(3);
@@ -161,7 +167,7 @@ TEST_CASE("Integer Stack", "[stack][container]") {
 		REQUIRE(s.pop() == 3);
 		REQUIRE(s.top() == 8);
 		REQUIRE(s.pop() == 8);
-		REQUIRE_THROWS_AS(s.top(), std::out_of_range);
+		REQUIRE_THROWS(s.top());
 		//TODO complicated series of push and pops
 	}
 	SECTION("Size and Empty") {
@@ -194,16 +200,16 @@ TEST_CASE("Integer Stack", "[stack][container]") {
 		s.pop();
 		REQUIRE(s.empty());
 	}
-	//TODO test peek (w/exception for empty)
+	
 	SECTION("Peek") {
-		REQUIRE_THROWS_AS(s.peek(0), std::out_of_range);
+		REQUIRE_THROWS(s.peek(0));
 		s.push(3);
 		s.push(8);
 		REQUIRE(s.peek(0) == 8);	//Peek at top
 		REQUIRE(s.peek(1) == 3);		//Peek at next element
 		REQUIRE(s.peek(2) == 3);		//Peeking past bottom hits bottom
 	}
-	//TODO test value constructor
+	
 	SECTION("Value Constructor") {
 		s = { 12,16,4,72,5 };
 		REQUIRE(s.size() == 5);
