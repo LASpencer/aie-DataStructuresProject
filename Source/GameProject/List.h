@@ -21,6 +21,9 @@ namespace las {
 			value(a_value), m_previous(previous), m_next(next)
 		{}
 
+		//TODO copy ctor, copy assign operator
+		//TODO dtor
+
 		ListNode<T>* getPrevious() {
 			return m_previous;
 		}
@@ -56,11 +59,11 @@ namespace las {
 		friend class ListIter<T>;
 		typedef ListIter<T> iterator;
 		//TODO typedef ListConstIter<T> const_iterator;
-		typedef iterator::difference_type difference_type;
-		typedef iterator::size_type size_type;
-		typedef iterator::value_type value_type;
-		typedef iterator::pointer pointer;
-		typedef iterator::reference reference;
+		typedef std::ptrdiff_t difference_type;
+		typedef size_t size_type;
+		typedef T value_type;
+		typedef T* pointer;
+		typedef T& reference;
 
 		List() : m_front(nullptr), m_back(nullptr)
 		{
@@ -89,12 +92,18 @@ namespace las {
 		//TODO const begin, end
 
 		T& front() {
-			//TODO assert/exception if m_front == nullptr
+			//TODO use empty()
+			if (m_front == nullptr) {
+				throw std::out_of_range("Empty list has no front");
+			}
 			return m_front->value;
 		}
 
 		T& back() {
-			//TODO assert/exception if m_back == nullptr
+			//TODO use empty()
+			if (m_back == nullptr) {
+				throw std::out_of_range("Empty list has no back");
+			}
 			return m_back->value;
 		}
 
@@ -102,18 +111,66 @@ namespace las {
 
 		void push_front(const T& value) {
 			//TODO add to start of list
+			ListNode<T>* newElement = new ListNode<T>(value, nullptr, m_front);
+			if (m_front == nullptr) {
+				assert(m_back == nullptr);
+				m_back = newElement;
+			}
+			else {
+				m_front->setPrevious(newElement);
+			}
+			m_front = newElement;
 		}
 
 		void push_back(const T& value) {
 			//TODO add to end of list
+			ListNode<T>* newElement = new ListNode<T>(value,m_back);
+			if (m_back == nullptr) {
+				assert(m_front == nullptr);
+				m_front = newElement;
+			}
+			else {
+				m_back->setNext(newElement);
+			}
+			m_back = newElement;
 		}
 
 		T pop_front() {
 			//TODO remove front and return value
+			if (m_front == nullptr) {
+				throw std::out_of_range("Empty list has no front");
+			}
+			T value = m_front->value;
+			ListNode<T>* newFront = m_front->getNext();
+			m_front->setNext(nullptr);
+			if (newFront == nullptr) {
+				m_back = nullptr;
+			}
+			else {
+				newFront->setPrevious(nullptr);
+			}
+			delete m_front;
+			m_front = newFront;
+			return value;
 		}
 
 		T pop_back() {
 			//TODO remove back and return value
+			if (m_back == nullptr) {
+				throw std::out_of_range("Empty list has no back");
+			}
+			T value = m_back->value;
+			ListNode<T>* newBack = m_back->getPrevious();
+			m_back->setPrevious(nullptr);
+			if (newBack == nullptr) {
+				m_front = nullptr;
+			}
+			else {
+				newBack->setNext(nullptr);
+			}
+			delete m_back;
+			m_back = newBack;
+			return value;
 		}
 
 		iterator insert(iterator position, const T& value) {
@@ -160,6 +217,8 @@ namespace las {
 			return m_front == nullptr;
 		}
 
+		//TODO operator==
+
 	private:
 		ListNode<T>* m_front;
 		ListNode<T>* m_back;
@@ -167,7 +226,7 @@ namespace las {
 
 	//TODO comment ListIter
 	template <typename T>
-	class ListIter : public iterator<std::bidirectional_iterator_tag, T> {
+	class ListIter : public std::iterator<std::bidirectional_iterator_tag, T> {
 	public:
 
 		ListIter<T>() : m_node(nullptr), m_list(nullptr)

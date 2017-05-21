@@ -281,6 +281,26 @@ TEST_CASE("Integer Stack", "[stack][container]") {
 
 //TODO test list
 TEST_CASE("Integer List", "[list][container]") {
+	las::List<int> list;
+	SECTION("Constructor") {
+		//TODO test constructors
+	}
+	SECTION("Front and Back") {
+		//TODO test front and back values
+	}
+	SECTION("Push and Pop") {
+		REQUIRE_THROWS(list.pop_back());
+		REQUIRE_THROWS(list.pop_front());
+		list.push_front(3);
+		list.push_front(7);
+		list.push_back(8);
+		REQUIRE(list.front() == 7);
+		REQUIRE(list.back() == 8);
+		REQUIRE(list.pop_back() == 8);
+		REQUIRE(list.back() == 3);
+		REQUIRE(list.pop_front() == 7);
+	}
+	//TODO test iterating over list
 
 }
 
