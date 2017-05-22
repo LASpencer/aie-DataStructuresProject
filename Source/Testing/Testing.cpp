@@ -282,11 +282,19 @@ TEST_CASE("Integer Stack", "[stack][container]") {
 //TODO test list
 TEST_CASE("Integer List", "[list][container]") {
 	las::List<int> list;
-	SECTION("Constructor") {
-		//TODO test constructors
-	}
+	
 	SECTION("Front and Back") {
 		//TODO test front and back values
+		REQUIRE_THROWS(list.front());	//empty list has no front
+		REQUIRE_THROWS(list.back());
+		list.push_back(5);
+		REQUIRE(list.front() == 5);
+		REQUIRE(list.back() == 5);
+		list.push_back(7);
+		REQUIRE(list.front() == 5);
+		REQUIRE(list.back() == 7);
+		list.push_front(12);
+		REQUIRE(list.front() == 12);
 	}
 	SECTION("Push and Pop") {
 		REQUIRE_THROWS(list.pop_back());
@@ -299,6 +307,31 @@ TEST_CASE("Integer List", "[list][container]") {
 		REQUIRE(list.pop_back() == 8);
 		REQUIRE(list.back() == 3);
 		REQUIRE(list.pop_front() == 7);
+
+	}
+	SECTION("Initializer List Constructor") {
+		//TODO test constructors
+		las::List<int> list2{ 7,11,13,17,19,5,3 };
+		REQUIRE(list2.front() == 7);
+		REQUIRE(list2.back() == 3);
+		REQUIRE(list2.pop_front() == 7);
+		REQUIRE(list2.pop_front() == 11);
+		REQUIRE(list2.pop_back() == 3);
+		REQUIRE(list2.pop_back() == 5);
+		REQUIRE(list2.pop_front() == 13);
+		REQUIRE(list2.pop_front() == 17);
+		REQUIRE(list2.pop_front() == 19);
+		REQUIRE_THROWS(list2.pop_front());
+	}
+	SECTION("List Equality") {
+		las::List<int> list2;
+		REQUIRE(list == list2);
+		list.push_back(7);
+		REQUIRE_FALSE(list == list2);
+		list2 = { 7,5,3 };
+		list.push_back(5);
+		list.push_back(3);
+		REQUIRE(list == list2);
 	}
 	//TODO test iterating over list
 

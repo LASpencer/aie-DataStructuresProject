@@ -21,8 +21,58 @@ namespace las {
 			value(a_value), m_previous(previous), m_next(next)
 		{}
 
-		//TODO copy ctor, copy assign operator
+		//TODO copy ctor, copy assign operator comments
+		ListNode(const ListNode<T>& other) : m_previous(nullptr), m_next(nullptr), value(other.value)
+		{}
+
+		ListNode<T>& operator=(const ListNode<T>& other) {
+			value = other.value;
+			// Leave own references as they were
+		}
+
+		//TODO move ctor, move assign operator
+		ListNode(ListNode<T>&& other) : m_previous(other.m_previous), m_next(other.m_next)
+		{
+			//TODO make sure it's moved
+			value = std::move(other.value);
+			//TODO does 'this' work
+			if (m_previous != nullptr) {
+				m_previous->setNext(this);
+			}
+			if (m_next != nullptr) {
+				m_next->setPrevious(this);
+			}
+			other.setPrevious(nullptr);
+			other.setNext(nullptr);
+		}
+
+		ListNode& operator=(ListNode<T>&& other) {
+			//Remove self from current list, putting nodes on either side together
+			if (m_previous != nullptr) {
+				m_previous->m_next = m_next;
+			}
+			if (m_next != nullptr) {
+				m_next->m_previous = m_previous;
+			}
+			m_previous = other.m_previous;
+			m_next = other.m_next;
+			if (m_previous != nullptr) {
+				m_previous->m_next = this;
+				other.m_previous = nullptr;
+			}
+			if (m_next != nullptr) {
+				m_next->m_previous = this;
+				other.m_next = nullptr;
+			}
+			//TODO check this is right way to move
+			value = std::move(other.value);
+		}
+
 		//TODO dtor
+
+		~ListNode() {
+
+		}
 
 		ListNode<T>* getPrevious() {
 			return m_previous;
@@ -69,7 +119,12 @@ namespace las {
 		}
 
 		//TODO initializer list
-
+		List(std::initializer_list<T> iList) : m_front(nullptr), m_back(nullptr)
+		{
+			for (auto element : iList) {
+				push_back(element);
+			}
+		}
 		//TODO range ctor
 
 		//TODO fill ctor
@@ -78,14 +133,15 @@ namespace las {
 
 		~List() 
 		{
+			//TODO traverse list deleting each node
 		}
 
 		iterator begin() {
-			return ListIter(m_front, this);
+			return iterator(m_front, this);
 		}
 
 		iterator end() {
-			return ListIter(nullptr, this);
+			return iterator(nullptr, this);
 		}
 
 		//TODO const begin, end
@@ -217,6 +273,20 @@ namespace las {
 		}
 
 		//TODO operator==
+		bool operator==(List<T> other) {		//TODO make const after const iter programmed
+			iterator thisList = begin();
+			iterator otherList = other.begin();
+			bool equal = true;
+			while (thisList != end() && otherList != other.end() && equal == true) {
+				equal = (*thisList == *otherList);
+				++thisList;
+				++otherList;
+			}
+			if (thisList != end() || otherList != other.end()) {
+				equal = false;
+			}
+			return equal;
+		}
 
 	private:
 		ListNode<T>* m_front;
@@ -268,7 +338,7 @@ namespace las {
 
 		ListIter<T>& operator++() {
 			if (m_node != nullptr) {
-				ListNode<T>* next = m_node->getNext();
+				m_node = m_node->getNext();
 			}
 			return *this;
 		}
