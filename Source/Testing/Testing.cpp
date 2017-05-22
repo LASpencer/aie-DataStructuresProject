@@ -323,17 +323,107 @@ TEST_CASE("Integer List", "[list][container]") {
 		REQUIRE(list2.pop_front() == 19);
 		REQUIRE_THROWS(list2.pop_front());
 	}
+	//TODO test move, move assignment
+	//TODO test copy, copy assignment
 	SECTION("List Equality") {
 		las::List<int> list2;
 		REQUIRE(list == list2);
+		REQUIRE_FALSE(list != list2);
 		list.push_back(7);
 		REQUIRE_FALSE(list == list2);
+		REQUIRE(list != list2);
 		list2 = { 7,5,3 };
 		list.push_back(5);
 		list.push_back(3);
 		REQUIRE(list == list2);
+		REQUIRE_FALSE(list != list2);
+	}
+	SECTION("Insert") {
+		list = { 1,2,3,4,5 };
+		las::List<int>::iterator it = list.begin();
+		las::List<int>::iterator returned;
+		returned = list.insert(it, 0);
+		// Test insert single value
+		REQUIRE(list == las::List<int>({ 0,1,2,3,4,5 }));
+		REQUIRE(returned == it);
+		++it;
+		++it;
+		returned = list.insert(it, 9);
+		REQUIRE(list == las::List<int>({ 0,1,2,9,3,4,5 }));
+		REQUIRE(returned == it);
+		returned = list.insert(list.end(), 10);
+		REQUIRE(list == las::List<int>({ 0,1,2,9,3,4,5,10 }));
+		REQUIRE(returned == list.end());
+		// Test fill insert
+		list.insert(it, 0, 9);
+		REQUIRE(list == las::List<int>({ 0,1,2,9,3,4,5,10 }));
+		list.insert(it, 2, 7);
+		REQUIRE(list == las::List<int>({ 0,1,2,9,7,7,3,4,5,10 }));
+		list.insert(list.begin(), 3, 12);
+		REQUIRE(list == las::List<int>({ 12,12,12,0,1,2,9,7,7,3,4,5,10 }));
+		list.insert(list.end(), 2, 8);
+		REQUIRE(list == las::List<int>({ 12,12,12,0,1,2,9,7,7,3,4,5,10,8,8 }));
+		//TODO test insert from iterator range
+		//TODO insert throws exception if position is not from list
+	}
+	SECTION("Erase") {
+		list = { 1,2,3,4,5,6 };
+		las::List<int>::iterator pos = list.begin();
+		pos = list.erase(pos);
+		REQUIRE(*pos == 2);
+		REQUIRE(list == las::List<int>({ 2,3,4,5,6 }));
+		REQUIRE(list.front() == 2);
+		++pos;
+		++pos;
+		REQUIRE(*(list.erase(pos)) == 5);
+		REQUIRE(list == las::List<int>({ 2,3,5,6 }));
+		REQUIRE_THROWS(list.erase(list.end()));
+		// Erase from middle of list
+		list = { 1,2,3,4,5,6,7,8 };
+		pos = list.begin();
+		++pos;
+		++pos;
+		las::List<int>::iterator last = pos;
+		++last;
+		++last;
+		// Throw if invalid range
+		REQUIRE_THROWS(list.erase(last, pos));
+		list.erase(pos, last);
+		REQUIRE(list == las::List<int>({1,2,5,6,7,8}));
+		// Erase from end of list
+		pos = list.end();
+		--pos;
+		--pos;
+		list.erase(pos, list.end());
+		REQUIRE(list == las::List<int>({ 1,2,5,6}));
+		REQUIRE(list.back() == 6);
+		// erase from front of list
+		last = list.begin();
+		++last;
+		++last;
+		list.erase(list.begin(), last);
+		REQUIRE(list == las::List<int>({ 5,6 }));
+		REQUIRE(list.front() == 5);
+		// erase entire list
+		list.erase(list.begin(), list.end());
+		REQUIRE(list.size() == 0);
+		REQUIRE_THROWS(list.front());
+		REQUIRE_THROWS(list.back());
+
+		//TODO erase throws exception if iterator not from list
+	}
+	SECTION("Clear") {
+		list = { 1,2,3,4,5,6 };
+		CHECK(list.size() == 6);
+		list.clear();
+		REQUIRE(list.size() == 0);
+		REQUIRE_THROWS(list.front());
+		REQUIRE_THROWS(list.back());
 	}
 	//TODO test iterating over list
+	SECTION("Iterator") {
+
+	}
 
 }
 
