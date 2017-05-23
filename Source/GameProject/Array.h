@@ -63,7 +63,7 @@ namespace las {
 		//TODO documentation
 		template <typename Iter,
 		typename = typename std::enable_if<std::is_same<std::iterator_traits<Iter>::value_type, T>::value, Iter >::type> //Substitution failure if Iter is not input iterator containing T
-		Array(Iter first, Iter last) : m_capacity(def_capacity)	//TODO document distance may throw exception
+		Array(Iter first, Iter last) : m_capacity(def_capacity)	//TODO document distance may cause undefined
 		{
 			if (std::is_base_of<std::forward_iterator_tag, std::iterator_traits<Iter>::iterator_category>::value){	//Check multipass guarantee
 				int distance = std::distance(first, last);

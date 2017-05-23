@@ -21,21 +21,27 @@ namespace las {
 			value(a_value), m_previous(previous), m_next(next)
 		{}
 
-		//TODO copy ctor, copy assign operator comments
+		/**Copy constructor
+		* Copies value of other ListNode
+		* @param other listNode of same type*/
 		ListNode(const ListNode<T>& other) : m_previous(nullptr), m_next(nullptr), value(other.value)
 		{}
 
+		/**Copy assignment
+		* Copies value of other ListNode, while keeping same position in list
+		* @param other listNode of same type
+		* @return this ListNode*/
 		ListNode<T>& operator=(const ListNode<T>& other) {
 			value = other.value;
-			// Leave own references as they were
+			return *this;
 		}
 
-		//TODO move ctor, move assign operator
+		/** Move Constructor
+		* Moves value from other ListNode, and replaces it in its list
+		* @param other listNode of same type*/
 		ListNode(ListNode<T>&& other) : m_previous(other.m_previous), m_next(other.m_next)
 		{
-			//TODO make sure it's moved
 			value = std::move(other.value);
-			//TODO does 'this' work
 			if (m_previous != nullptr) {
 				m_previous->setNext(this);
 			}
@@ -46,7 +52,11 @@ namespace las {
 			other.setNext(nullptr);
 		}
 
-		ListNode& operator=(ListNode<T>&& other) {
+		/** Move Assignment
+		* Moves value from other ListNode, and replaces it in its list
+		* @param other listNode of same type
+		* @return this ListNode*/
+		ListNode<T>& operator=(ListNode<T>&& other) {
 			//Remove self from current list, putting nodes on either side together
 			if (m_previous != nullptr) {
 				m_previous->m_next = m_next;
@@ -54,6 +64,7 @@ namespace las {
 			if (m_next != nullptr) {
 				m_next->m_previous = m_previous;
 			}
+			// Move self into other list
 			m_previous = other.m_previous;
 			m_next = other.m_next;
 			if (m_previous != nullptr) {
@@ -64,12 +75,13 @@ namespace las {
 				m_next->m_previous = this;
 				other.m_next = nullptr;
 			}
-			//TODO check this is right way to move
+			// move value
 			value = std::move(other.value);
+			return *this;
 		}
 
-		//TODO dtor
-
+		/**Destructor
+		* Ensures nodes on either side have valid references*/
 		~ListNode() {
 			// Leave nodes on either side with valid references
 			if (m_previous != nullptr) {
@@ -89,12 +101,10 @@ namespace las {
 		}
 
 		void setPrevious(ListNode<T>* previous) {
-			//TODO check validity of previous
 			m_previous = previous;
 		}
 
 		void setNext(ListNode<T>* next) {
-			//TODO check validity of next
 			m_next = next;
 		}
 
@@ -106,12 +116,15 @@ namespace las {
 
 	template <typename T> class ListIter;
 	template <typename T> class ListConstIter;
-	//TODO comment list
+
+	// A templated class for double linked lists
 	template <typename T>
 	class List {
 	public:
-
+		
+		// Define iterators and iterator traits
 		friend class ListIter<T>;
+		friend class ListConstIter<T>;
 		typedef ListIter<T> iterator;
 		typedef ListConstIter<T> const_iterator;
 		typedef std::ptrdiff_t difference_type;
@@ -119,22 +132,40 @@ namespace las {
 		typedef T* pointer;
 		typedef T& reference;
 
+
 		List() : m_front(nullptr), m_back(nullptr)
 		{
 		}
 
-		//TODO initializer list
+		/** Initializer List Constructor
+		* @param iList initializer list containing values for elements*/
 		List(std::initializer_list<T> iList) : m_front(nullptr), m_back(nullptr)
 		{
 			for (auto element : iList) {
 				push_back(element);
 			}
 		}
-		//TODO range ctor
 
-		//TODO fill ctor
+		/** Range Constructor
+		* Constructs List from elements in given range
+		* @param first iterator to first element in range
+		* @param last iterator to end of range*/
+		template <typename Iter,
+			typename = typename std::enable_if<std::is_same<std::iterator_traits<Iter>::value_type, T>::value, Iter >::type> //Substitution failure if Iter is not input iterator containing T
+			List(Iter first, Iter last) : m_front(nullptr), m_back(nullptr)
+		{
+			if (first != last) {
+				m_front = new ListNode<T>(*first);
+				m_back = m_front;
+				for (Iter it = ++first; it != last; ++it) {
+					ListNode<T>* newNode = new ListNode<T>(*it, m_front);
+					m_back->setNext(newNode);
+					m_back = newNode;
+				}
+			}
+		}
 
-		//TODO copy ctor, copy assignment operator (when insert range done)
+		// Copy Constructor
 		List(const List<T>& other) : m_front(nullptr), m_back(nullptr)
 		{
 			//TODO use insert range when written
@@ -143,10 +174,12 @@ namespace las {
 			}
 		}
 
+		// Copy Assignment 
 		List<T>& operator=(const List<T>& other) {
 			// Copy values into current nodes
 			ListNode<T>* node = m_front;
 			for (const_iterator it = other.begin(); it != other.end(); ++it) {
+				// Copy into existing nodes until end reached
 				if (node != nullptr) {
 					node->value = *it;
 					node = node->getNext();
@@ -166,7 +199,7 @@ namespace las {
 			return *this;
 		}
 
-		// TODO move ctor, move assignment operator
+		// Move Constructor
 		List(List<T>&& other) :  m_front(other.m_front),m_back(other.m_back)
 		{
 			other.m_front = nullptr;
@@ -174,6 +207,7 @@ namespace las {
 
 		}
 
+		// Move Assignment
 		List<T>& operator=(List<T>&& other) {
 			// Destroy current nodes
 			ListNode<T>* node = m_front;
@@ -190,6 +224,8 @@ namespace las {
 			return *this;
 		}
 
+		/** Destructor
+		* Destroys all nodes in list*/
 		~List() 
 		{
 			// traverse list deleting each node
@@ -202,15 +238,20 @@ namespace las {
 		}
 
 
-
+		/**begin
+		* @return iterator to first element of list*/
 		iterator begin() {
 			return iterator(m_front, this);
 		}
 
+		/**end
+		* @return iterator past final element of list*/
 		iterator end() {
 			return iterator(nullptr, this);
 		}
 
+		/**begin
+		* @return constant iterator to first element of list*/
 		const_iterator begin() const {
 			//HACK
 			const_iterator begin;
@@ -219,6 +260,8 @@ namespace las {
 			return begin;
 		}
 		
+		/**end
+		* @return constant iterator past end of list*/
 		const_iterator end() const {
 			//return const_iterator(nullptr, this);
 			//HACK 
@@ -227,43 +270,49 @@ namespace las {
 			return end;
 		}
 
+		/**front
+		* @return reference to first element of list*/
 		T& front() {
-			//TODO use empty()
 			if (m_front == nullptr) {
 				throw std::out_of_range("Empty list has no front");
 			}
 			return m_front->value;
 		}
 
+		/**back
+		* @return reference to last element of list*/
 		T& back() {
-			//TODO use empty()
 			if (m_back == nullptr) {
 				throw std::out_of_range("Empty list has no back");
 			}
 			return m_back->value;
 		}
 
+		/**front
+		* @return constant reference to first element of list*/
 		const T& front() const {
-			//TODO use empty()
 			if (m_front == nullptr) {
 				throw std::out_of_range("Empty list has no front");
 			}
 			return m_front->value;
 		}
 
+		/**back
+		* @return constant reference to last element of list*/
 		const T& back() const {
-			//TODO use empty()
 			if (m_back == nullptr) {
 				throw std::out_of_range("Empty list has no back");
 			}
 			return m_back->value;
 		}
 
-
+		/**push_front
+		* Inserts new element to front of list
+		* @param value element to insert*/
 		void push_front(const T& value) {
-			//TODO add to start of list
 			ListNode<T>* newElement = new ListNode<T>(value, nullptr, m_front);
 			if (m_front == nullptr) {
+				// If list is empty, this is also the back
 				assert(m_back == nullptr);
 				m_back = newElement;
 			}
@@ -273,10 +322,13 @@ namespace las {
 			m_front = newElement;
 		}
 
+		/**push_back
+		* Inserts new element to end of list
+		* @param value element to insert*/
 		void push_back(const T& value) {
-			//TODO add to end of list
 			ListNode<T>* newElement = new ListNode<T>(value,m_back);
 			if (m_back == nullptr) {
+				// If list is empty, this is also the front
 				assert(m_front == nullptr);
 				m_front = newElement;
 			}
@@ -286,8 +338,10 @@ namespace las {
 			m_back = newElement;
 		}
 
+		/**pop_front
+		* Removes first element from list
+		* @return value of removed element*/
 		T pop_front() {
-			//TODO remove front and return value
 			if (m_front == nullptr) {
 				throw std::out_of_range("Empty list has no front");
 			}
@@ -295,6 +349,7 @@ namespace las {
 			ListNode<T>* newFront = m_front->getNext();
 			m_front->setNext(nullptr);
 			if (newFront == nullptr) {
+				// If end was reached, list is empty
 				m_back = nullptr;
 			}
 			else {
@@ -305,8 +360,10 @@ namespace las {
 			return value;
 		}
 
+		/**pop_front
+		* Removes last element from list
+		* @return value of removed element*/
 		T pop_back() {
-			//TODO remove back and return value
 			if (m_back == nullptr) {
 				throw std::out_of_range("Empty list has no back");
 			}
@@ -314,6 +371,7 @@ namespace las {
 			ListNode<T>* newBack = m_back->getPrevious();
 			m_back->setPrevious(nullptr);
 			if (newBack == nullptr) {
+				// If start was reached, list is empty
 				m_front = nullptr;
 			}
 			else {
@@ -324,8 +382,12 @@ namespace las {
 			return value;
 		}
 
+		/**insert
+		* Inserts new element into list
+		* @param position iterator to element before which new element is to be inserted
+		* @param value element to insert
+		* @return iterator to position following inserted element*/
 		iterator insert(iterator position, const T& value) {
-			//TODO insert value before position
 			if (position.m_list != this) {
 				throw std::invalid_argument("position is not an iterator of this list");
 			}
@@ -346,12 +408,18 @@ namespace las {
 			return iterator(node, this);
 		}
 
+		/**insert
+		* Inserts multiple elements into list
+		* @param position iterator to element before which new element is to be inserted
+		* @param count number of copies of value to insert
+		* @param value element to insert*/
 		void insert(iterator position, size_t count, const T& value) {
 			//TODO fill before position with count elements of value
 			if (position.m_list != this) {
 				throw std::invalid_argument("position is not an iterator of this list");
 			}
 			if (count != 0) {
+				// Create LinkNodes for new elements
 				ListNode<T>* head = new ListNode<T>(value);
 				ListNode<T>* tail = head;
 				for (size_t i = 1; i < count; ++i) {
@@ -359,13 +427,21 @@ namespace las {
 					tail->setNext(nextNode);
 					tail = nextNode;
 				}
+				// Link new nodes with current nodes
 				ListNode<T>* node = position.m_node;
 				if (node == nullptr) {
-					m_back->setNext(head);
+					// Insert at end
+					if (m_back != nullptr) {
+						m_back->setNext(head);
+					} else {
+						// If empty list, front is head
+						m_front = head;
+					}
 					head->setPrevious(m_back);
 					m_back = tail;
 				}
 				else if (node == m_front) {
+					// Insert at front
 					m_front->setPrevious(tail);
 					tail->setNext(m_front);
 					m_front = head;
@@ -379,12 +455,63 @@ namespace las {
 			}
 		}
 
+
+		/** insert
+		* Inserts elements from range
+		* @param position iterator to element before which new element is to be inserted
+		* @param first iterator to first element in range
+		* @param last iterator to end of range*/
 		template <typename Iter,
 			typename = typename std::enable_if<std::is_same<std::iterator_traits<Iter>::value_type, T>::value, Iter >::type> //Substitution failure if Iter is not input iterator containing T
 			void insert(iterator position, Iter first, Iter last) {
 			//TODO insert before position from range
+			if (position.m_list != this) {
+				throw std::invalid_argument("position is not an iterator of this list");
+			}
+			if (first != last) {
+				// Create LinkNodes for elements
+				ListNode<T>* head = new ListNode<T>(*first);
+				ListNode<T>* tail = head;
+				for (Iter it = ++first; it != last; ++it) {
+					ListNode<T>* nextNode = new ListNode<T>(*it, tail);
+					tail->setNext(nextNode);
+					tail = nextNode;
+				}
+				// Link new nodes with current nodes
+				ListNode<T>* node = position.m_node;
+				if (node == nullptr) {
+					// Insert at end
+					if (m_back != nullptr) {
+						m_back->setNext(head);
+					}
+					else {
+						// If empty list, front is head
+						m_front = head;
+					}
+					head->setPrevious(m_back);
+					m_back = tail;
+				}
+				else if (node == m_front) {
+					// Insert at front
+					m_front->setPrevious(tail);
+					tail->setNext(m_front);
+					m_front = head;
+				}
+				else {
+					head->setPrevious(node->getPrevious());
+					node->getPrevious()->setNext(head);
+					tail->setNext(node);
+					node->setPrevious(tail);
+				}
+			}
 		}
 
+		//TODO sort list
+
+		/**erase
+		* Remove element from list and destroys it
+		* @param position element to be removed
+		* @return iterator following erased element*/
 		iterator erase(iterator position) {
 			//TODO erase element
 			if (position.m_list != this) {
@@ -405,6 +532,11 @@ namespace las {
 			return next;
 		}
 
+		/**erase
+		* Removes and destroys all elements within range
+		* @param first start of range
+		* @param last element past end of range
+		* @return iterator following erased elements*/
 		iterator erase(iterator first, iterator last) {
 			//TODO erase range
 			if (first.m_list != this || last.m_list != this) {
@@ -437,12 +569,32 @@ namespace las {
 			return last;
 		}
 
+		/**remove
+		* Remove all elements matching value from list
+		* @param value value to remove from list*/
 		void remove(const T& value) {
 			//TODO remove all with value
+			ListNode<T>* node = m_front;
+			while (node != nullptr) {
+				ListNode<T>* next = node->getNext();
+				if (node->value == value) {
+					// Check if node is front or back
+					if (node == m_front) {
+						m_front = next;
+					}
+					if (node == m_back) {
+						m_back = node->getPrevious();
+					}
+					delete node;
+				}
+				node = next;
+			}
 		}
 
 		//TODO maybe: remove_if(predicate)
 
+		/** clear
+		* Destroy all elements of list*/
 		void clear() {
 			// traverse list deleting each node
 			ListNode<T>* node = m_front;
@@ -455,21 +607,27 @@ namespace las {
 			m_back = nullptr;
 		}
 
-		size_t size() {
-			//TODO count through nodes? Or keep a value?
+		/**size
+		* @return number of elements in list*/
+		size_t size() const {
 			size_t count = 0;
-			for (iterator it = begin(); it != end(); ++it) {
+			for (const_iterator it = begin(); it != end(); ++it) {
 				++count;
 			}
 			return count;
 		}
 
-		bool empty() {
+		/**empty
+		* @return true if no elements in list, false otherwise*/
+		bool empty() const {
 			return m_front == nullptr;
 		}
 
-		//TODO operator==
-		bool operator==(const List<T>& other) const {		//TODO make const after const iter programmed
+		/** Equality operator
+		* Tests if both lists have same values in all elements
+		* @param other other list of same type
+		* @return true if all elements equal, false otherwise*/
+		bool operator==(const List<T>& other) const {
 			const_iterator thisList = begin();
 			const_iterator otherList = other.begin();
 			bool equal = true;
@@ -484,6 +642,7 @@ namespace las {
 			return equal;
 		}
 
+
 		bool operator!=(List<T> other) {
 			return !(*this == other);
 		}
@@ -493,7 +652,7 @@ namespace las {
 		ListNode<T>* m_back;
 	};
 
-	//TODO comment ListIter
+	// Iterator for List classes
 	template <typename T>
 	class ListIter : public std::iterator<std::bidirectional_iterator_tag, T> {
 	public:
@@ -502,10 +661,14 @@ namespace las {
 		ListIter() : m_node(nullptr), m_list(nullptr)
 		{}
 
+		/** Value constructor
+		* @param node ListNode containing referenced value
+		* @param list List being iterated over*/
 		ListIter(ListNode<T>* node, List<T>* list) :
 			m_node(node), m_list(list)
 		{}
 
+		// Copy constructor
 		ListIter(ListIter<T>&other) : m_node(other.m_node), m_list(other.m_list)
 		{
 		}
@@ -513,28 +676,38 @@ namespace las {
 		~ListIter()
 		{}
 
+		// Copy assignment
 		ListIter<T>& operator=(ListIter<T>&other) {
 			m_node = other.m_node;
 			m_list = other.m_list;
 			return *this;
 		}
 
+		/**Indirection operator
+		* @return reference to value*/
 		T& operator*() {
+			if (m_node == nullptr) {
+				throw std::out_of_range("End iterator not dereferenceable");
+			}
 			return m_node->value;
 		}
 
-		//TODO check this is right
+		/**Member access operator
+		* */
 		T* operator->() {
+			if (m_node == nullptr) {
+				throw std::out_of_range("End iterator not dereferenceable");
+			}
 			return &(m_node->value);
 		}
 
 		bool operator==(const ListIter<T>&other) const {
-			//HACK what if a node can belong to multiple lists?
-			return m_node == other.m_node;
+			bool equal = m_node == other.m_node && m_list == other.m_list;
+			return equal;
 		}
 
 		bool operator!=(const ListIter<T>&other) const {
-			return m_node != other.m_node;
+			return !(*this == other);
 		}
 
 		//TODO fix this conversion
@@ -542,6 +715,9 @@ namespace las {
 			return ListConstIter<T>(m_node, m_list);
 		}
 
+		/** pre increment operator
+		* Increments to next element, unless this is end iterator
+		* @return this iterator, after being incremented*/
 		ListIter<T>& operator++() {
 			if (m_node != nullptr) {
 				m_node = m_node->getNext();
@@ -549,6 +725,9 @@ namespace las {
 			return *this;
 		}
 
+		/** post increment operator
+		* Increments to next element, unless this is end iterator
+		* @return copy of this iterator before being incremented*/
 		ListIter<T> operator++(int) {
 			ListIter<T> old(*this);
 			if (m_node != nullptr) {
@@ -557,18 +736,36 @@ namespace las {
 			return old;
 		}
 
+		/** addition operator
+		* Increments multiple times
+		* @param count times to increment iterator
+		* @return copy of this itererator, incremented multiple times*/
+		ListIter<T> operator+(size_t count) {
+			ListIter<T> result(*this);
+			for (size_t i = 0; i < count; ++i) {
+				++result;
+			}
+			return result;
+		}
+
+		/** pre decrement operator
+		* Decrements to previous element, unless this is start of list.
+		* @return this iterator, after being decremented*/
 		ListIter<T>& operator--() {
 			if (m_node != nullptr) {
 				ListNode<T>* prev = m_node->getPrevious();
 				if (prev != nullptr) {
 					m_node = prev;
 				}
-			} else {	// If nullptr, reference final element of list
+			} else {	// If end iterator, reference final element of list
 				m_node = m_list->m_back;
 			}
 			return *this;
 		}
 
+		/** post decrement operator
+		* Decrements to previous element, unless this is start of list.
+		* @return copy of this iterator before being decremented*/
 		ListIter<T> operator--(int) {
 			ListIter<T> old(*this);
 			if (m_node != nullptr) {
@@ -577,26 +774,40 @@ namespace las {
 					m_node = prev;
 				}
 			}
-			else {	// If nullptr, reference final element of list
+			else {	// If end iterator, reference final element of list
 				m_node = m_list->m_back;
 			}
 			return old;
 		}
 
+		/** subtraction operator
+		* @param count times to decrement iterator
+		* @return copy of this iterator, decremented multiple times*/
+		ListIter<T> operator-(size_t count) {
+			ListIter<T> result(*this);
+			for (size_t i = 0; i < count; ++i) {
+				--result;
+			}
+			return result;
+		}
 
 	private:
-		ListNode<T>* m_node;
-		List<T>* m_list;
+		ListNode<T>* m_node;		// ListNode containing element, if nullptr this is end iterator
+		List<T>* m_list;			// List being iterated over
 	};
 
+	// Constant Iterator for List classes
 	template <typename T>
-	class ListConstIter : public std::iterator<std::bidirectional_iterator_tag, T> {
+	class ListConstIter : public std::iterator<std::bidirectional_iterator_tag, T, ptrdiff_t,const T*, const T&> {
 	public:
 		friend class List<T>;
 
 		ListConstIter() : m_node(nullptr), m_list(nullptr)
 		{}
 
+		/** Value constructor
+		* @param node ListNode containing referenced value
+		* @param list List being iterated over*/
 		ListConstIter(ListNode<T>* node, List<T>* list) :
 			m_node(node), m_list(list)
 		{}
@@ -613,6 +824,8 @@ namespace las {
 			return *this;
 		}
 
+		/**Indirection operator
+		* @return const reference to value*/
 		const T& operator*() const {
 			return m_node->value;
 		}
@@ -623,13 +836,17 @@ namespace las {
 		}
 
 		bool operator==(const ListConstIter<T>&other) const {
-			return m_node == other.m_node;
+			bool equal = m_node == other.m_node && m_list == other.m_list;
+			return equal;
 		}
 
 		bool operator!=(const ListConstIter<T>&other) const {
 			return !(*this == other);
 		}
 
+		/** pre increment operator
+		* Increments to next element, unless this is end iterator
+		* @return this iterator, after being incremented*/
 		ListConstIter<T>& operator++() {
 			if (m_node != nullptr) {
 				m_node = m_node->getNext();
@@ -637,6 +854,9 @@ namespace las {
 			return *this;
 		}
 
+		/** post increment operator
+		* Increments to next element, unless this is end iterator
+		* @return copy of this iterator before being incremented*/
 		ListConstIter<T> operator++(int) {
 			ListConstIter<T> old(*this);
 			if (m_node != nullptr) {
@@ -645,6 +865,21 @@ namespace las {
 			return old;
 		}
 
+		/** addition operator
+		* Increments multiple times
+		* @param count times to increment iterator
+		* @return this iterator after being repeatedly incremented*/
+		ListConstIter<T> operator+(size_t count) {
+			ListConstIter<T> result(*this);
+			for (size_t i = 0; i < count; ++i) {
+				++result;
+			}
+			return result;
+		}
+
+		/** pre decrement operator
+		* Decrements to previous element, unless this is start of list.
+		* @return this iterator, after being decremented*/
 		ListConstIter<T>& operator--() {
 			if (m_node != nullptr) {
 				ListNode<T>* prev = m_node->getPrevious();
@@ -652,12 +887,15 @@ namespace las {
 					m_node = prev;
 				}
 			}
-			else {	// If nullptr, reference final element of list
+			else {	// If end iterator, reference final element of list
 				m_node = m_list->m_back;
 			}
 			return *this;
 		}
 
+		/** post decrement operator
+		* Decrements to previous element, unless this is start of list.
+		* @return copy of this iterator before being decremented*/
 		ListConstIter<T> operator--(int) {
 			ListConstIter<T> old(*this);
 			if (m_node != nullptr) {
@@ -666,13 +904,24 @@ namespace las {
 					m_node = prev;
 				}
 			}
-			else {	// If nullptr, reference final element of list
+			else {	// If end iterator, reference final element of list
 				m_node = m_list->m_back;
 			}
 			return old;
 		}
+
+		/** subtraction operator
+		* @param count times to decrement iterator
+		* @return copy of this iterator, decremented multiple times*/
+		ListConstIter<T> operator-(size_t count) {
+			ListConstIter<T> result(*this);
+			for (size_t i = 0; i < count; ++i) {
+				--result;
+			}
+			return result;
+		}
 	private:
-		ListNode<T>* m_node;
-		List<T> const * m_list;
+		ListNode<T>* m_node;			// ListNode containing element, if nullptr this is end iterator
+		List<T> const * m_list;			// List being iterated over
 	};
 }

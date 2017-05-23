@@ -7,6 +7,7 @@
 #include "Array.h"
 #include "Stack.h"
 #include "List.h"
+#include "Queue.h"
 #include <algorithm>
 
 #include <vector>
@@ -346,8 +347,7 @@ TEST_CASE("Integer List", "[list][container]") {
 		// Test insert single value
 		REQUIRE(list == las::List<int>({ 0,1,2,3,4,5 }));
 		REQUIRE(returned == it);
-		++it;
-		++it;
+		it = it + 2;
 		returned = list.insert(it, 9);
 		REQUIRE(list == las::List<int>({ 0,1,2,9,3,4,5 }));
 		REQUIRE(returned == it);
@@ -363,8 +363,9 @@ TEST_CASE("Integer List", "[list][container]") {
 		REQUIRE(list == las::List<int>({ 12,12,12,0,1,2,9,7,7,3,4,5,10 }));
 		list.insert(list.end(), 2, 8);
 		REQUIRE(list == las::List<int>({ 12,12,12,0,1,2,9,7,7,3,4,5,10,8,8 }));
-		//TODO test insert from iterator range
-		//TODO insert throws exception if position is not from list
+		las::List<int> list2;
+		list2.insert(list2.end(), 3, 8);
+		REQUIRE(list2 == las::List<int>({ 8,8,8 }));
 	}
 	SECTION("Erase") {
 		list = { 1,2,3,4,5,6 };
@@ -373,34 +374,25 @@ TEST_CASE("Integer List", "[list][container]") {
 		REQUIRE(*pos == 2);
 		REQUIRE(list == las::List<int>({ 2,3,4,5,6 }));
 		REQUIRE(list.front() == 2);
-		++pos;
-		++pos;
+		pos = pos + 2;
 		REQUIRE(*(list.erase(pos)) == 5);
 		REQUIRE(list == las::List<int>({ 2,3,5,6 }));
 		REQUIRE_THROWS(list.erase(list.end()));
 		// Erase from middle of list
 		list = { 1,2,3,4,5,6,7,8 };
-		pos = list.begin();
-		++pos;
-		++pos;
-		las::List<int>::iterator last = pos;
-		++last;
-		++last;
+		pos = list.begin()+2;
+		las::List<int>::iterator last = pos+2;
 		// Throw if invalid range
 		REQUIRE_THROWS(list.erase(last, pos));
 		list.erase(pos, last);
 		REQUIRE(list == las::List<int>({1,2,5,6,7,8}));
 		// Erase from end of list
-		pos = list.end();
-		--pos;
-		--pos;
+		pos = list.end()-2;
 		list.erase(pos, list.end());
 		REQUIRE(list == las::List<int>({ 1,2,5,6}));
 		REQUIRE(list.back() == 6);
 		// erase from front of list
-		last = list.begin();
-		++last;
-		++last;
+		last = list.begin()+2;
 		list.erase(list.begin(), last);
 		REQUIRE(list == las::List<int>({ 5,6 }));
 		REQUIRE(list.front() == 5);
@@ -420,14 +412,134 @@ TEST_CASE("Integer List", "[list][container]") {
 		REQUIRE_THROWS(list.front());
 		REQUIRE_THROWS(list.back());
 	}
-	//TODO test iterating over list
-	SECTION("Iterator") {
+	SECTION("Remove") {
+		list = { 1,2,5,2,3,5,4,1 };
+		list.remove(2);
+		REQUIRE(list == las::List<int>({ 1,5,3,5,4,1 }));
+		list.remove(1);
+		REQUIRE(list == las::List<int>({ 5,3,5,4 }));
+	}
+}
 
+TEST_CASE("List Iterator", "[list][container][iterator]") {
+	las::List<int> list{ 1,2,3,4,5,6 };
+	SECTION("Insert by range") {
+		las::List<int> list2{ 20,30,40,50,60 };
+		las::List<int> list3;
+		las::List<int>::iterator first = list.begin() + 2;
+		las::List<int>::iterator last = list.end() - 1;
+		las::List<int>::iterator pos = list2.begin() + 2;
+		list2.insert(pos, first, last);
+		REQUIRE_THROWS(list2.insert(first, first, last));
+		REQUIRE(list2 == las::List<int>({ 20,30,3,4,5,40,50,60 }));
+		list3.insert(list3.end(), first, last);
+		REQUIRE(list3 == las::List<int>({ 3,4,5 }));
+	}
+	SECTION("Range constructor") {
+		las::List<int>::iterator first = list.begin()+2;
+		las::List<int>::iterator last = list.end()-1;
+		las::List<int> list2(first, last);
+		REQUIRE(list2 == las::List<int>({ 3,4,5 }));
+	}
+	/* TODO test ListIter, based on http://www.cplusplus.com/reference/iterator/ */
+	// TODO insert from list iterator to stl container
+}
+
+TEST_CASE("List Algorithms", "[list][container][iterator][algorithm]") {
+	las::List<int> list{5,1,9,-6,4,2};
+	SECTION("Is Sorted") {
+		las::List<int> list2{ -6,1,2,4,5,7 };
+		REQUIRE_FALSE(std::is_sorted(list.begin(),list.end()));
+		REQUIRE(std::is_sorted(list2.begin(), list2.end()));
+	}
+	SECTION("Rotate") {
+		las::List<int>::iterator middle = list.begin() + 3;
+		std::rotate(list.begin(), middle, list.end());
+	}
+	SECTION("Reverse") {
+		std::reverse(list.begin(), list.end());
+		REQUIRE(list == las::List<int>({ 2,4,-6,9,1,5 }));
+	}
+}
+
+TEST_CASE("Integer Queue", "[queue][container") {
+	las::Queue<int> queue;
+	SECTION("Size and Empty") {
+		REQUIRE(queue.empty());
+		REQUIRE(queue.size() == 0);
+		las::Queue<int> q2{ 1,2,3,4,5 };
+		REQUIRE_FALSE(q2.empty());
+		REQUIRE(q2.size() == 5);
+	}
+	SECTION("Front and Back") {
+		queue = { 1,2,3,4,5 };
+		REQUIRE(queue.front() == 1);
+		REQUIRE(queue.back() == 5);
+		queue.front() = 10;
+		REQUIRE(queue.front() == 10);
+	}
+	SECTION("Push and Pop") {
+		REQUIRE_THROWS(queue.pop());
+		queue.push(7);
+		queue.push(3);
+		queue.push(9);
+		REQUIRE(queue.front() == 7);
+		REQUIRE(queue.back() == 9);
+		REQUIRE(queue.size() == 3);
+		REQUIRE(queue.pop() == 7);
+		REQUIRE(queue.size() == 2);
+		REQUIRE(queue.pop() == 3);
+		REQUIRE(queue.pop() == 9);
+		REQUIRE_THROWS(queue.pop());
+		REQUIRE(queue.empty());
+	}
+}
+
+TEST_CASE("Integer Deque", "[queue][deque][container]") {
+	las::Deque<int> deque;
+	SECTION("Size and Empty") {
+		REQUIRE(deque.empty());
+		REQUIRE(deque.size() == 0);
+		las::Deque<int> deque2{ 1,2,3,4,5 };
+		REQUIRE_FALSE(deque2.empty());
+		REQUIRE(deque2.size() == 5);
+	}
+	SECTION("Front and Back") {
+		deque = { 1,2,3,4,5 };
+		REQUIRE(deque.front() == 1);
+		REQUIRE(deque.back() == 5);
+		deque.front() = 10;
+		REQUIRE(deque.front() == 10);
+		deque.back() = 9;
+		REQUIRE(deque.back() == 9);
+	}
+	SECTION("Push and Pop") {
+		REQUIRE_THROWS(deque.pop_back());
+		REQUIRE_THROWS(deque.pop_front());
+		deque.push_back(7);
+		deque.push_back(10);
+		deque.push_front(13);
+		deque.push_front(8);
+		REQUIRE(deque.front() == 8);
+		REQUIRE(deque.back() == 10);
+		REQUIRE(deque.pop_front() == 8);
+		REQUIRE(deque.pop_back() == 10);
+		REQUIRE(deque.pop_back() == 7);
+		REQUIRE(deque.pop_back() == 13);
+		REQUIRE_THROWS(deque.pop_back());
+		REQUIRE_THROWS(deque.pop_front());
+		REQUIRE(deque.empty());
+	}
+	SECTION("Peek") {
+		REQUIRE_THROWS(deque.peek(0));
+		deque = { 1,2,3,4,5 };
+		REQUIRE(deque.peek(0) == 1);
+		REQUIRE(deque.peek(3) == 4);
+		REQUIRE(deque.peek(4) == 5);
+		REQUIRE(deque.peek(5) == 5);
 	}
 
 }
-
-/* TODO test ListIter, based on http://www.cplusplus.com/reference/iterator/ */
 
 int main(int argc, char* const argv[]) {
 	int result = Catch::Session().run(argc, argv);

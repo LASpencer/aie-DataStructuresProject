@@ -61,7 +61,7 @@ namespace las {
 			if (empty()) {
 				throw std::logic_error("Empty stack has no elements");
 			}
-			las::Array<T>::iterator element;
+			Array<T>::iterator element;
 			if (pos >= m_array.size()) {
 				element = m_array.begin();
 			}
