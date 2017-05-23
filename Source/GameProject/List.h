@@ -734,13 +734,24 @@ namespace las {
 		/** addition operator
 		* Increments multiple times
 		* @param count times to increment iterator
-		* @return copy of this itererator, incremented multiple times*/
+		* @return copy of this iterator, incremented multiple times*/
 		ListIter<T> operator+(size_t count) {
 			ListIter<T> result(*this);
 			for (size_t i = 0; i < count; ++i) {
 				++result;
 			}
 			return result;
+		}
+
+		/** addition assigment
+		* Increments multiple times
+		* @param count times to increment iterator
+		* @return copy of this iterator*/
+		ListIter<T>& operator+=(size_t count) {
+			for (size_t i = 0; i < count; ++i) {
+				++(*this);
+			}
+			return *this;
 		}
 
 		/** pre decrement operator
@@ -784,6 +795,17 @@ namespace las {
 				--result;
 			}
 			return result;
+		}
+
+		/** subtraction assigment
+		* Decrements multiple times
+		* @param count times to decrement iterator
+		* @return copy of this iterator*/
+		ListIter<T>& operator+=(size_t count) {
+			for (size_t i = 0; i < count; ++i) {
+				--(*this);
+			}
+			return *this;
 		}
 
 	private:
@@ -872,6 +894,17 @@ namespace las {
 			return result;
 		}
 
+		/** addition assigment
+		* Increments multiple times
+		* @param count times to increment iterator
+		* @return copy of this iterator*/
+		ListConstIter<T>& operator+=(size_t count) {
+			for (size_t i = 0; i < count; ++i) {
+				++(*this);
+			}
+			return *this;
+		}
+
 		/** pre decrement operator
 		* Decrements to previous element, unless this is start of list.
 		* @return this iterator, after being decremented*/
@@ -914,6 +947,17 @@ namespace las {
 				--result;
 			}
 			return result;
+		}
+
+		/** subtraction assigment
+		* Decrements multiple times
+		* @param count times to decrement iterator
+		* @return copy of this iterator*/
+		ListConstIter<T>& operator+=(size_t count) {
+			for (size_t i = 0; i < count; ++i) {
+				--(*this);
+			}
+			return *this;
 		}
 	private:
 		ListNode<T>* m_node;			// ListNode containing element, if nullptr this is end iterator
