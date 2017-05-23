@@ -360,7 +360,7 @@ namespace las {
 			return value;
 		}
 
-		/**pop_front
+		/**pop_back
 		* Removes last element from list
 		* @return value of removed element*/
 		T pop_back() {
@@ -387,7 +387,7 @@ namespace las {
 		* @param position iterator to element before which new element is to be inserted
 		* @param value element to insert
 		* @return iterator to position following inserted element*/
-		iterator insert(iterator position, const T& value) {
+		void insert(iterator position, const T& value) {
 			if (position.m_list != this) {
 				throw std::invalid_argument("position is not an iterator of this list");
 			}
@@ -404,8 +404,6 @@ namespace las {
 				}
 				node->setPrevious(newElement);
 			}
-	
-			return iterator(node, this);
 		}
 
 		/**insert
@@ -513,7 +511,6 @@ namespace las {
 		* @param position element to be removed
 		* @return iterator following erased element*/
 		iterator erase(iterator position) {
-			//TODO erase element
 			if (position.m_list != this) {
 				throw std::invalid_argument("position is not an iterator of this list");
 			}
@@ -538,7 +535,6 @@ namespace las {
 		* @param last element past end of range
 		* @return iterator following erased elements*/
 		iterator erase(iterator first, iterator last) {
-			//TODO erase range
 			if (first.m_list != this || last.m_list != this) {
 				throw std::invalid_argument("first and last must both be iterators of this list");
 			}
@@ -548,7 +544,7 @@ namespace las {
 			// Check range is valid
 			for (iterator it = first; it != last; ++it) {
 				if (it == end()) {
-					throw std::out_of_range("last could not be reached by iterating first");
+					throw std::out_of_range("last could not be reached by incrementing first");
 				}
 			}
 			//Check if erasing front
@@ -573,7 +569,6 @@ namespace las {
 		* Remove all elements matching value from list
 		* @param value value to remove from list*/
 		void remove(const T& value) {
-			//TODO remove all with value
 			ListNode<T>* node = m_front;
 			while (node != nullptr) {
 				ListNode<T>* next = node->getNext();

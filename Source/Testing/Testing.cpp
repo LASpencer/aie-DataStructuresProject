@@ -342,18 +342,14 @@ TEST_CASE("Integer List", "[list][container]") {
 	SECTION("Insert") {
 		list = { 1,2,3,4,5 };
 		las::List<int>::iterator it = list.begin();
-		las::List<int>::iterator returned;
-		returned = list.insert(it, 0);
+		list.insert(it, 0);
 		// Test insert single value
 		REQUIRE(list == las::List<int>({ 0,1,2,3,4,5 }));
-		REQUIRE(returned == it);
 		it = it + 2;
-		returned = list.insert(it, 9);
+		list.insert(it, 9);
 		REQUIRE(list == las::List<int>({ 0,1,2,9,3,4,5 }));
-		REQUIRE(returned == it);
-		returned = list.insert(list.end(), 10);
+		list.insert(list.end(), 10);
 		REQUIRE(list == las::List<int>({ 0,1,2,9,3,4,5,10 }));
-		REQUIRE(returned == list.end());
 		// Test fill insert
 		list.insert(it, 0, 9);
 		REQUIRE(list == las::List<int>({ 0,1,2,9,3,4,5,10 }));
