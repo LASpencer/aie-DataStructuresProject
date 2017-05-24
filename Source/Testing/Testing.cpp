@@ -8,6 +8,7 @@
 #include "Stack.h"
 #include "List.h"
 #include "Queue.h"
+#include "Map.h"
 #include <algorithm>
 
 #include <vector>
@@ -536,6 +537,31 @@ TEST_CASE("Integer Deque", "[queue][deque][container]") {
 		REQUIRE(deque.peek(5) == 5);
 	}
 
+}
+
+TEST_CASE("Map","[map][container]") {
+	las::Map<int, int> map;
+	SECTION("Insert") {
+		REQUIRE(map.isBalanced());
+		map.insert(30);
+		REQUIRE(map.isBalanced());
+		REQUIRE(map.getRoot()->getKey() == 30);
+		REQUIRE_FALSE(map.insert(30));		//Key collision returns false
+		//TODO check size is still 1
+		map.insert(20);
+		map.insert(10);
+		REQUIRE(map.isBalanced());
+		REQUIRE(map.getRoot()->getKey() == 20);
+		map.insert(15);
+		REQUIRE(map.isBalanced());
+		REQUIRE(map.getRoot()->getKey() == 20);
+		map.insert(12);
+		REQUIRE(map.isBalanced());
+		REQUIRE(map.getRoot()->getKey() == 20);
+		//TODO test inserted values exist, can actually be accessed
+	}
+
+	//TODO test node get predecessor, successor
 }
 
 int main(int argc, char* const argv[]) {
