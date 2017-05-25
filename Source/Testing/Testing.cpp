@@ -541,6 +541,7 @@ TEST_CASE("Integer Deque", "[queue][deque][container]") {
 
 TEST_CASE("Map","[map][container]") {
 	las::Map<int, int> map;
+	//TODO test initializer list ctor
 	SECTION("Insert") {
 		REQUIRE(map.isBalanced());
 		map.insert(30);
@@ -558,12 +559,53 @@ TEST_CASE("Map","[map][container]") {
 		map.insert(12);
 		REQUIRE(map.isBalanced());
 		REQUIRE(map.getRoot()->getKey() == 20);
-		//TODO test inserted values exist, can actually be accessed
+	}
+	SECTION("Subscript operator") {
+		map.insert(50, 10);
+		REQUIRE(map[50] == 10);
+		REQUIRE(map.exists(50));
+		map[50] = 7;
+		REQUIRE(map[50] == 7);
+		REQUIRE_FALSE(map.exists(18));
+		map[18] = 12;
+		map[40] = 9;
+		REQUIRE(map.isBalanced());
+		REQUIRE(map[18] == 12);
+		REQUIRE(map[40] == 9);
+	}
+	SECTION("Initialization list") {
+		las::Map<int, int> map2{ {10,29},{12,37},{3,5},{19,3},{20,29},{3,40} };
+		REQUIRE(map2.isBalanced());
+		REQUIRE(map2[10] == 29);
+		REQUIRE(map2[3] == 5);		//Only first instance of key in list is inserted
 	}
 
 	//TODO test node get predecessor, successor
 }
 
+
+TEST_CASE("Tree Node") {
+	las::Map<int, int> map{ {1,34},{2,17},{6,24},{-5,23},{9,40},{13,8},{99,6},{30,5} };
+	las::TreeNode<int, int>* root = map.getRoot();
+	SECTION("Subtree min, max") {
+		las::TreeNode<int, int> min(-5, 23);
+		las::TreeNode<int, int> max(99,6);
+		REQUIRE(*(root->getSubtreeMin()) == min);
+		REQUIRE(*(root->getSubtreeMax()) == max);
+	}
+	SECTION("Successor and predecessor") {
+		las::TreeNode<int, int>* min = root->getSubtreeMin();
+		las::TreeNode<int, int>* max = root->getSubtreeMax();
+		// Node with children
+		REQUIRE(*(root->getPredecessor()) == (las::TreeNode<int, int>(1, 34)));
+		REQUIRE(*(root->getSuccessor()) == (las::TreeNode<int, int>(6, 24)));
+		// Node without children
+		REQUIRE(*(min->getSuccessor()) == (las::TreeNode<int, int>(1, 34)));
+		REQUIRE(min->getPredecessor() == nullptr);
+		REQUIRE(*(max->getPredecessor()) == (las::TreeNode<int, int>(30, 5)));
+		REQUIRE(max->getSuccessor() == nullptr);
+	}
+}
 int main(int argc, char* const argv[]) {
 	int result = Catch::Session().run(argc, argv);
 	system("pause");

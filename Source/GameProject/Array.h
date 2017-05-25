@@ -51,7 +51,7 @@ namespace las {
 			m_array = new T[m_capacity];
 			// Fill array with values
 			size_t i = 0;
-			for (auto element : list) {
+			for (T element : list) {
 				m_array[i] = element;
 				++i;
 			}

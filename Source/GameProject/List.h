@@ -141,7 +141,7 @@ namespace las {
 		* @param iList initializer list containing values for elements*/
 		List(std::initializer_list<T> iList) : m_front(nullptr), m_back(nullptr)
 		{
-			for (auto element : iList) {
+			for (T element : iList) {
 				push_back(element);
 			}
 		}
@@ -801,7 +801,7 @@ namespace las {
 		* Decrements multiple times
 		* @param count times to decrement iterator
 		* @return copy of this iterator*/
-		ListIter<T>& operator+=(size_t count) {
+		ListIter<T>& operator-=(size_t count) {
 			for (size_t i = 0; i < count; ++i) {
 				--(*this);
 			}
@@ -953,7 +953,7 @@ namespace las {
 		* Decrements multiple times
 		* @param count times to decrement iterator
 		* @return copy of this iterator*/
-		ListConstIter<T>& operator+=(size_t count) {
+		ListConstIter<T>& operator-=(size_t count) {
 			for (size_t i = 0; i < count; ++i) {
 				--(*this);
 			}

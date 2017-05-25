@@ -94,6 +94,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Array.h" />
+    <ClInclude Include="Defines.h" />
     <ClInclude Include="GameProjectApp.h" />
     <ClInclude Include="List.h" />
     <ClInclude Include="Queue.h" />
