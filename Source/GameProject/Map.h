@@ -26,7 +26,7 @@ namespace las {
 		}
 		
 		//copies key and value, but stays in same place in tree
-		TreeNode<K, V>& operator=(const TreeNode<K, V>&) {
+		TreeNode<K, V>& operator=(const TreeNode<K, V>&other) {
 			m_key = other.m_key;
 			m_value = other.m_value;
 			return *this;
@@ -87,10 +87,12 @@ namespace las {
 			m_red = other.m_red;
 			if (other.m_left != nullptr) {
 				m_left = new TreeNode<K, V>();
+				m_left->m_parent = this;
 				m_left->copySubtree(*(other.m_left));
 			}
 			if (other.m_right != nullptr) {
 				m_right = new TreeNode<K, V>();
+				m_right->m_parent = this;
 				m_right->copySubtree(*(other.m_right));
 			}
 		}
@@ -119,6 +121,19 @@ namespace las {
 			return m_parent;
 		}
 
+		TreeNode<K, V>* getSibling() {
+			if (m_parent != nullptr) {
+				if (m_parent->m_left == this) {
+					return m_parent->m_right;
+				}
+				else {
+					return m_parent->m_left;
+				}
+			}
+			else {
+				return nullptr;
+			}
+		}
 		//const TreeNode<K, V>* getParent() const {
 		//	return m_parent;
 		//}
@@ -333,6 +348,7 @@ namespace las {
 
 		Map<K, V>& operator=(const Map<K, V>& other) {
 			m_root->copySubtree(*(other.m_root));
+			return *this;
 		}
 
 		Map(Map<K, V>&& other) {
@@ -344,6 +360,7 @@ namespace las {
 			delete m_root;
 			m_root = other.m_root;
 			other.m_root = nullptr;
+			return *this;
 		}
 
 		//TODO dtor
@@ -422,26 +439,132 @@ namespace las {
 				}
 				// Check if deletion would unbalance tree
 				bool doubleBlack = !(node->m_red) && (child == nullptr || !(child->m_red));
-				if (doubleBlack) {
-					// TODO Rebalance while doubleBlack
-				} else {
-					// Set child to black and reparent it
-					if (child != nullptr) {
-						child->m_red = false;
-						child->m_parent = node->m_parent;
+				Node* parent = node->m_parent;
+				Node* sibling = node->getSibling();
+				// Set child to black and reparent it
+				if (child != nullptr) {
+					child->m_red = false;
+					child->m_parent = parent;
+				}
+				if (parent != nullptr) {
+					if (parent->m_left == node) {
+						node->m_parent->m_left = child;
 					}
-					if (node->m_parent != nullptr) {
-						if (node->m_parent->m_left == node) {
-							node->m_parent->m_left = child;
+					else {
+						parent->m_right = child;
+					}
+				}
+				else {
+					// If no parent, node must be root so set child as new root
+					assert(node == m_root);
+					m_root = child;
+				}
+				// Remove node's references and delete it
+				node->m_parent = nullptr;
+				node->m_left = nullptr;
+				node->m_right = nullptr;
+				delete node;
+				while (doubleBlack) {
+					//TODO rebalance while double black
+					assert(child == m_root || sibling != nullptr);
+					if (child == m_root) {
+						// Root double black converts to single black
+						doubleBlack = false;
+					}
+					else if (!sibling->m_red) {
+						//If sibling is black, check nephew colour
+						//HACK refactor to avoid redundant if statements
+						Node* nephew = nullptr;
+						if ( sibling->m_left != nullptr && sibling->m_left->m_red) {
+							nephew = sibling->m_left;
+						}
+						else if (sibling->m_right != nullptr && sibling->m_right->m_red) {
+							nephew = sibling->m_right;
+						}
+						if (nephew != nullptr) {
+							// If red nephew found, rotate and recolour based on left-left or right-left case
+							bool siblingLeft = (parent->m_left == sibling);
+							bool nephewLeft = (sibling->m_left == nephew);
+							bool bothRed = (sibling->m_left != nullptr && sibling->m_right != nullptr && sibling->m_left->m_red && sibling->m_right->m_red);
+							if(siblingLeft == nephewLeft){
+								// Left-left/Right-Right
+								// Rotate sibling up
+								rotate(sibling);
+								// Nephew is now black
+								nephew->m_red = false;
+								//If parent was red, move redness to sibling
+								if (parent->m_red) {
+									sibling->m_red = true;
+									parent->m_red = false;
+								}
+							} else if (bothRed) {
+								// Left-Left/Right-Right, if both red and wrong nephew picked earlier
+								// Set correct nephew to black
+								if (siblingLeft) {
+									sibling->m_left->m_red = false;
+								}
+								else {
+									sibling->m_right->m_red = false;
+								}
+								// Rotate sibling up
+								rotate(sibling);
+								//If parent was red, move redness to sibling
+								if (parent->m_red) {
+									sibling->m_red = true;
+									parent->m_red = false;
+								}
+							} else {
+								// Rotate nephew to create left-left/right-right case
+								// Then rotate again and recolour to resolve double blackness
+								rotate(nephew);
+								rotate(nephew);
+								if (parent->m_red) {
+									// If parent was red, move redness to nephew
+									nephew->m_red = true;
+									parent->m_red = false;
+								}
+								else {
+									//If parent was black, nephew becomes black
+									nephew->m_red = false;
+								}
+							}
+							// Double black resolved
+							doubleBlack = false;
 						}
 						else {
-							node->m_parent->m_right = child;
+							//If sibling is black and has 2 black children, move black up to parent
+							sibling->m_red = true;
+							if (parent->m_red) {
+								// If parent is red, make it black resolving double black
+								parent->m_red = false;
+								doubleBlack = false;
+							}
+							else {
+								// If parent is black, it is now the double black node
+								child = parent;
+								parent = child->m_parent;
+								sibling = child->getSibling();
+								if (parent == nullptr) {
+									// If new parent is nullptr, child is at root and double black is resolved
+									doubleBlack = false;
+								}
+							}
 						}
 					}
-					node->m_parent = nullptr;
-					node->m_left = nullptr;
-					node->m_right = nullptr;
-					delete node;
+					else {
+						//Sibling is red
+						//rotate sibling up
+						rotate(sibling);
+						// Sibling is now black and parent is red
+						sibling->m_red = false;
+						parent->m_red = true;
+						// Get pointer to new sibling
+						if (parent->m_left == child) {
+							sibling = parent->m_right;
+						} else {
+							sibling = parent->m_left;
+						}
+					}
 				}
 			}
 		}
@@ -577,6 +700,9 @@ namespace las {
 					parent->m_parent = pivot;
 					pivot->m_right = parent;
 					parent->m_left = temp;
+					if (temp != nullptr) {
+						temp->m_parent = parent;
+					}
 				}
 				else {
 					// Rotate to left
@@ -584,6 +710,9 @@ namespace las {
 					parent->m_parent = pivot;
 					pivot->m_left = parent;
 					parent->m_right = temp;
+					if (temp != nullptr) {
+						temp->m_parent = parent;
+					}
 				}
 				pivot->m_parent = grandparent;
 				//TODO if grandparent not nullptr, set pivot as approprite child of grandparent

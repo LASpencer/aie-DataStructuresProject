@@ -579,7 +579,55 @@ TEST_CASE("Map","[map][container]") {
 		REQUIRE(map2[10] == 29);
 		REQUIRE(map2[3] == 5);		//Only first instance of key in list is inserted
 	}
-
+	SECTION("Erase") {
+		map = las::Map<int, int>({ {5,1},{0,2},{3,3},{4,4},{2,5},{7,6},{10,7},{6,7} });
+		//Erase red leaf
+		map.erase(2);
+		REQUIRE(map.isBalanced());
+		REQUIRE_FALSE(map.exists(2));
+		map.insert(-2);
+		// Erase node with red leaf child on left
+		map.erase(0);
+		REQUIRE(map.isBalanced());
+		REQUIRE_FALSE(map.exists(0));
+		// Erase node with red leaf child on right
+		map.insert(0);
+		map.erase(-2);
+		REQUIRE(map.isBalanced());
+		REQUIRE_FALSE(map.exists(-2));
+		// Test black sibling
+		las::Map<int, int> mapCopy = map;
+		// Erase node with black sibling, 2 red nephews
+		map.erase(4);
+		REQUIRE(map.isBalanced());
+		REQUIRE_FALSE(map.exists(4));
+		// Erase node with black sibling, red nephew in left-right case
+		map.erase(10);
+		REQUIRE(map.isBalanced());
+		REQUIRE_FALSE(map.exists(10));
+		map = mapCopy;
+		// Erase node with black sibling, red nephew is in right-right case
+		map.erase(6);
+		map.erase(4);
+		REQUIRE(map.isBalanced());
+		REQUIRE_FALSE(map.exists(4));
+		map = mapCopy;
+		// Erase node with red sibling
+		map.erase(0);
+		REQUIRE(map.isBalanced());
+		REQUIRE_FALSE(map.exists(0));
+		map.erase(4);
+		map.erase(6);
+		map.erase(10);
+		// Erase node with black sibling, 2 black nephews
+		map.erase(7);
+		REQUIRE(map.isBalanced());
+		REQUIRE_FALSE(map.exists(7));
+		// Erase root from map with only root, left child
+		map.erase(5);
+		REQUIRE(map.isBalanced());
+		REQUIRE_FALSE(map.exists(5));
+	}
 	//TODO test node get predecessor, successor
 }
 
