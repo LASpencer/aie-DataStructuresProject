@@ -219,7 +219,6 @@ TEST_CASE("Array Algorithms", "[array][container][iterator][algorithm]") {
 
 TEST_CASE("Integer Stack", "[stack][container]") {
 	las::Stack<int> s;
-	//TODO test cases
 	SECTION("Push and Pop") {
 		//Pop value from empty stack throws exception
 		REQUIRE_THROWS(s.pop());
@@ -281,7 +280,6 @@ TEST_CASE("Integer Stack", "[stack][container]") {
 	}
 }
 
-//TODO test list
 TEST_CASE("Integer List", "[list][container]") {
 	las::List<int> list;
 	

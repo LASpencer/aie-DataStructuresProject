@@ -168,10 +168,7 @@ namespace las {
 		// Copy Constructor
 		List(const List<T>& other) : m_front(nullptr), m_back(nullptr)
 		{
-			//TODO use insert range when written
-			for (const_iterator it = other.begin(); it != other.end(); ++it) {
-				push_back(*it);
-			}
+			insert(end(), other.begin(), other.end());
 		}
 
 		// Copy Assignment 
@@ -412,7 +409,6 @@ namespace las {
 		* @param count number of copies of value to insert
 		* @param value element to insert*/
 		void insert(iterator position, size_t count, const T& value) {
-			//TODO fill before position with count elements of value
 			if (position.m_list != this) {
 				throw std::invalid_argument("position is not an iterator of this list");
 			}
@@ -462,7 +458,6 @@ namespace las {
 		template <typename Iter,
 			typename = typename std::enable_if<std::is_same<std::iterator_traits<Iter>::value_type, T>::value, Iter >::type> //Substitution failure if Iter is not input iterator containing T
 			void insert(iterator position, Iter first, Iter last) {
-			//TODO insert before position from range
 			if (position.m_list != this) {
 				throw std::invalid_argument("position is not an iterator of this list");
 			}

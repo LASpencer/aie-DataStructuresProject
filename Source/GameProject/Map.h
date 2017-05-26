@@ -16,23 +16,27 @@ namespace las {
 
 		}
 
+		// Value constructor
 		TreeNode(const K& key, const V& value, TreeNode<K,V>* parent = nullptr, TreeNode<K, V>* left = nullptr, TreeNode<K, V>* right = nullptr)
-			: m_value(value), m_key(key),m_parent(parent),m_left(left),m_right(right),m_red(true)
+			: m_key(key), m_value(value), m_parent(parent),m_left(left),m_right(right),m_red(true)
 		{}
 
-		//TODO copy, move
+		/**Copy constructor
+		* Copies key and value from other node, but not its place in the tree*/
 		TreeNode(const TreeNode<K, V>& other) : m_key(other.m_key), m_value(other.m_value), m_red(true),m_parent(nullptr),m_left(nullptr),m_right(nullptr) {
 
 		}
 		
-		//copies key and value, but stays in same place in tree
+		/**Copy assignment
+		* Copies key and value from other node, but remains in same place in the tree*/
 		TreeNode<K, V>& operator=(const TreeNode<K, V>&other) {
 			m_key = other.m_key;
 			m_value = other.m_value;
 			return *this;
 		}
 
-		// Moves key and value, but each node stays in same place
+		/** Move constructor
+		* Move key and value from other node, but each keeps its place in the tree*/
 		TreeNode(TreeNode<K,V>&& other)
 			: m_value(), m_key(), m_red(true), m_parent(nullptr), m_left(nullptr), m_right(nullptr)
 		{
@@ -40,6 +44,8 @@ namespace las {
 			m_key = std::move(other.m_key);
 		}
 
+		/** Move assignment
+		* Move key and value from other node, but each keeps its place in the tree*/
 		TreeNode<K, V>& operator=(TreeNode<K, V>&&other) {
 			m_value = std::move(other.m_value);
 			m_key = std::move(other.m_key);
@@ -121,6 +127,8 @@ namespace las {
 			return m_parent;
 		}
 
+		/** Gets the other child of this node's parent
+		* @return pointer to the other child of this node's parent, or nullptr if parent is nullptr*/
 		TreeNode<K, V>* getSibling() {
 			if (m_parent != nullptr) {
 				if (m_parent->m_left == this) {
@@ -154,6 +162,8 @@ namespace las {
 		//	return m_right;
 		//}
 
+		/** Finds the root node of this node's tree
+		* @return pointer to root node*/
 		TreeNode<K, V>* getRoot() {
 			if (m_parent == nullptr) {
 				return this;
@@ -167,11 +177,14 @@ namespace las {
 		* @return Pointer to node with next lowest key in tree, or nullptr if this is lowest*/
 		TreeNode<K, V>* getPredecessor() {
 			if (m_left != nullptr) {
+				// If left child exists, predecessor is greatest key among left descendents
 				return m_left->getSubtreeMax();
 			}
 			else {
+				// Else predecessor is first ancestor less than this node
 				TreeNode<K, V>* node = this;
 				TreeNode<K, V>* parent = m_parent;
+				// Traverse up tree until parent less than its child
 				while (parent != nullptr && node == parent->m_left) {
 					node = parent;
 					parent = parent->m_parent;
@@ -199,11 +212,14 @@ namespace las {
 		* @return Pointer to node with next greatest key in tree, or nullptr if this is greatest*/
 		TreeNode<K, V>* getSuccessor() {
 			if (m_right != nullptr) {
+				// If right child exists, successor is lowest key among right descendents
 				return m_right->getSubtreeMin();
 			}
 			else {
+				// Else successor is first ancestor greater than its node
 				TreeNode<K, V>* node = this;
 				TreeNode<K, V>* parent = m_parent;
+				// Traverse up tree until parent greater than its child
 				while (parent != nullptr && node == parent->m_right) {
 					node = parent;
 					parent = parent->m_parent;
@@ -232,6 +248,7 @@ namespace las {
 			TreeNode<K, V>* node = this;
 			TreeNode<K, V>* min;
 			while (node != nullptr) {
+				// Traverse down tree until node without lower child found
 				min = node;
 				node = node->m_left;
 			}
@@ -254,6 +271,7 @@ namespace las {
 			TreeNode<K, V>* node = this;
 			TreeNode<K, V>* max;
 			while (node != nullptr) {
+				// Traverse down tree until node without greater child found
 				max = node;
 				node = node->m_right;
 			}
@@ -276,47 +294,61 @@ namespace las {
 			return (other.m_key == m_key) && (other.m_value == m_value);
 		}
 
+		/**Counts total black nodes between this and null leaves
+		* @return number of black nodes to all leaves, including the leaves, or 0 if unbalanced*/
 		size_t blackNodesToLeaf() const{
 			size_t left, right, result;
 			if (m_left == nullptr) {
+				// If null leaf, count it as 1 black node
 				left = 1;
 			} else {
+				// If not null, recursively call for child
 				left = m_left->blackNodesToLeaf();
 			}
+			// Do same for right child
 			if (m_right == nullptr) {
 				right = 1;
 			} else {
 				right = m_right->blackNodesToLeaf();
 			}
 			if (left == right) {
+				// If both have same result, subtree is sufficiently balanced
 				result = left;
 				if (!m_red) {
+					// If this node is black, add 1 to total
 					++result;
 				}
 			} else {
+				// If different results, subtree is unbalanced, so return 0
 				result = 0;
 			}
 			return result;
 		}
 
+		/** Tests if any red nodes have red children in subtree
+		* @return true if any adjacent red nodes in subtree*/
 		bool adjacentRedNodes() const{
 			bool left, right;
 			if (m_left == nullptr) {
+				// null node counts as black
 				left = false;
 			} else {
+				// Recursively call for left node, and check if both this and left are red
 				left = (m_red && m_left->m_red) || m_left->adjacentRedNodes();
 			}
+			// Do same with right node
 			if (m_right == nullptr) {
 				right = false;
 			} else {
 				right = (m_red && m_right->m_red) || m_right->adjacentRedNodes();
 			}
+			// If adjacent red nodes found on either child, return true
 			return left || right;
 		}
 
 	private:
-		V m_value;
 		K m_key;
+		V m_value;
 		bool m_red;
 		TreeNode<K, V>* m_parent;
 		TreeNode<K, V>* m_left;
@@ -333,6 +365,8 @@ namespace las {
 
 		}
 
+		/** Initializer List Constructor
+		* @param list Initializer list containing key, value pairs to insert*/
 		Map(std::initializer_list<std::pair<K, V>> list) :m_root(nullptr)
 		{
 			for (std::pair<K,V> element:list) {
@@ -340,22 +374,25 @@ namespace las {
 			}
 		}
 
-		//TODO copy, move ctor
+		// Copy constructor
 		Map(const Map<K, V>& other) {
 			m_root = new Node();
 			m_root->copySubtree(*(other.m_root));
 		}
 
+		// Copy assignment
 		Map<K, V>& operator=(const Map<K, V>& other) {
 			m_root->copySubtree(*(other.m_root));
 			return *this;
 		}
 
+		// Move constructor
 		Map(Map<K, V>&& other) {
 			m_root = other.m_root;
 			other.m_root = nullptr;
 		}
 
+		// Move assignment
 		Map<K, V>& operator=(Map<K, V>&&other) {
 			delete m_root;
 			m_root = other.m_root;
@@ -363,30 +400,34 @@ namespace las {
 			return *this;
 		}
 
-		//TODO dtor
+		// Destructor
 		~Map() {
 			if (m_root != nullptr) {
-				m_root->destroySubtree();
 				delete m_root;
 			}
 		}
 
+		/** Inserts new key value pair into map
+		* @param key inserted key
+		* @param value inserted value
+		* @return true if insertion successful, false if key already exists*/
 		bool insert(K key, V value = V()) {
-			//TODO add new tree node for key containing value
-			//Returns true if inserted, false if not (because key already exists)
 			Node* newNode = new Node(key, value);
 			bool success = true;
 			if (m_root == nullptr) {
+				// If no root, insert node as root
 				m_root = newNode;
-				m_root->m_red = false;
+				m_root->m_red = false;		// Set root colour to black
 			}
 			else {
+				// Find null leaf to insert new node
 				Node* place = m_root;
 				while (place != nullptr) {
 					if (newNode->m_key < place->m_key) {
+						// If new key less than current place in tree, move left
 						Node* leftNode = place->getLeft();
 						if (leftNode == nullptr) {
-							//insert newNode as left of place
+							//insert newNode into leaf
 							newNode->m_parent = place;
 							place->m_left = newNode;
 							place = nullptr;
@@ -396,9 +437,10 @@ namespace las {
 						}
 					}
 					else if (place->m_key < newNode->m_key) {
+						// If new key greater than current place in tree, move right
 						Node* rightNode = place->getRight();
 						if (rightNode == nullptr) {
-							//insert newNode as right of place
+							//insert newNode into leaf
 							newNode->m_parent = place;
 							place->m_right = newNode;
 							place = nullptr;
@@ -415,15 +457,15 @@ namespace las {
 					}
 				}
 				if (success) {
-					//TODO check tree balanced, and rebalance if not
 					rebalanceInsert(newNode);
 				}
 			}
 		return success;
 		}
 
+		/** Erase key-value pair from map
+		* @param key Key to erase from map*/
 		void erase(K key) {
-			//TODO erase key from tree
 			Node* node = findNode(key);
 			if (node != nullptr) {
 				if (node->m_right != nullptr) {
@@ -465,7 +507,7 @@ namespace las {
 				node->m_right = nullptr;
 				delete node;
 				while (doubleBlack) {
-					//TODO rebalance while double black
+					// Rebalance until double black resolved
 					assert(child == m_root || sibling != nullptr);
 					if (child == m_root) {
 						// Root double black converts to single black
@@ -569,8 +611,10 @@ namespace las {
 			}
 		}
 
+		/**Subscript operator
+		* @param key Key to element accessed
+		* @return reference to element*/
 		V& operator[](K key) {
-			//TODO access value by key
 			//If key doesn't exist, insert key
 			Node* node = findNode(key);
 			if (node == nullptr) {
@@ -582,20 +626,27 @@ namespace las {
 			return node->m_value;
 		}
 
+		/**Subscript operator
+		* @param key Key to element accessed
+		* @return const reference to element*/
 		const V& operator[](K key) const{
-			//TODO access const value by key. 
 			Node* node = findNode(key);
+			// If key doesn't exist, throw exception
 			if (node == nullptr) {
 				throw std::out_of_range("key does not exist in map");
 			}
 			return node->m_value;
 		}
 
+		/** Test if key exists in map
+		* @param key to check for
+		* @return true if key exists in map*/
 		bool exists(K key) const {
-			//TODO check if key is in map
 			return findNode(key) != nullptr;
 		}
 
+		/** Test if tree is balances
+		* @return true if tree follows rules for red-black tree*/
 		bool isBalanced() const{
 			if (m_root != nullptr) {
 				return !m_root->isRed()&& m_root->blackNodesToLeaf() != 0 && !m_root->adjacentRedNodes();
@@ -614,6 +665,8 @@ namespace las {
 	private:
 		Node* m_root;
 
+		//TODO refactor
+		//TODO comment
 		Node* findNode(K key) const {
 			Node* node = m_root;
 			while (node != nullptr && node->getKey() != key) {
@@ -627,9 +680,9 @@ namespace las {
 			return node;
 		}
 
+		/** Resolve any imbalance caused by pivot
+		* @param pivot node which might cause imbalance */
 		void rebalanceInsert(Node* pivot) {
-			//TODO rebalance tree
-			//TODO test insert, write isBalanced method to test tree follows rules after insertion/deletion
 			assert(pivot != nullptr);
 			assert(pivot->isRed());
 			Node* parent = pivot->getParent();
@@ -640,9 +693,9 @@ namespace las {
 				// If parent is red, tree not balanced
 				if (pivot->getParent()->isRed()) {
 					Node* grandparent = pivot->getParent()->getParent();
-					assert(grandparent != nullptr);
+					assert(grandparent != nullptr);		// Root cannot be red
 					Node* uncle;
-					bool parentLeft;
+					bool parentLeft;		// Is parent left child of grandparent
 					if (grandparent->getLeft() == parent) {
 						uncle = grandparent->getRight();
 						parentLeft = true;
@@ -652,29 +705,28 @@ namespace las {
 						parentLeft = false;
 					}
 					if (uncle != nullptr && uncle->isRed()) {
-						// Make parent and uncle black
+						// If uncle red, push parent and uncle redness to grandparent
 						parent->m_red = false;
 						uncle->m_red = false;
-						// Make grandparent red
 						grandparent->m_red = true;
-						// Call this function on grandparent
+						// Recursively call on grandparent
 						rebalanceInsert(grandparent);
 					}
 					else {
-						bool pivotLeft = parent->getLeft() == pivot;
+						bool pivotLeft = parent->getLeft() == pivot;	// Is this left child of parent
 						if (pivotLeft != parentLeft) {
 							// Left Right, Right Left case
 							// Rotate pivot up to grandparent's position
 							rotate(pivot);
 							rotate(pivot);
-							// Pivot is now back, grandparent is now red
+							// Move redness down to former grandparent
 							pivot->m_red = false;
 							grandparent->m_red = true;
 						} else {
 							// Left Left, Right Right case
 							// Rotate parent up
 							rotate(parent);
-							// Parent is now black, grandparent is now red
+							// Move parent's redness down to former grandparent
 							grandparent->m_red = true;
 							parent->m_red = false;
 						}
@@ -684,9 +736,10 @@ namespace las {
 			}
 		}
 
+		/** Rotates pivot into parent's position
+		* @param pivot Node to rotate into higher position*/
 		void rotate(Node* pivot) {
-			//TODO rotate
-			//TODO test rotate
+
 			// Check if pivot has parent
 			// If so, rotate
 			// Check if pivot is new root
@@ -697,8 +750,10 @@ namespace las {
 				if (pivot->m_key < parent->m_key) {
 					// Rotate to right
 					Node* temp = pivot->m_right;
+					// Pivot becomes its parent's parent
 					parent->m_parent = pivot;
 					pivot->m_right = parent;
+					// Pivot's right child is now left child of parent
 					parent->m_left = temp;
 					if (temp != nullptr) {
 						temp->m_parent = parent;
@@ -707,15 +762,17 @@ namespace las {
 				else {
 					// Rotate to left
 					Node* temp = pivot->m_left;
+					// Pivot becomes its parent's parent
 					parent->m_parent = pivot;
 					pivot->m_left = parent;
+					// Pivot's left child is now right child of parent
 					parent->m_right = temp;
 					if (temp != nullptr) {
 						temp->m_parent = parent;
 					}
 				}
+				// Pivot's new parent is its former grandparent
 				pivot->m_parent = grandparent;
-				//TODO if grandparent not nullptr, set pivot as approprite child of grandparent
 				if (grandparent != nullptr) {
 					if (grandparent->m_right == parent) {
 						grandparent->m_right = pivot;
@@ -724,7 +781,7 @@ namespace las {
 						grandparent->m_left = pivot;
 					}
 				}
-				//TODO if parent was root, pivot is now root
+				// If parent was root, pivot is now root
 				if (m_root == parent) {
 					m_root = pivot;
 				}
