@@ -284,7 +284,6 @@ TEST_CASE("Integer List", "[list][container]") {
 	las::List<int> list;
 	
 	SECTION("Front and Back") {
-		//TODO test front and back values
 		REQUIRE_THROWS(list.front());	//empty list has no front
 		REQUIRE_THROWS(list.back());
 		list.push_back(5);
@@ -310,7 +309,6 @@ TEST_CASE("Integer List", "[list][container]") {
 
 	}
 	SECTION("Initializer List Constructor") {
-		//TODO test constructors
 		las::List<int> list2{ 7,11,13,17,19,5,3 };
 		REQUIRE(list2.front() == 7);
 		REQUIRE(list2.back() == 3);
@@ -396,8 +394,11 @@ TEST_CASE("Integer List", "[list][container]") {
 		REQUIRE(list.size() == 0);
 		REQUIRE_THROWS(list.front());
 		REQUIRE_THROWS(list.back());
-
-		//TODO erase throws exception if iterator not from list
+		// Throw exception if position is not valid iterator of list
+		las::List<int> list2{ 1,2,3,4,5 };
+		list = { 1,2 };
+		REQUIRE_THROWS(list2.erase(list.begin()));
+		REQUIRE_THROWS(list2.erase(list.begin(), list.end()));
 	}
 	SECTION("Clear") {
 		list = { 1,2,3,4,5,6 };
@@ -539,7 +540,6 @@ TEST_CASE("Integer Deque", "[queue][deque][container]") {
 
 TEST_CASE("Map","[map][container]") {
 	las::Map<int, int> map;
-	//TODO test initializer list ctor
 	SECTION("Insert") {
 		REQUIRE(map.isBalanced());
 		map.insert(30);
@@ -626,7 +626,6 @@ TEST_CASE("Map","[map][container]") {
 		REQUIRE(map.isBalanced());
 		REQUIRE_FALSE(map.exists(5));
 	}
-	//TODO test node get predecessor, successor
 }
 
 

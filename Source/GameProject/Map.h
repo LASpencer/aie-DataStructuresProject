@@ -349,10 +349,10 @@ namespace las {
 	private:
 		K m_key;
 		V m_value;
-		bool m_red;
-		TreeNode<K, V>* m_parent;
-		TreeNode<K, V>* m_left;
-		TreeNode<K, V>* m_right;
+		bool m_red;					// Whether the node is considered red or black when rebalancing the tree
+		TreeNode<K, V>* m_parent;	// Parent of this node
+		TreeNode<K, V>* m_left;		// Child with key less than this node's key
+		TreeNode<K, V>* m_right;	// Child with key greater than this node's key
 
 	};
 
@@ -515,7 +515,6 @@ namespace las {
 					}
 					else if (!sibling->m_red) {
 						//If sibling is black, check nephew colour
-						//HACK refactor to avoid redundant if statements
 						Node* nephew = nullptr;
 						if ( sibling->m_left != nullptr && sibling->m_left->m_red) {
 							nephew = sibling->m_left;
@@ -615,13 +614,31 @@ namespace las {
 		* @param key Key to element accessed
 		* @return reference to element*/
 		V& operator[](K key) {
-			//If key doesn't exist, insert key
-			Node* node = findNode(key);
+			// Find node, and last node searched in case node doesn't exist
+			std::pair<Node*, Node*> nodeAndParent = findNodeAndParent(key);
+			Node* node = nodeAndParent.first;
 			if (node == nullptr) {
-				/*HACK super inefficient. 
-				Maybe have findNode return the node's parent too*/
-				insert(key);
-				node = findNode(key);
+				// If key doesn't exist, insert node with key and default value
+				node = new Node(key, V());
+				if (m_root == nullptr) {
+					// If emptry tree, new node is root
+					node->m_red = false;
+					m_root = node;
+				}
+				else {
+					// Set node's parent as last node searched
+					Node* parent = nodeAndParent.second;
+					node->m_parent = parent;
+					//  Set node as correct child of parent
+					if (node->m_key < parent->m_key) {
+						parent->m_left = node;
+					}
+					else {
+						parent->m_right = node;
+					}
+					// Rebalance after insertion
+					rebalanceInsert(node);
+				}
 			}
 			return node->m_value;
 		}
@@ -665,11 +682,23 @@ namespace las {
 	private:
 		Node* m_root;
 
-		//TODO refactor
-		//TODO comment
+		/** Finds node with specified key
+		* @param key Key of node required
+		* @return Pointer to node with specified key, or nullptr if not found*/
 		Node* findNode(K key) const {
+			return findNodeAndParent(key).first;
+		}
+
+		/** Finds node with specified key and its parent
+		* @param key Key of node required
+		* @return Pair of pointer to node with specified key and its parent, or nullptr and pointer to last node searched if not found*/
+		std::pair<Node*,Node*> findNodeAndParent(K key) const {
 			Node* node = m_root;
+			Node* parent = nullptr;
 			while (node != nullptr && node->getKey() != key) {
+				// If search not over, set parent to node being checked
+				parent = node;
+				// Set node to child depending on key ordering
 				if (node->getKey() < key) {
 					node = node->getRight();
 				}
@@ -677,7 +706,7 @@ namespace las {
 					node = node->getLeft();
 				}
 			}
-			return node;
+			return std::make_pair(node, parent);
 		}
 
 		/** Resolve any imbalance caused by pivot

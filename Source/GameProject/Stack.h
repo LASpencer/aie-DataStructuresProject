@@ -3,8 +3,6 @@
 #include <algorithm>
 #include <initializer_list>
 
-//TODO commenting
-
 namespace las {
 
 	template<typename T>
@@ -39,14 +37,12 @@ namespace las {
 		/** Removes element from top of stack
 		* @return element removed from stack*/
 		T pop() {
-			//TODO document exception if empty stack
 			return m_array.pop_back();
 		}
 
 		/** Returns value of top element of stack
 		* @return top element of stack*/
 		T& top() const {
-			//TODO document exception if empty stack
 			if (empty()) {
 				throw std::logic_error("Empty stack has no top element");
 			}
@@ -56,8 +52,7 @@ namespace las {
 		/** Returns value of element in stack
 		* @param pos number of elements above element chosen
 		* @return constant reference to element chosen*/
-		const T& peek(size_t pos) const{
-			//TODO document exception if empty stack
+		const T& peek(size_t pos = 0) const{
 			if (empty()) {
 				throw std::logic_error("Empty stack has no elements");
 			}

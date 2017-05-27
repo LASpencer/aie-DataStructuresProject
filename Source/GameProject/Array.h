@@ -60,10 +60,9 @@ namespace las {
 		/** Range constructor 
 		* @param first input iterator to first element in range
 		* @param last input iterator to end of range*/
-		//TODO documentation
 		template <typename Iter,
 		typename = typename std::enable_if<std::is_same<std::iterator_traits<Iter>::value_type, T>::value, Iter >::type> //Substitution failure if Iter is not input iterator containing T
-		Array(Iter first, Iter last) : m_capacity(def_capacity)	//TODO document distance may cause undefined
+		Array(Iter first, Iter last) : m_capacity(def_capacity)	
 		{
 			if (std::is_base_of<std::forward_iterator_tag, std::iterator_traits<Iter>::iterator_category>::value){	//Check multipass guarantee
 				int distance = std::distance(first, last);
@@ -285,7 +284,6 @@ namespace las {
 					m_array[i] = m_array[i-count];
 				}
 				// Insert new elements into array
-				// HACK check if std::copy is legal and use instead
 				for (size_t i = 0; i < count; ++i) {
 					m_array[pos + i] = value;
 				}
@@ -443,7 +441,6 @@ namespace las {
 			if (m_size + count > m_capacity) {
 				reserve(m_size + count);
 			}
-			//HACK check if std::copy is legal and use instead if so
 			for (size_t i = 0; i < count; ++i) {
 				m_array[m_size] = value;
 				++m_size;
