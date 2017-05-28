@@ -2,6 +2,7 @@
 #include <initializer_list>
 #include <iterator>
 #include <type_traits>
+#include <stdexcept>
 
 namespace las {
 

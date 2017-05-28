@@ -2,6 +2,7 @@
 #include "Array.h"
 #include <algorithm>
 #include <initializer_list>
+#include <stdexcept>
 
 namespace las {
 

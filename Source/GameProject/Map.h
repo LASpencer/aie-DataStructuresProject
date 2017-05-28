@@ -1,5 +1,6 @@
 #pragma once
 #include <initializer_list>
+#include <stdexcept>
 #include "Defines.h"
 
 namespace las {
@@ -649,6 +650,30 @@ namespace las {
 		const V& operator[](K key) const{
 			Node* node = findNode(key);
 			// If key doesn't exist, throw exception
+			if (node == nullptr) {
+				throw std::out_of_range("key does not exist in map");
+			}
+			return node->m_value;
+		}
+
+		/** Access element in map
+		* @param key Key to element accessed
+		* @return reference to element*/
+		V& at(K key) {
+			Node* node = findNode(key);
+			// If element doesn't exist, throw exception
+			if (node == nullptr) {
+				throw std::out_of_range("key does not exist in map");
+			}
+			return node->m_value;
+		}
+
+		/** Access element in map
+		* @param key Key to element accessed
+		* @return constant reference to element*/
+		const V& at(K key) const {
+			Node* node = findNode(key);
+			// If element doesn't exist, throw exception
 			if (node == nullptr) {
 				throw std::out_of_range("key does not exist in map");
 			}
