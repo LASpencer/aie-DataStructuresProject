@@ -1,13 +1,11 @@
 #pragma once
-#include "catch.hpp"
+#include "stdafx.h"
 #include "Array.h"
 #include "Stack.h"
 #include "List.h"
 #include "Queue.h"
 #include "Map.h"
-#include <algorithm>
-#include <vector>
-#include <sstream>
+
 
 TEST_CASE("Integer Array", "[array][container]") {
 	las::Array<int> arr;

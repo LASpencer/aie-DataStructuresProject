@@ -9,7 +9,10 @@
 
 #include <stdio.h>
 #include <tchar.h>
-
+#include <algorithm>
+#include <vector>
+#include <sstream>
+#include "catch.hpp"
 
 
 // TODO: reference additional headers your program requires here
