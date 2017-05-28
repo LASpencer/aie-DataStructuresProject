@@ -16,6 +16,30 @@
     <Filter Include="Header Files\Containers">
       <UniqueIdentifier>{974e21d1-d106-4859-b796-4b07ca7f874b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\State Machine">
+      <UniqueIdentifier>{12d186f5-61fa-43ca-8888-4d8ba040ab01}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\State Machine\States">
+      <UniqueIdentifier>{1e817453-923a-42d0-8a34-a133bbcd5196}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\State Machine\Transitions">
+      <UniqueIdentifier>{7dfa71d7-cf1d-4bb8-8f84-659977867cac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\State Machine\Conditions">
+      <UniqueIdentifier>{750d6e14-c72f-4e0a-8e36-ce4b1ca8a897}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\State Machine">
+      <UniqueIdentifier>{1d0beb82-3c57-4b40-9e98-5883b719a45e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\State Machine\States">
+      <UniqueIdentifier>{dd692547-6b7a-41ff-9d23-a73383f6bf4a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\State Machine\Conditions">
+      <UniqueIdentifier>{dcd5a268-c991-4133-99fa-b822df88998a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\State Machine\Transitions">
+      <UniqueIdentifier>{bdfe6410-bc40-4fe7-813c-7b721053aa46}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameProjectApp.cpp">
@@ -25,12 +49,18 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Condition.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\State Machine\Conditions</Filter>
     </ClCompile>
     <ClCompile Include="Transition.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\State Machine\Transitions</Filter>
     </ClCompile>
     <ClCompile Include="State.cpp">
+      <Filter>Source Files\State Machine\States</Filter>
+    </ClCompile>
+    <ClCompile Include="Observer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Subject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -56,16 +86,22 @@
     <ClInclude Include="Stack.h">
       <Filter>Header Files\Containers</Filter>
     </ClInclude>
-    <ClInclude Include="State.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="StateMachine.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\State Machine</Filter>
     </ClInclude>
     <ClInclude Include="Condition.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\State Machine\Conditions</Filter>
     </ClInclude>
     <ClInclude Include="Transition.h">
+      <Filter>Header Files\State Machine\Transitions</Filter>
+    </ClInclude>
+    <ClInclude Include="State.h">
+      <Filter>Header Files\State Machine\States</Filter>
+    </ClInclude>
+    <ClInclude Include="Observer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Subject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

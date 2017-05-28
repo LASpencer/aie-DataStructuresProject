@@ -92,7 +92,9 @@
     <ClCompile Include="Condition.cpp" />
     <ClCompile Include="GameProjectApp.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Observer.cpp" />
     <ClCompile Include="State.cpp" />
+    <ClCompile Include="Subject.cpp" />
     <ClCompile Include="Transition.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -101,11 +103,13 @@
     <ClInclude Include="Defines.h" />
     <ClInclude Include="GameProjectApp.h" />
     <ClInclude Include="List.h" />
+    <ClInclude Include="Observer.h" />
     <ClInclude Include="Queue.h" />
     <ClInclude Include="Stack.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="State.h" />
     <ClInclude Include="StateMachine.h" />
+    <ClInclude Include="Subject.h" />
     <ClInclude Include="Transition.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
