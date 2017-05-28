@@ -36,9 +36,6 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="stdafx.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="targetver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -47,6 +44,9 @@
     </ClInclude>
     <ClInclude Include="FooState.h">
       <Filter>Header Files\Test Classes\States</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx_test.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

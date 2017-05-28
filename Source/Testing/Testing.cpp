@@ -1,8 +1,8 @@
 // Testing.cpp : Defines the entry point for the console application.
 //
-#pragma once
+#include "stdafx_test.h"
 #define CATCH_CONFIG_RUNNER
-#include "stdafx.h"
+#include "catch.hpp"
 
 int main(int argc, char* const argv[]) {
 	int result = Catch::Session().run(argc, argv);

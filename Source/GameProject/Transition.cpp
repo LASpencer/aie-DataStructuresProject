@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "Transition.h"
 #include "Condition.h"
 

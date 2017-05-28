@@ -1,5 +1,5 @@
-#pragma once
-#include "stdafx.h"
+#include "stdafx_test.h"
+#include "catch.hpp"
 #include "Array.h"
 #include "Stack.h"
 #include "List.h"

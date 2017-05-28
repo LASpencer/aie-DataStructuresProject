@@ -1,4 +1,5 @@
 #pragma once
+#include "stdafx.h"
 
 //TODO comment condition
 class Condition

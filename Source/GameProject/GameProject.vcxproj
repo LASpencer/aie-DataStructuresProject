@@ -58,8 +58,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -73,8 +72,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -94,6 +92,10 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Observer.cpp" />
     <ClCompile Include="State.cpp" />
+    <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="Subject.cpp" />
     <ClCompile Include="Transition.cpp" />
   </ItemGroup>
@@ -109,6 +111,7 @@
     <ClInclude Include="Map.h" />
     <ClInclude Include="State.h" />
     <ClInclude Include="StateMachine.h" />
+    <ClInclude Include="stdafx.h" />
     <ClInclude Include="Subject.h" />
     <ClInclude Include="Transition.h" />
   </ItemGroup>

@@ -1,9 +1,5 @@
 #pragma once
-#include <initializer_list>
-#include <iterator>
-#include <type_traits>
-#include <stdexcept>
-#include <cassert>
+#include "stdafx.h"
 
 namespace las {
 

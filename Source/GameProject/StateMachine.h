@@ -1,7 +1,5 @@
 #pragma once
-#include <type_traits>
-#include <stdexcept>
-#include <memory>
+#include "stdafx.h"
 #include "State.h"
 #include "Condition.h"
 #include "Transition.h"

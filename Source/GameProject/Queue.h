@@ -1,8 +1,6 @@
 #pragma once
+#include "stdafx.h"
 #include "List.h"
-#include <algorithm>
-#include <initializer_list>
-#include <stdexcept>
 
 
 namespace las {

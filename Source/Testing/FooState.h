@@ -1,4 +1,5 @@
 #pragma once
+#include "stdafx_test.h"
 #include "State.h"
 
 class FooState :

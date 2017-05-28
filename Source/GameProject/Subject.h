@@ -1,5 +1,5 @@
 #pragma once
-#include <memory>
+#include "stdafx.h"
 #include "Array.h"
 
 class Observer;

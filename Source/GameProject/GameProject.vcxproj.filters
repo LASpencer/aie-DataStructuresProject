@@ -63,6 +63,9 @@
     <ClCompile Include="Subject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameProjectApp.h">
@@ -102,6 +105,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Subject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
