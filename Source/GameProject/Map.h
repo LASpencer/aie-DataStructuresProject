@@ -1,6 +1,7 @@
 #pragma once
 #include <initializer_list>
 #include <stdexcept>
+#include <cassert>
 #include "Defines.h"
 
 namespace las {

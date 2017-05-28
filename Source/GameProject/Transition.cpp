@@ -3,7 +3,7 @@
 
 bool Transition::isConditionMet()
 {
-	return m_condition->test;
+	return m_condition->test();
 }
 
 int Transition::getTargetID() const

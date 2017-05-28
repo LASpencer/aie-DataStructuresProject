@@ -3,6 +3,7 @@
 #include <iterator>
 #include <type_traits>
 #include <stdexcept>
+#include <cassert>
 
 namespace las {
 
