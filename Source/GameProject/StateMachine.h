@@ -115,6 +115,14 @@ public:
 
 	virtual void forceState(int id) {
 		// If going to same state, no transition
+		//TODO also check if state exists somewhere in stack and instead pop down to it???
+		bool stateInStack = false;
+		for (size_t i = 0; i < m_stateStack.size(); ++i) {
+			if (m_stateStack.peek(i).first == id) {
+				stateInStack = true;
+				break;
+			}
+		}
 		if (m_stateStack.empty()||m_stateStack.top().first != id) {
 			//Throws exception if id doesn't exist
 			std::shared_ptr<S> newState;
@@ -133,22 +141,29 @@ public:
 	}
 
 	void forcePushState(int id) {
-		// If going to same state, no transition
-		if (m_stateStack.empty() || m_stateStack.top().first != id) {
-			std::shared_ptr<S> newState;
-			//Throws exception if id doesn't exist
-			try {
-				newState = m_states.at(id);
+		// If state already in stack, don't push it on again
+			bool stateInStack = false;
+			for (size_t i = 0; i < m_stateStack.size(); ++i) {
+				if (m_stateStack.peek(i).first == id) {
+					stateInStack = true;
+					break;
+				}
 			}
-			catch (const std::out_of_range& e) {
-				throw std::out_of_range("No state with given id exists in state machine");
+			if (!stateInStack) {
+				std::shared_ptr<S> newState;
+				//Throws exception if id doesn't exist
+				try {
+					newState = m_states.at(id);
+				}
+				catch (const std::out_of_range& e) {
+					throw std::out_of_range("No state with given id exists in state machine");
+				}
+				if (!m_stateStack.empty()) {
+					m_stateStack.top().second->onLoseFocus();
+				}
+				newState->onEnter();
+				m_stateStack.push(std::make_pair(id, newState));
 			}
-			if (!m_stateStack.empty()) {
-				m_stateStack.top().second->onLoseFocus();
-			}
-			newState->onEnter();
-			m_stateStack.push(std::make_pair(id,newState));
-		}
 	}
 
 	void forcePopState() {
@@ -192,7 +207,7 @@ public:
 			if (pushTransition->isConditionMet()) {
 				int id = pushTransition->getTargetID();
 				if (m_stateStack.top().first != id) {
-					forcePushState(transition->getTargetID());
+					forcePushState(pushTransition->getTargetID());
 					break;
 				}
 			}
@@ -222,6 +237,7 @@ public:
 				stateStack.push(m_stateStack.peek(pos).second);
 			}
 		}
+		return stateStack;
 	}
 
 protected:

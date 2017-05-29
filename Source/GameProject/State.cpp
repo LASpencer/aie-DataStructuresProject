@@ -30,6 +30,11 @@ std::pair<bool, int> State::checkTransitions()
 	return std::make_pair(conditionMet, newState);
 }
 
+
+StackState::StackState() {
+
+}
+
 StackState::~StackState()
 {
 }

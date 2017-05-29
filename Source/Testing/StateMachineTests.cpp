@@ -5,6 +5,7 @@
 #include "FooState.h"
 #include "BarState.h"
 #include "BazState.h"
+#include "FooStackState.h"
 #include "Condition.h"
 #include "fooValueEqualsCondition.h"
 #include "Transition.h"
@@ -18,7 +19,16 @@ std::shared_ptr<FooState> update(StateMachine<FooState>& machine) {
 	return machine.getState();
 }
 
-//HACK just to check CATCH still works
+
+std::shared_ptr<FooStackState> update(StateStackMachine<FooStackState>& machine) {
+	las::Stack<std::shared_ptr<FooStackState>> stateStack = machine.getStateStack();
+	while (!stateStack.empty()) {
+		stateStack.pop()->update();
+	}
+	machine.updateState();
+	return machine.getState();
+}
+
 TEST_CASE("State Machine", "[state][state machine]") {
 	StateMachine<FooState> fooMachine;
 	std::shared_ptr<FooState> state;
@@ -99,8 +109,58 @@ TEST_CASE("State Machine", "[state][state machine]") {
 			CHECK(anyDiv3->test());
 			REQUIRE(state->getValue() == 51);
 			state = update(fooMachine);
-			state = update(fooMachine);
+			state = update(fooMachine); 
 			REQUIRE(state->getValue() == 1);
 		}
+	}
+}
+
+TEST_CASE("Stack State Machine", "[state][state machine][stack]") {
+	StateStackMachine<FooStackState> fooMachine;
+	std::shared_ptr<FooStackState> state;
+	std::shared_ptr<FooStackState> foo(new FooStackState);
+	std::shared_ptr<BarStackState> bar(new BarStackState);
+	SECTION("Adding and checking states") {
+		REQUIRE(fooMachine.addState(1, foo));
+		REQUIRE(fooMachine.addState(2, bar));
+		SECTION("Add state") {
+			// Cannot add state with already used id
+			REQUIRE_FALSE(fooMachine.addState(1, std::make_shared<BarStackState>()));
+			// Can add state of same type, with new id
+			REQUIRE(fooMachine.addState(3, std::make_shared<FooStackState>()));
+		}
+		SECTION("Force and get state") {
+			REQUIRE_THROWS(fooMachine.forceState(7));
+			fooMachine.forceState(1);
+			REQUIRE(fooMachine.getState()->getValue() == 1);
+			fooMachine.forceState(2);
+			REQUIRE(fooMachine.getState()->getValue() == 100);
+			fooMachine.getState()->update();
+			REQUIRE(fooMachine.getState()->getValue() == 91);
+		}
+		SECTION("Force push and pop") {
+			update(fooMachine);
+			// Popping bottom does nothing
+			fooMachine.forcePopState();
+			REQUIRE(fooMachine.getState()->getValue() == 12);
+			// Pushing same state does nothing
+			fooMachine.forcePushState(1);
+			REQUIRE(fooMachine.getState()->getValue() == 12);
+			fooMachine.forcePushState(2);
+			state = update(fooMachine);
+			REQUIRE(state->getValue() == 91);
+			// Lower states lose focus
+			REQUIRE(fooMachine.getStateStack().peek(1)->getValue() == 13);
+			// Popping gets lower state and gives back focus to it
+			fooMachine.forcePopState();
+			state = update(fooMachine);
+			REQUIRE(state->getValue() == 24);
+			REQUIRE(fooMachine.getStateStack().size() == 1);
+			// Pushing lower state onto stack does nothing
+			fooMachine.forcePushState(2);
+			fooMachine.forcePushState(1);
+			REQUIRE(fooMachine.getState()->getValue() == 100);
+		}
+		//TODO test forcing lower state transfer when behaviour decided
 	}
 }

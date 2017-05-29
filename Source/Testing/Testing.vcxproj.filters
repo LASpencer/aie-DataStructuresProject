@@ -60,6 +60,9 @@
     <ClInclude Include="BazState.h">
       <Filter>Header Files\Test Classes\States</Filter>
     </ClInclude>
+    <ClInclude Include="FooStackState.h">
+      <Filter>Header Files\Test Classes\States</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -94,6 +97,12 @@
     </ClCompile>
     <ClCompile Include="BazState.cpp">
       <Filter>Source Files\Test Classes\States</Filter>
+    </ClCompile>
+    <ClCompile Include="FooStackState.cpp">
+      <Filter>Source Files\Test Classes\States</Filter>
+    </ClCompile>
+    <ClCompile Include="ObserverTests.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

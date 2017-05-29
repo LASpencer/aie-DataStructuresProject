@@ -152,6 +152,7 @@
     <ClInclude Include="..\dependencies\catch\include\catch.hpp" />
     <ClInclude Include="BarState.h" />
     <ClInclude Include="BazState.h" />
+    <ClInclude Include="FooStackState.h" />
     <ClInclude Include="FooState.h" />
     <ClInclude Include="fooValueEqualsCondition.h" />
     <ClInclude Include="stdafx_test.h" />
@@ -179,8 +180,10 @@
     <ClCompile Include="BarState.cpp" />
     <ClCompile Include="BazState.cpp" />
     <ClCompile Include="ContainerTests.cpp" />
+    <ClCompile Include="FooStackState.cpp" />
     <ClCompile Include="FooState.cpp" />
     <ClCompile Include="fooValueEqualsCondition.cpp" />
+    <ClCompile Include="ObserverTests.cpp" />
     <ClCompile Include="StateMachineTests.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
