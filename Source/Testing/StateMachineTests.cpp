@@ -82,9 +82,25 @@ TEST_CASE("State Machine", "[state][state machine]") {
 				REQUIRE(state->getValue() == 1);
 			}
 		}
-		//SECTION("Transition from any state") {
-		//	std::shared_ptr<BazState> baz(new BazState);
-		//	std::shared_ptr<fooDivisibleByCondition> anyDiv3(new fooDivisibleByCondition())
-		//}
+		SECTION("Transition from any state") {
+			std::shared_ptr<BazState> baz(new BazState);
+			std::shared_ptr<fooValueEqualsCondition> bazReach53(new fooValueEqualsCondition(53, baz));
+			baz->addTransition(std::make_shared<Transition>(bazReach53, 1));
+			std::shared_ptr<fooDivisibleByCondition> anyDiv3(new fooDivisibleByCondition(3, &fooMachine));
+			fooMachine.addState(3, baz);
+			fooMachine.addTransition(std::make_shared<Transition>(anyDiv3, 3));
+			REQUIRE_FALSE(anyDiv3->test());
+			state = update(fooMachine);
+			REQUIRE(state->getValue() == 2);
+			state = update(fooMachine);
+			REQUIRE(state->getValue() == 50);
+			state = update(fooMachine);
+			// Transition to self does nothing
+			CHECK(anyDiv3->test());
+			REQUIRE(state->getValue() == 51);
+			state = update(fooMachine);
+			state = update(fooMachine);
+			REQUIRE(state->getValue() == 1);
+		}
 	}
 }

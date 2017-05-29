@@ -1,6 +1,7 @@
 #include "stdafx_test.h"
 #include "fooValueEqualsCondition.h"
 #include "FooState.h"
+#include "StateMachine.h"
 
 
 fooValueEqualsCondition::fooValueEqualsCondition()
@@ -40,9 +41,10 @@ fooDivisibleByCondition::fooDivisibleByCondition()
 {
 }
 
-fooDivisibleByCondition::fooDivisibleByCondition(int value, std::shared_ptr<FooState> state) : m_value(value),m_state(state)
+fooDivisibleByCondition::fooDivisibleByCondition(int value, StateMachine<FooState>* machine) : m_value(value), m_machine(machine)
 {
 }
+
 
 fooDivisibleByCondition::~fooDivisibleByCondition()
 {
@@ -50,7 +52,7 @@ fooDivisibleByCondition::~fooDivisibleByCondition()
 
 bool fooDivisibleByCondition::test()
 {
-	std::shared_ptr<FooState> state(m_state);
+	std::shared_ptr<FooState> state = m_machine->getState();
 	if (state) {
 		return state->getValue() % m_value == 0;
 	}
@@ -64,7 +66,8 @@ void fooDivisibleByCondition::setValue(int value)
 	m_value = value;
 }
 
-void fooDivisibleByCondition::setState(std::shared_ptr<FooState> state)
+void fooDivisibleByCondition::setMachine(StateMachine<FooState>* machine)
 {
-	m_state = state;
+	m_machine = machine;
 }
+

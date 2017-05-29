@@ -1,7 +1,8 @@
 #pragma once
 #include "Condition.h"
+#include "FooState.h"
+#include "StateMachine.h"
 
-class FooState;
 
 class fooValueEqualsCondition :
 	public Condition
@@ -29,7 +30,7 @@ class fooDivisibleByCondition :
 public:
 	fooDivisibleByCondition();
 
-	fooDivisibleByCondition(int value, std::shared_ptr<FooState> state);
+	fooDivisibleByCondition(int value, StateMachine<FooState>* machine);
 
 	~fooDivisibleByCondition();
 
@@ -37,9 +38,9 @@ public:
 
 	void setValue(int value);
 
-	void setState(std::shared_ptr<FooState> state);
+	void setMachine(StateMachine<FooState>* machine);
 
 protected:
 	int m_value;
-	std::weak_ptr<FooState> m_state;
+	StateMachine<FooState>* m_machine;
 };
