@@ -19,6 +19,10 @@ public:
 
 	bool addState(int id, std::shared_ptr<S> newState) {
 		bool success = m_states.insert(id, newState);
+		//If no current state, this is now current state
+		if (!m_currentState) {
+			forceState(id);
+		}
 		return success;
 	}
 
@@ -69,7 +73,7 @@ public:
 	}
 
 	std::shared_ptr<S> getState() {
-		return m_currentState
+		return m_currentState;
 	}
 
 protected:
@@ -90,6 +94,10 @@ public:
 
 	bool addState(int id, std::shared_ptr<S> newState) {
 		bool success = m_states.insert(id, newState);
+		//If no current state, this is now current state
+		if (m_stateStack.empty()) {
+			forceState(id);
+		}
 		return success;
 	}
 

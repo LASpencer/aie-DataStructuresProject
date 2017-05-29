@@ -10,6 +10,8 @@ class State {
 public:
 	State();
 
+	virtual ~State();
+
 	virtual void onEnter() = 0;
 	virtual void onExit() = 0;
 
@@ -22,6 +24,8 @@ protected:
 
 class StackState : public State {
 	StackState();
+
+	virtual ~StackState();
 
 	virtual void onFocus() = 0;
 	virtual void onLoseFocus() = 0;

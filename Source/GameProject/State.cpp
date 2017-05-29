@@ -7,6 +7,10 @@ State::State()
 {
 }
 
+State::~State()
+{
+}
+
 void State::addTransition(std::shared_ptr<Transition> transition)
 {
 	m_transitions.push_back(transition);
@@ -24,6 +28,10 @@ std::pair<bool, int> State::checkTransitions()
 		}
 	}
 	return std::make_pair(conditionMet, newState);
+}
+
+StackState::~StackState()
+{
 }
 
 void StackState::addPushTransition(std::shared_ptr<Transition> transition)

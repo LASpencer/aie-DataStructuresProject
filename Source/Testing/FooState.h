@@ -7,9 +7,16 @@ class FooState :
 {
 public:
 	FooState();
-	~FooState();
+	virtual ~FooState();
 
 	virtual void onEnter();
 	virtual void onExit();
+
+	virtual int getValue();
+
+	virtual void update();
+
+protected:
+	int value;
 };
 

@@ -31,6 +31,9 @@
     <Filter Include="Source Files\Test Classes\Transitions">
       <UniqueIdentifier>{a40c038e-0a11-433f-8bd3-063348911372}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Test Classes\Conditions">
+      <UniqueIdentifier>{37b7df15-ecb6-4185-b0f8-e90c6235d628}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -47,6 +50,15 @@
     </ClInclude>
     <ClInclude Include="stdafx_test.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BarState.h">
+      <Filter>Header Files\Test Classes\States</Filter>
+    </ClInclude>
+    <ClInclude Include="fooValueEqualsCondition.h">
+      <Filter>Header Files\Test Classes\Conditions</Filter>
+    </ClInclude>
+    <ClInclude Include="BazState.h">
+      <Filter>Header Files\Test Classes\States</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -73,6 +85,15 @@
     </ClCompile>
     <ClCompile Include="StateMachineTests.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BarState.cpp">
+      <Filter>Source Files\Test Classes\States</Filter>
+    </ClCompile>
+    <ClCompile Include="fooValueEqualsCondition.cpp">
+      <Filter>Source Files\Test Classes\Conditions</Filter>
+    </ClCompile>
+    <ClCompile Include="BazState.cpp">
+      <Filter>Source Files\Test Classes\States</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

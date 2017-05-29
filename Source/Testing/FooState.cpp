@@ -14,10 +14,20 @@ FooState::~FooState()
 
 void FooState::onEnter()
 {
-	//TODO test behaviour
+	value = 1;
 }
 
 void FooState::onExit()
 {
-	//TODO test behaviour
+	value = 0;
+}
+
+int FooState::getValue()
+{
+	return value;
+}
+
+void FooState::update()
+{
+	++value;
 }
