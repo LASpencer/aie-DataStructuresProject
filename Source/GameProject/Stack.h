@@ -42,7 +42,16 @@ namespace las {
 
 		/** Returns value of top element of stack
 		* @return top element of stack*/
-		T& top() const {
+		T& top() {
+			if (empty()) {
+				throw std::logic_error("Empty stack has no top element");
+			}
+			return *(m_array.end() - 1);
+		}
+
+		/** Returns value of top element of stack
+		* @return top element of stack*/
+		const T& top() const {
 			if (empty()) {
 				throw std::logic_error("Empty stack has no top element");
 			}
@@ -56,7 +65,7 @@ namespace las {
 			if (empty()) {
 				throw std::logic_error("Empty stack has no elements");
 			}
-			Array<T>::iterator element;
+			Array<T>::const_iterator element;
 			if (pos >= m_array.size()) {
 				element = m_array.begin();
 			}

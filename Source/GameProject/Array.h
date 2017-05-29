@@ -139,11 +139,19 @@ namespace las {
 			return m_array[pos];
 		}
 
-		iterator begin() const {
+		iterator begin() {
 			return &(m_array[0]);
 		}
 
-		iterator end() const {
+		const_iterator begin() const {
+			return &(m_array[0]);
+		}
+
+		iterator end() {
+			return &(m_array[m_size]);
+		}
+
+		const_iterator end() const {
 			return &(m_array[m_size]);
 		}
 
