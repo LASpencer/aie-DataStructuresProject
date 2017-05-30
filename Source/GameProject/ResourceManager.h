@@ -2,6 +2,9 @@
 #include "stdafx.h"
 #include "Map.h"
 #include "Array.h"
+#include "Texture.h"
+#include "Audio.h"
+#include "Font.h"
 
 //TODO comment, document and test resource manager
 
@@ -69,3 +72,7 @@ public:
 private:
 	las::Map<std::string, ResourcePtr> m_resources;
 };
+
+typedef ResourceManager<aie::Audio>::ResourcePtr AudioPtr;
+typedef ResourceManager<aie::Font>::ResourcePtr FontPtr;
+typedef ResourceManager<aie::Texture>::ResourcePtr TexturePtr;

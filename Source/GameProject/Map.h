@@ -771,7 +771,12 @@ namespace las {
 
 		//TODO document and test flatten map
 		Array<std::pair<K, V>> flattenMap() {
-			return m_root->flattenSubtree();
+			if (m_root != nullptr) {
+				return m_root->flattenSubtree();
+			}
+			else {
+				return Array<std::pair<K, V>>();
+			}
 		}
 
 		//TODO document and test map size
@@ -955,7 +960,6 @@ namespace las {
 			return std::pair<const K&, V&>(m_node->getKey(), m_node->getValue());
 		}
 
-		//TODO check for memory leak
 		std::unique_ptr<value_type> operator->() {
 			if (m_node == nullptr) {
 				throw std::out_of_range("End iterator not dereferenceable");

@@ -539,7 +539,7 @@ TEST_CASE("Map", "[map][container]") {
 		REQUIRE(map.isBalanced());
 		REQUIRE(map.getRoot()->getKey() == 30);
 		REQUIRE_FALSE(map.insert(30));		//Key collision returns false
-											//TODO check size is still 1
+		REQUIRE(map.size() == 1);
 		map.insert(20);
 		map.insert(10);
 		REQUIRE(map.isBalanced());
@@ -632,6 +632,16 @@ TEST_CASE("Map", "[map][container]") {
 		REQUIRE(map.isBalanced());
 		REQUIRE(it == map.end());
 		REQUIRE_FALSE(map.exists(5));
+	}
+	SECTION("Flatten") {
+		las::Array<std::pair<int, int>> arr = map.flattenMap();
+		REQUIRE(arr.empty());
+		map = las::Map<int, int>({ { 5,1 },{ 0,2 },{ 3,3 },{ 4,4 },{ 2,5 },{ 7,6 },{ 10,7 },{ 6,7 } });
+		arr = map.flattenMap();
+		REQUIRE(arr.size() == 8);
+		REQUIRE(std::find(arr.begin(), arr.end(), std::pair<int,int>(5,1)) != arr.end());
+		REQUIRE(std::find(arr.begin(), arr.end(), std::pair<int, int>(0,2)) != arr.end());
+		REQUIRE(std::find(arr.begin(), arr.end(), std::pair<int, int>(3,3)) == arr.begin());
 	}
 }
 
