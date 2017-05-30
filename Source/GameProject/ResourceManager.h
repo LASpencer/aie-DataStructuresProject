@@ -56,29 +56,14 @@ public:
 	}
 
 	void collectGarbage() {
-		las::Array<std::pair<std::string, ResourcePtr>> resources = m_resources.flattenMap();
-		for (las::Array<std::pair<std::string, ResourcePtr>>::iterator it = resources.begin(); it != resources.end(); ++it) {
-			if (it->second.use_count() == 2) {		//2 as pointer is in both m_resources and resources array
-				m_resources.erase(it->first);
+		las::Map<std::string, ResourcePtr>::iterator it = m_resources.begin();
+		while (it != m_resources.end()) {
+			if (it->second.use_count() == 1) {
+				it = m_resources.erase(it->first);
+			} else {
+				++it;
 			}
-		}
-		//las::Map<std::string, ResourcePtr>::iterator it = m_resources.begin();
-		//while (it != m_resources.end()) {
-		//	if (it->second.use_count() == 1) {
-		//		las::Map<std::string, ResourcePtr>::iterator toDelete = it;
-		//		++it;
-		//		m_resources.erase(toDelete->first);
-		//	} else {
-		//		++it;
-		//	}
-		//}
-		//for (las::Map<std::string, ResourcePtr>::iterator it = m_resources.begin(); it != m_resources.end();++it) {
-		//	if (it->second.use_count() == 1) {		//2 as pointer is in both m_resources and resources array
-		//		m_resources.erase(it->first);
-		//	}
-		//}
-		//TODO map.erase returns iterator, accepts iterator
-		
+		}	
 	};
 
 private:

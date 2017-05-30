@@ -572,51 +572,65 @@ TEST_CASE("Map", "[map][container]") {
 	}
 	SECTION("Erase") {
 		map = las::Map<int, int>({ { 5,1 },{ 0,2 },{ 3,3 },{ 4,4 },{ 2,5 },{ 7,6 },{ 10,7 },{ 6,7 } });
+		las::Map<int, int>::iterator it;
 		//Erase red leaf
-		map.erase(2);
+		it = map.erase(2);
 		REQUIRE(map.isBalanced());
+		REQUIRE(it->second == 3);
 		REQUIRE_FALSE(map.exists(2));
 		map.insert(-2);
 		// Erase node with red leaf child on left
-		map.erase(0);
+		it = map.erase(0);
 		REQUIRE(map.isBalanced());
+		REQUIRE(it->second == 3);
 		REQUIRE_FALSE(map.exists(0));
 		// Erase node with red leaf child on right
-		map.insert(0);
-		map.erase(-2);
+		map.insert(0,2);
+		it = map.erase(-2);
 		REQUIRE(map.isBalanced());
+		REQUIRE(it->second == 2);
 		REQUIRE_FALSE(map.exists(-2));
 		// Test black sibling
 		las::Map<int, int> mapCopy = map;
 		// Erase node with black sibling, 2 red nephews
-		map.erase(4);
+		it = map.erase(4);
 		REQUIRE(map.isBalanced());
+		REQUIRE(it->second == 1);
 		REQUIRE_FALSE(map.exists(4));
 		// Erase node with black sibling, red nephew in left-right case
-		map.erase(10);
+		it = map.erase(10);
 		REQUIRE(map.isBalanced());
+		REQUIRE(it == map.end());
 		REQUIRE_FALSE(map.exists(10));
 		map = mapCopy;
 		// Erase node with black sibling, red nephew is in right-right case
-		map.erase(6);
-		map.erase(4);
+		it = map.erase(6);
+		REQUIRE(it->second == 6);
+		it = map.erase(4);
 		REQUIRE(map.isBalanced());
+		REQUIRE(it->second == 1);
 		REQUIRE_FALSE(map.exists(4));
 		map = mapCopy;
 		// Erase node with red sibling
-		map.erase(0);
+		it = map.erase(0);
 		REQUIRE(map.isBalanced());
+		REQUIRE(it->second == 3);
 		REQUIRE_FALSE(map.exists(0));
-		map.erase(4);
-		map.erase(6);
-		map.erase(10);
+		it = map.erase(4);
+		REQUIRE(it->second == 1);
+		it = map.erase(6);
+		REQUIRE(it->second == 6);
+		it = map.erase(10);
+		REQUIRE(it == map.end());
 		// Erase node with black sibling, 2 black nephews
-		map.erase(7);
+		it = map.erase(7);
 		REQUIRE(map.isBalanced());
+		REQUIRE(it == map.end());
 		REQUIRE_FALSE(map.exists(7));
 		// Erase root from map with only root, left child
-		map.erase(5);
+		it = map.erase(5);
 		REQUIRE(map.isBalanced());
+		REQUIRE(it == map.end());
 		REQUIRE_FALSE(map.exists(5));
 	}
 }

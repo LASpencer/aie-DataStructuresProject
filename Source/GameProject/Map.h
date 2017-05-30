@@ -519,23 +519,29 @@ namespace las {
 
 		/** Erase key-value pair from map
 		* @param key Key to erase from map*/
-		void erase(K key) {
-			erase(iterator(findNode(key), this));
+		iterator erase(K key) {
+			return erase(iterator(findNode(key), this));
 		}
 
 		//TODO Erase returns iterator to valid successor
+		//TODO document new erase return values
 
 		//TODO test erase by iterator
 		/** Erase key-value pair from map
 		* @param pos Iterator referencing element to erase from map*/
-		void erase(iterator pos) {
+		iterator erase(iterator pos) {
 			Node* node = pos.m_node;
+			iterator next;
 			if (node != nullptr) {
 				if (node->m_right != nullptr) {
 					//Copy successor, then delete that node instead
 					Node* successor = node->m_right->getSubtreeMin();
 					*node = *successor;
+					next = iterator(node, this);	//Next iterator points to node, as successor copied there
 					node = successor;
+				}
+				else {
+					next = iterator(node->getSuccessor(), this);	//Next iterator points to successor's node
 				}
 				// Node now has at most one child
 				Node* child = node->m_right;
@@ -670,6 +676,9 @@ namespace las {
 						}
 					}
 				}
+				return next;
+			} else {
+				return end();
 			}
 		}
 

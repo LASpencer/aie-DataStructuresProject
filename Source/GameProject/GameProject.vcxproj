@@ -87,7 +87,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Component.cpp" />
     <ClCompile Include="Condition.cpp" />
+    <ClCompile Include="Entity.cpp" />
     <ClCompile Include="GameProjectApp.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Observer.cpp" />
@@ -101,8 +103,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Array.h" />
+    <ClInclude Include="Component.h" />
     <ClInclude Include="Condition.h" />
     <ClInclude Include="Defines.h" />
+    <ClInclude Include="Entity.h" />
     <ClInclude Include="GameProjectApp.h" />
     <ClInclude Include="List.h" />
     <ClInclude Include="Observer.h" />
