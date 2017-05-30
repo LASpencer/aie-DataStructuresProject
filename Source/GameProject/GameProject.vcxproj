@@ -107,6 +107,7 @@
     <ClInclude Include="List.h" />
     <ClInclude Include="Observer.h" />
     <ClInclude Include="Queue.h" />
+    <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="Stack.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="State.h" />

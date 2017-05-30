@@ -63,6 +63,9 @@
     <ClInclude Include="FooStackState.h">
       <Filter>Header Files\Test Classes\States</Filter>
     </ClInclude>
+    <ClInclude Include="TestApp.h">
+      <Filter>Header Files\Test Classes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -103,6 +106,12 @@
     </ClCompile>
     <ClCompile Include="ObserverTests.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceManagerTests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TestApp.cpp">
+      <Filter>Source Files\Test Classes</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

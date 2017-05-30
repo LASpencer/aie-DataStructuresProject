@@ -1,6 +1,7 @@
 #pragma once
 #include "stdafx.h"
 #include "Defines.h"
+#include "Array.h"
 
 namespace las {
 
@@ -289,6 +290,20 @@ namespace las {
 		//	return max;
 		//}
 
+		// Creates array containing copies of all key-value pairs in tree
+		Array<std::pair<K, V>> flattenSubtree() {
+			Array<std::pair<K, V>> subtree{ std::make_pair(m_key, m_value) };
+			if (m_left != nullptr) {
+				Array<std::pair<K, V>> left = m_left->flattenSubtree();
+				subtree.insert(subtree.end(), left.begin(), left.end());
+			}
+			if (m_right != nullptr) {
+				Array<std::pair<K, V>> right = m_right->flattenSubtree();
+				subtree.insert(subtree.end(), right.begin(), right.end());
+			}
+			return subtree;
+		}
+
 		// Equality operator returns true if key and value are equal
 		bool operator==(const TreeNode<K, V>&other) const {
 			return (other.m_key == m_key) && (other.m_value == m_value);
@@ -346,6 +361,18 @@ namespace las {
 			return left || right;
 		}
 
+		// Returns total number of nodes in subtree
+		size_t subtreeSize() const {
+			size_t size = 1;
+			if (m_left != nullptr) {
+				size += m_left->subtreeSize();
+			}
+			if (m_right != nullptr) {
+				size += m_right->subtreeSize();
+			}
+			return size;
+		}
+
 	private:
 		K m_key;
 		V m_value;
@@ -369,6 +396,7 @@ namespace las {
 		friend class MapConstIter<K,V>;
 		typedef MapIter<K, V> iterator;
 		typedef MapConstIter<K, V> const_iterator;
+		//TODO document mapiter,begin,end
 
 		Map() : m_root(nullptr)
 		{
@@ -721,6 +749,20 @@ namespace las {
 				// Empty tree is balanced
 				return true;
 			}
+		}
+
+		//TODO document and test flatten map
+		Array<std::pair<K, V>> flattenMap() {
+			return m_root->flattenSubtree();
+		}
+
+		//TODO document and test map size
+		size_t size() {
+			size_t mapSize = 0;
+			if (m_root != nullptr) {
+				mapSize = m_root->subtreeSize();
+			}
+			return mapSize;
 		}
 
 #ifdef TESTING_TREE_NODES
