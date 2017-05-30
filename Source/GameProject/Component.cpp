@@ -10,3 +10,8 @@ Component::Component()
 Component::~Component()
 {
 }
+
+int Component::getID()
+{
+	return Identifier::base;
+}

@@ -535,9 +535,11 @@ TEST_CASE("Map", "[map][container]") {
 	las::Map<int, int> map;
 	SECTION("Insert") {
 		REQUIRE(map.isBalanced());
+		REQUIRE(map.empty());
 		map.insert(30);
 		REQUIRE(map.isBalanced());
 		REQUIRE(map.getRoot()->getKey() == 30);
+		REQUIRE_FALSE(map.empty());
 		REQUIRE_FALSE(map.insert(30));		//Key collision returns false
 		REQUIRE(map.size() == 1);
 		map.insert(20);

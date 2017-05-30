@@ -518,17 +518,15 @@ namespace las {
 		}
 
 		/** Erase key-value pair from map
-		* @param key Key to erase from map*/
+		* @param key Key to erase from map
+		* @return iterator following erased element*/
 		iterator erase(K key) {
 			return erase(iterator(findNode(key), this));
 		}
 
-		//TODO Erase returns iterator to valid successor
-		//TODO document new erase return values
-
-		//TODO test erase by iterator
 		/** Erase key-value pair from map
-		* @param pos Iterator referencing element to erase from map*/
+		* @param pos Iterator referencing element to erase from map
+		* @return iterator following erased element*/
 		iterator erase(iterator pos) {
 			Node* node = pos.m_node;
 			iterator next;
@@ -769,7 +767,8 @@ namespace las {
 			}
 		}
 
-		//TODO document and test flatten map
+		/** Creates array containing all elements of the map
+		* @return array*/
 		Array<std::pair<K, V>> flattenMap() {
 			if (m_root != nullptr) {
 				return m_root->flattenSubtree();
@@ -779,13 +778,20 @@ namespace las {
 			}
 		}
 
-		//TODO document and test map size
+		/** Gets number of elements in map
+		* @return number of elements in map*/
 		size_t size() {
 			size_t mapSize = 0;
 			if (m_root != nullptr) {
 				mapSize = m_root->subtreeSize();
 			}
 			return mapSize;
+		}
+
+		/** Checks if map has no elements
+		* @return true if no elements in map*/
+		bool empty() {
+			return m_root == nullptr;
 		}
 
 #ifdef TESTING_TREE_NODES
