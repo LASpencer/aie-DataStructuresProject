@@ -621,6 +621,67 @@ TEST_CASE("Map", "[map][container]") {
 	}
 }
 
+TEST_CASE("Map Iterators", "[map][container][iterator]") {
+	las::Map<int, int> map{ {1,5},{2,7},{3,13},{4,15},{5,21},{6,23} };
+	SECTION("MapIter") {
+		las::Map<int, int>::iterator it = map.begin();
+		SECTION("Get pair from iterator") {
+			REQUIRE((*it).first == 1);
+			REQUIRE((*it).second == 5);
+			REQUIRE(it->first == 1);
+			REQUIRE(it->second == 5);
+			// End iterator not dereferenceable
+			REQUIRE_THROWS(*(map.end()));
+			REQUIRE_THROWS(map.end()->first);
+		}
+		SECTION("Increment and Decrement") {
+			++it;
+			REQUIRE((*it).first == 2);
+			REQUIRE((*it).second == 7);
+			REQUIRE(it->first == 2);
+			REQUIRE(it->second == 7);
+			REQUIRE(it++->second == 7);
+			REQUIRE(it->second == 13);
+			REQUIRE((--it)->second == 7);
+			REQUIRE((it--)->second == 7);
+			REQUIRE(it->second == 5);
+			REQUIRE((--map.end())->second == 23);
+			REQUIRE_THROWS((map.end()--)->second);
+		}
+		//TODO write to value using iterator
+		SECTION("Write") {
+			it->second = 3;
+			REQUIRE(it->second == 3);
+		}
+	}
+	//TODO test const iterator
+	SECTION("MapConstIter") {
+		las::Map<int, int>::const_iterator it = map.begin();
+		SECTION("Get pair from iterator") {
+			REQUIRE((*it).first == 1);
+			REQUIRE((*it).second == 5);
+			REQUIRE(it->first == 1);
+			REQUIRE(it->second == 5);
+			// End iterator not dereferenceable
+			REQUIRE_THROWS(*(map.end()));
+			REQUIRE_THROWS(map.end()->first);
+		}
+		SECTION("Increment and Decrement") {
+			++it;
+			REQUIRE((*it).first == 2);
+			REQUIRE((*it).second == 7);
+			REQUIRE(it->first == 2);
+			REQUIRE(it->second == 7);
+			REQUIRE(it++->second == 7);
+			REQUIRE(it->second == 13);
+			REQUIRE((--it)->second == 7);
+			REQUIRE(it--->second == 7);
+			REQUIRE(it->second == 5);
+			REQUIRE((--map.end())->second == 23);
+			REQUIRE_THROWS((map.end()--)->second);
+		}
+	}
+}
 
 TEST_CASE("Tree Node", "[map][container]") {
 	las::Map<int, int> map{ { 1,34 },{ 2,17 },{ 6,24 },{ -5,23 },{ 9,40 },{ 13,8 },{ 99,6 },{ 30,5 } };

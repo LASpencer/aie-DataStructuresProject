@@ -11,6 +11,11 @@ BarState::~BarState()
 {
 }
 
+BarState * BarState::clone() const
+{
+	return new BarState(*this);
+}
+
 void BarState::onEnter()
 {
 	value = 10;

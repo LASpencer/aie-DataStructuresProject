@@ -149,7 +149,8 @@ namespace las {
 		* @param first iterator to first element in range
 		* @param last iterator to end of range*/
 		template <typename Iter,
-			typename = typename std::enable_if<std::is_same<std::iterator_traits<Iter>::value_type, T>::value, Iter >::type> //Substitution failure if Iter is not input iterator containing T
+			typename = typename std::enable_if<std::is_same<std::iterator_traits<Iter>::value_type, T>::value ||
+			std::is_same<std::iterator_traits<Iter>::value_type, const T>::value, Iter >::type> //Substitution failure if Iter is not input iterator containing T
 			List(Iter first, Iter last) : m_front(nullptr), m_back(nullptr)
 		{
 			if (first != last) {
@@ -249,9 +250,9 @@ namespace las {
 		* @return constant iterator to first element of list*/
 		const_iterator begin() const {
 			//HACK
-			const_iterator begin;
-			begin.m_node = m_front;
-			begin.m_list = this;
+			const_iterator begin(m_front, this);
+			//begin.m_node = m_front;
+			//begin.m_list = this;
 			return begin;
 		}
 		
@@ -454,7 +455,8 @@ namespace las {
 		* @param first iterator to first element in range
 		* @param last iterator to end of range*/
 		template <typename Iter,
-			typename = typename std::enable_if<std::is_same<std::iterator_traits<Iter>::value_type, T>::value, Iter >::type> //Substitution failure if Iter is not input iterator containing T
+			typename = typename std::enable_if<std::is_same<std::iterator_traits<Iter>::value_type, T>::value||
+												std::is_same<std::iterator_traits<Iter>::value_type,const T>::value, Iter >::type> //Substitution failure if Iter is not input iterator containing T
 			void insert(iterator position, Iter first, Iter last) {
 			if (position.m_list != this) {
 				throw std::invalid_argument("position is not an iterator of this list");
@@ -808,7 +810,7 @@ namespace las {
 
 	// Constant Iterator for List classes
 	template <typename T>
-	class ListConstIter : public std::iterator<std::bidirectional_iterator_tag, T, ptrdiff_t,const T*, const T&> {
+	class ListConstIter : public std::iterator<std::bidirectional_iterator_tag, const T> {
 	public:
 		friend class List<T>;
 
@@ -818,7 +820,7 @@ namespace las {
 		/** Value constructor
 		* @param node ListNode containing referenced value
 		* @param list List being iterated over*/
-		ListConstIter(ListNode<T>* node, List<T>* list) :
+		ListConstIter(ListNode<T>* node, const List<T>* list) :
 			m_node(node), m_list(list)
 		{}
 
@@ -954,6 +956,6 @@ namespace las {
 		}
 	private:
 		ListNode<T>* m_node;			// ListNode containing element, if nullptr this is end iterator
-		List<T> const * m_list;			// List being iterated over
+		const List<T> * m_list;			// List being iterated over
 	};
 }

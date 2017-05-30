@@ -8,6 +8,8 @@ public:
 	FooStackState();
 	virtual ~FooStackState();
 
+	virtual FooStackState* clone() const;
+
 	virtual void onEnter();
 	virtual void onExit();
 
@@ -29,6 +31,8 @@ class BarStackState :
 public:
 	BarStackState();
 	virtual ~BarStackState();
+
+	virtual BarStackState* clone() const;
 
 	virtual void onEnter();
 	virtual void onExit();

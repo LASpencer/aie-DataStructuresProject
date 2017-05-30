@@ -12,6 +12,8 @@ public:
 
 	virtual ~State();
 
+	virtual State* clone() const = 0;
+
 	// Called when transitioning to the state
 	virtual void onEnter() = 0;
 

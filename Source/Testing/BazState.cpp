@@ -11,6 +11,11 @@ BazState::~BazState()
 {
 }
 
+BazState * BazState::clone() const
+{
+	return new BazState(*this);
+}
+
 void BazState::onEnter()
 {
 	value = 50;

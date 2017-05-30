@@ -15,7 +15,10 @@ public:
 
 	};
 
-	//TODO deep copy
+	//TODO deep copy based on clone
+	//StateMachine(const StateMachine& other) : m_currentID(other.m_currentID) {
+	//	
+	//}
 
 	bool addState(int id, std::shared_ptr<S> newState) {
 		bool success = m_states.insert(id, newState);

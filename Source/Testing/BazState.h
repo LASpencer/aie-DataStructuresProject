@@ -7,6 +7,8 @@ public:
 	BazState();
 	virtual ~BazState();
 
+	virtual BazState* clone() const;
+
 	virtual void onEnter();
 	virtual void onExit();
 

@@ -12,6 +12,11 @@ FooStackState::~FooStackState()
 {
 }
 
+FooStackState * FooStackState::clone() const
+{
+	return new FooStackState(*this);
+}
+
 void FooStackState::onEnter()
 {
 	value = 1;
@@ -52,6 +57,11 @@ BarStackState::BarStackState() : FooStackState()
 
 BarStackState::~BarStackState()
 {
+}
+
+BarStackState * BarStackState::clone() const
+{
+	return new BarStackState(*this);
 }
 
 void BarStackState::onEnter()

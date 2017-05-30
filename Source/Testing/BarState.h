@@ -7,6 +7,8 @@ public:
 	BarState();
 	virtual ~BarState();
 
+	virtual BarState* clone() const;
+
 	virtual void onEnter();
 	virtual void onExit();
 

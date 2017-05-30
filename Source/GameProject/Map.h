@@ -356,10 +356,20 @@ namespace las {
 
 	};
 
+	template<typename K, typename V> class MapIter;
+	template<typename K, typename V> class MapConstIter;
+
 	template<typename K, typename V>
 	class Map {
 		typedef TreeNode<K, V> Node;
 	public:
+
+		// Define iterators and iterator traits
+		friend class MapIter<K, V>;
+		friend class MapConstIter<K,V>;
+		typedef MapIter<K, V> iterator;
+		typedef MapConstIter<K, V> const_iterator;
+
 		Map() : m_root(nullptr)
 		{
 
@@ -405,6 +415,22 @@ namespace las {
 			if (m_root != nullptr) {
 				delete m_root;
 			}
+		}
+
+		iterator begin() {
+			return iterator(m_root->getSubtreeMin(), this);
+		}
+
+		const_iterator begin() const {
+			return const_iterator(m_root->getSubtreeMin(), this);
+		}
+
+		iterator end() {
+			return iterator(nullptr, this);
+		}
+
+		const_iterator end() const {
+			return const_iterator(nullptr, this);
 		}
 
 		/** Inserts new key value pair into map
@@ -840,5 +866,185 @@ namespace las {
 				}
 			}
 		}
+	};
+
+	//TODO test iterators work
+
+	// Iterator for map classes
+	template <typename K, typename V>
+	class MapIter : public std::iterator<std::bidirectional_iterator_tag, std::pair<const K&,V&>> {
+	public:
+		MapIter() : m_node(nullptr), m_map(nullptr)
+		{
+
+		}
+
+		/**Value Constructor
+		* @param node TreeNode containing referenced value
+		* @param map Map being iterated over*/
+		MapIter(TreeNode<K,V>* node, Map<K,V>* map) : m_node(node), m_map(map) 
+		{
+		}
+
+		value_type operator*() {
+			if (m_node == nullptr) {
+				throw std::out_of_range("End iterator not dereferenceable");
+			}
+			return std::pair<const K&, V&>(m_node->getKey(), m_node->getValue());
+		}
+
+		//TODO check for memory leak
+		std::unique_ptr<value_type> operator->() {
+			if (m_node == nullptr) {
+				throw std::out_of_range("End iterator not dereferenceable");
+			}
+			return std::make_unique<std::pair<const K&, V&>>(m_node->getKey(), m_node->getValue());
+		}
+
+		bool operator==(const MapIter<K, V>&other) const {
+			return m_node == other.m_node && m_map == other.m_map;
+		}
+
+		bool operator!=(const MapIter<K, V>&other) const {
+			return !(*this == other);
+		}
+
+		operator MapConstIter<K, V>() {
+			return MapConstIter<K, V>(m_node, m_map);
+		}
+
+		MapIter<K, V>& operator++(){
+			if (m_node != nullptr) {
+				m_node = m_node->getSuccessor();
+			}
+			return *this;
+		}
+
+		MapIter<K, V> operator++(int) {
+			MapIter<K, V> old(*this);
+			if (m_node != nullptr) {
+				m_node = m_node->getSuccessor();
+			}
+			return old;
+		}
+
+		MapIter<K, V>& operator--() {
+			if (m_node != nullptr) {
+				TreeNode<K, V>* prev = m_node->getPredecessor();
+				if (prev != nullptr) {
+					m_node = prev;
+				}
+			} else {
+				m_node = m_map->m_root->getSubtreeMax();
+			}
+			return *this;
+		}
+
+		MapIter<K, V> operator--(int) {
+			MapIter<K, V> old(*this);
+			if (m_node != nullptr) {
+				TreeNode<K, V>* prev = m_node->getPredecessor();
+				if (prev != nullptr) {
+					m_node = prev;
+				}
+			}
+			else {
+				m_node = m_map->m_root->getSubtreeMax();
+			}
+			return old;
+		}
+
+	private:
+		Map<K,V>* m_map;
+		TreeNode<K,V>* m_node;
+	};
+
+	// Constant Iterator for map classes
+	template <typename K, typename V>
+	class MapConstIter : public std::iterator<std::bidirectional_iterator_tag, std::pair<const K&, const V&>> {
+	public:
+		MapConstIter() : m_node(nullptr), m_map(nullptr)
+		{
+
+		}
+
+		/**Value Constructor
+		* @param node TreeNode containing referenced value
+		* @param map Map being iterated over*/
+		MapConstIter(TreeNode<K, V>* node, Map<K, V>* map) : m_node(node), m_map(map)
+		{
+		}
+
+		value_type operator*() {
+			if (m_node == nullptr) {
+				throw std::out_of_range("End iterator not dereferenceable");
+			}
+			return std::pair<const K&, const V&>(m_node->getKey(), m_node->getValue());
+		}
+
+		std::unique_ptr<value_type> operator->() {
+			if (m_node == nullptr) {
+				throw std::out_of_range("End iterator not dereferenceable");
+			}
+			return std::make_unique<std::pair<const K&, const V&>>(m_node->getKey(), m_node->getValue());
+		}
+
+		bool operator==(const MapIter<K, V>&other) const {
+			return m_node == other.m_node && m_map == other.m_map;
+		}
+
+		bool operator!=(const MapIter<K, V>&other) const {
+			return !(*this == other);
+		}
+
+		operator MapConstIter<K, V>() {
+			return MapConstIter<K, V>(m_node, m_map);
+		}
+
+		MapConstIter<K, V>& operator++() {
+			if (m_node != nullptr) {
+				m_node = m_node->getSuccessor();
+			}
+			return *this;
+		}
+
+		MapConstIter<K, V> operator++(int) {
+			MapConstIter<K, V> old(*this);
+			if (m_node != nullptr) {
+				m_node = m_node->getSuccessor();
+			}
+			return old;
+		}
+
+		MapConstIter<K, V>& operator--() {
+			if (m_node != nullptr) {
+				TreeNode<K, V>* prev = m_node->getPredecessor();
+				if (prev != nullptr) {
+					m_node = prev;
+				}
+			}
+			else {
+				m_node = m_map->m_root->getSubtreeMax();
+			}
+			return *this;
+		}
+
+		MapConstIter<K, V> operator--(int) {
+			MapConstIter<K, V> old(*this);
+			if (m_node != nullptr) {
+				TreeNode<K, V>* prev = m_node->getPredecessor();
+				if (prev != nullptr) {
+					m_node = prev;
+				}
+			}
+			else {
+				m_node = m_map->m_root->getSubtreeMax();
+			}
+			return old;
+		}
+
+	private:
+		Map<K, V>* m_map;
+		TreeNode<K, V>* m_node;
 	};
 }

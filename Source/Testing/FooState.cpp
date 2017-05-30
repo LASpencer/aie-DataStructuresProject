@@ -12,6 +12,11 @@ FooState::~FooState()
 {
 }
 
+FooState * FooState::clone() const
+{
+	return new FooState(*this);
+}
+
 void FooState::onEnter()
 {
 	value = 1;

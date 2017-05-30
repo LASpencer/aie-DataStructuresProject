@@ -9,6 +9,8 @@ public:
 	FooState();
 	virtual ~FooState();
 
+	virtual FooState* clone() const;
+
 	virtual void onEnter();
 	virtual void onExit();
 
