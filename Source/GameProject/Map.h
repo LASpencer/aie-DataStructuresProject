@@ -520,7 +520,16 @@ namespace las {
 		/** Erase key-value pair from map
 		* @param key Key to erase from map*/
 		void erase(K key) {
-			Node* node = findNode(key);
+			erase(iterator(findNode(key), this));
+		}
+
+		//TODO Erase returns iterator to valid successor
+
+		//TODO test erase by iterator
+		/** Erase key-value pair from map
+		* @param pos Iterator referencing element to erase from map*/
+		void erase(iterator pos) {
+			Node* node = pos.m_node;
 			if (node != nullptr) {
 				if (node->m_right != nullptr) {
 					//Copy successor, then delete that node instead
@@ -916,6 +925,8 @@ namespace las {
 	template <typename K, typename V>
 	class MapIter : public std::iterator<std::bidirectional_iterator_tag, std::pair<const K&,V&>> {
 	public:
+		friend class Map<K, V>;
+
 		MapIter() : m_node(nullptr), m_map(nullptr)
 		{
 
@@ -1005,6 +1016,8 @@ namespace las {
 	template <typename K, typename V>
 	class MapConstIter : public std::iterator<std::bidirectional_iterator_tag, std::pair<const K&, const V&>> {
 	public:
+		friend class Map<K, V>;
+
 		MapConstIter() : m_node(nullptr), m_map(nullptr)
 		{
 
