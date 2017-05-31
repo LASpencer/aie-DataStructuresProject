@@ -12,9 +12,15 @@ public:
 
 	virtual void draw(Entity* entity) {};
 
+	virtual bool onAdd(Entity* entity);
+	virtual void onRemove(Entity* entity);
+
 	virtual int getID();
+
 	enum Identifier {
-		base
+		base,
+		scene_object,
+		sprite
 	};
 };
 

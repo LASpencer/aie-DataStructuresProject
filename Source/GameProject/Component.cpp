@@ -11,6 +11,15 @@ Component::~Component()
 {
 }
 
+bool Component::onAdd(Entity * entity)
+{
+	return true;
+}
+
+void Component::onRemove(Entity * entity)
+{
+}
+
 int Component::getID()
 {
 	return Identifier::base;

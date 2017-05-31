@@ -12,7 +12,15 @@ public:
 	Entity();
 	virtual ~Entity();
 
-	void addComponent(const ComponentPtr& component);
+	bool addComponent(const ComponentPtr& component);
+
+	bool removeComponent(int id);
+
+	bool replaceComponent(const ComponentPtr& component);
+
+	bool hasComponent(int id);
+
+	ComponentPtr getComponent(int id);
 
 	virtual void update(float deltaTime);
 

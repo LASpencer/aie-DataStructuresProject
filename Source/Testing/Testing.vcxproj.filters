@@ -34,6 +34,12 @@
     <Filter Include="Header Files\Test Classes\Conditions">
       <UniqueIdentifier>{37b7df15-ecb6-4185-b0f8-e90c6235d628}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Test Classes\Components">
+      <UniqueIdentifier>{91314277-3789-4bfc-aadf-e70dc4f83ffb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Test Classes\Entities">
+      <UniqueIdentifier>{42eaa909-6a00-4a05-ab9e-2a2deaae4357}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -112,6 +118,15 @@
     </ClCompile>
     <ClCompile Include="TestApp.cpp">
       <Filter>Source Files\Test Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentTests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\GameProject\Component.cpp">
+      <Filter>Source Files\Test Classes\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\GameProject\SceneObject.cpp">
+      <Filter>Source Files\Test Classes\Components</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
