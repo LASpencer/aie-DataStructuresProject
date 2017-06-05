@@ -117,6 +117,9 @@
     <ClCompile Include="TimerCondition.cpp">
       <Filter>Source Files\State Machine\Conditions</Filter>
     </ClCompile>
+    <ClCompile Include="ResourceManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameProjectApp.h">

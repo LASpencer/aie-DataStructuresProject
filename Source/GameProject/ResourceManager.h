@@ -6,7 +6,7 @@
 #include "Audio.h"
 #include "Font.h"
 
-//TODO comment, document and test resource manager
+//TODO comment, document and test new resource manager
 //TODO create specialized FontManager
 template<class T>
 class Resource
@@ -40,43 +40,72 @@ private:
 		std::string m_filename;
 };
 
-template<class T>
+class FontResource
+{
+public:
+	FontResource(const std::string& filename, unsigned short height) : m_filename(filename), m_height(height) {
+		m_data = std::unique_ptr<aie::Font>(new aie::Font(filename.c_str(), height));
+	 }
+	~FontResource() {};
+
+	std::string getFilename() {
+		return m_filename;
+	}
+
+	unsigned short getHeight() {
+		return m_height;
+	}
+
+	aie::Font* get() {
+		return m_data.get();
+	}
+
+	aie::Font& operator*() {
+		return *m_data;
+	}
+
+	// Passes 
+	aie::Font* operator->() {
+		return m_data.get();
+	}
+private:
+	std::unique_ptr<aie::Font> m_data;
+	std::string m_filename;
+	unsigned short m_height;
+};
+
+typedef std::shared_ptr<Resource<aie::Audio>> AudioPtr;
+typedef std::shared_ptr<FontResource> FontPtr;
+typedef std::shared_ptr<Resource<aie::Texture>> TexturePtr;
+
 class ResourceManager
 {
 public:
-	typedef std::shared_ptr<Resource<T>> ResourcePtr;
+	enum ResourceType {
+		texture,
+		audio,
+		font
+	};
 
 	ResourceManager() {};
 	~ResourceManager() {};
 	ResourceManager(const ResourceManager&) = delete;
 	ResourceManager& operator=(const ResourceManager&) = delete;
 
-	ResourcePtr get(const std::string& filename) {
-		if (!m_resources.exists(filename)) {
-			m_resources.insert(filename, std::make_shared<Resource<T>>(filename));
-		}
-		return m_resources.at(filename);
-	}
+	TexturePtr getTexture(const std::string& filename);
 
-	size_t size() {
-		return m_resources.size();
-	}
+	AudioPtr getAudio(const std::string& filename); 
 
-	void collectGarbage() {
-		las::Map<std::string, ResourcePtr>::iterator it = m_resources.begin();
-		while (it != m_resources.end()) {
-			if (it->second.use_count() == 1) {
-				it = m_resources.erase(it->first);
-			} else {
-				++it;
-			}
-		}	
-	};
+	FontPtr getFont(const std::string& filename, unsigned short size);//TODO set default font size
+
+	size_t size(ResourceType type); 
+		
+
+	void collectGarbage();
 
 private:
-	las::Map<std::string, ResourcePtr> m_resources;
+	las::Map<std::string, TexturePtr> m_textures;
+	las::Map<std::string, AudioPtr> m_audio;
+	las::Map<std::string, las::Map<unsigned short, FontPtr>> m_fonts;
 };
 
-typedef ResourceManager<aie::Audio>::ResourcePtr AudioPtr;
-typedef ResourceManager<aie::Font>::ResourcePtr FontPtr;
-typedef ResourceManager<aie::Texture>::ResourcePtr TexturePtr;

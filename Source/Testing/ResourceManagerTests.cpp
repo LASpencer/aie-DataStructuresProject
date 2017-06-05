@@ -2,7 +2,7 @@
 #include "catch.hpp"
 #include "ResourceManager.h"
 #include "Texture.h"
-
+//TODO rewrite after refactoring REsourceManager
 
 TEST_CASE("Resource Manager") {
 	ResourceManager<aie::Texture> textureManager;
