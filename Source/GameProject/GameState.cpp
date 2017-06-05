@@ -47,7 +47,7 @@ GameState::GameState(const GameState & other) : StackState(other), m_focus(other
 	}
 }
 
-void GameState::loadTextures(ResourceManager<aie::Texture>* textureManager)
+void GameState::loadResources(ResourceManager* resourceManager)
 {
 }
 

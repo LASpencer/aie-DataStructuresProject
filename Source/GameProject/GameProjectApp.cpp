@@ -17,16 +17,16 @@ bool GameProjectApp::startup() {
 	
 	m_2dRenderer = new aie::Renderer2D();
 	m_font = new aie::Font("./font/consolas.ttf", 32);
-	m_textureManager = new ResourceManager<aie::Texture>();
+	m_resourceManager = new ResourceManager();
 	m_stateMachine = new GameStateMachine();
-	m_stateMachine->loadTextures(m_textureManager);
+	m_stateMachine->loadResources(m_resourceManager);
 	return true;
 }
 
 void GameProjectApp::shutdown() {
 
 	delete m_stateMachine;
-	delete m_textureManager;
+	delete m_resourceManager;
 	delete m_font;
 	delete m_2dRenderer;
 }

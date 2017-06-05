@@ -20,9 +20,9 @@ AudioPtr ResourceManager::getAudio(const std::string & filename)
 FontPtr ResourceManager::getFont(const std::string & filename, unsigned short size)
 {
 	if (!m_fonts.exists(filename)) {
-		m_fonts.insert(filename, las::Map<unsigned short, FontPtr>({ std::make_pair(size, std::make_shared<FontResource>(filename)) }));
+		m_fonts.insert(filename, las::Map<unsigned short, FontPtr>({ std::make_pair(size, std::make_shared<FontResource>(filename, size)) }));
 	} else if (!m_fonts.at(filename).exists(size)){
-		m_fonts.at(filename).insert(size, std::make_shared<FontResource>(filename));
+		m_fonts.at(filename).insert(size, std::make_shared<FontResource>(filename, size));
 	}
 	return m_fonts.at(filename).at(size);
 }
@@ -35,11 +35,12 @@ size_t ResourceManager::size(ResourceType type)
 	case (audio):
 		return m_audio.size();
 	case(font):
-		size_t total = 0;
+	{	size_t total = 0;
 		for (std::pair<std::string, las::Map<unsigned short, FontPtr >> fontMap : m_fonts) {
 			total += fontMap.second.size();
 		}
 		return total;
+	}
 	default:
 		throw std::invalid_argument("Type must be valid ResourceType");
 	}
@@ -69,7 +70,7 @@ void ResourceManager::collectGarbage()
 	while (fontIter != m_fonts.end()) {
 		las::Map<unsigned short, FontPtr>::iterator it = fontIter->second.begin();
 		while (it != fontIter->second.end()) {
-			if (it->second.use_count == 1) {
+			if (it->second.use_count() == 1) {
 				it = fontIter->second.erase(it->first);
 			} else {
 				++it;

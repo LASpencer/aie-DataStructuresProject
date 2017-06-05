@@ -246,6 +246,7 @@ namespace las {
 
 		// Returns node with minimum key in subtree with this as root
 		TreeNode<K, V>* getSubtreeMin() {
+			assert(this != nullptr);
 			TreeNode<K, V>* node = this;
 			TreeNode<K, V>* min;
 			while (node != nullptr) {
@@ -269,6 +270,7 @@ namespace las {
 
 		// Returns node with maximum key in subtree with this as root
 		TreeNode<K, V>* getSubtreeMax() {
+			assert(this != nullptr);
 			TreeNode<K, V>* node = this;
 			TreeNode<K, V>* max;
 			while (node != nullptr) {
@@ -446,11 +448,21 @@ namespace las {
 		}
 
 		iterator begin() {
-			return iterator(m_root->getSubtreeMin(), this);
+			if (m_root != nullptr) {
+				return iterator(m_root->getSubtreeMin(), this);
+			}
+			else {
+				return iterator(nullptr, this);
+			}
 		}
 
 		const_iterator begin() const {
-			return const_iterator(m_root->getSubtreeMin(), this);
+			if (m_root != nullptr) {
+				return const_iterator(m_root->getSubtreeMin(), this);
+			}
+			else {
+				return const_iterator(nullptr, this);
+			}
 		}
 
 		iterator end() {
@@ -465,7 +477,7 @@ namespace las {
 		* @param key inserted key
 		* @param value inserted value
 		* @return true if insertion successful, false if key already exists*/
-		bool insert(K key, V value = V()) {
+		bool insert(const K& key, V value = V()) {
 			Node* newNode = new Node(key, value);
 			bool success = true;
 			if (m_root == nullptr) {
@@ -520,7 +532,7 @@ namespace las {
 		/** Erase key-value pair from map
 		* @param key Key to erase from map
 		* @return iterator following erased element*/
-		iterator erase(K key) {
+		iterator erase(const K& key) {
 			return erase(iterator(findNode(key), this));
 		}
 
@@ -683,7 +695,7 @@ namespace las {
 		/**Subscript operator
 		* @param key Key to element accessed
 		* @return reference to element*/
-		V& operator[](K key) {
+		V& operator[](const K& key) {
 			// Find node, and last node searched in case node doesn't exist
 			std::pair<Node*, Node*> nodeAndParent = findNodeAndParent(key);
 			Node* node = nodeAndParent.first;
@@ -716,7 +728,7 @@ namespace las {
 		/**Subscript operator
 		* @param key Key to element accessed
 		* @return const reference to element*/
-		const V& operator[](K key) const{
+		const V& operator[](const K& key) const{
 			Node* node = findNode(key);
 			// If key doesn't exist, throw exception
 			if (node == nullptr) {
@@ -728,7 +740,7 @@ namespace las {
 		/** Access element in map
 		* @param key Key to element accessed
 		* @return reference to element*/
-		V& at(K key) {
+		V& at(const K& key) {
 			Node* node = findNode(key);
 			// If element doesn't exist, throw exception
 			if (node == nullptr) {
@@ -740,7 +752,7 @@ namespace las {
 		/** Access element in map
 		* @param key Key to element accessed
 		* @return constant reference to element*/
-		const V& at(K key) const {
+		const V& at(const K& key) const {
 			Node* node = findNode(key);
 			// If element doesn't exist, throw exception
 			if (node == nullptr) {
@@ -752,7 +764,7 @@ namespace las {
 		/** Test if key exists in map
 		* @param key to check for
 		* @return true if key exists in map*/
-		bool exists(K key) const {
+		bool exists(const K& key) const {
 			return findNode(key) != nullptr;
 		}
 
@@ -806,14 +818,14 @@ namespace las {
 		/** Finds node with specified key
 		* @param key Key of node required
 		* @return Pointer to node with specified key, or nullptr if not found*/
-		Node* findNode(K key) const {
+		Node* findNode(const K& key) const {
 			return findNodeAndParent(key).first;
 		}
 
 		/** Finds node with specified key and its parent
 		* @param key Key of node required
 		* @return Pair of pointer to node with specified key and its parent, or nullptr and pointer to last node searched if not found*/
-		std::pair<Node*,Node*> findNodeAndParent(K key) const {
+		std::pair<Node*,Node*> findNodeAndParent(const K& key) const {
 			Node* node = m_root;
 			Node* parent = nullptr;
 			while (node != nullptr && node->getKey() != key) {
@@ -1063,11 +1075,11 @@ namespace las {
 			return std::make_unique<std::pair<const K&, const V&>>(m_node->getKey(), m_node->getValue());
 		}
 
-		bool operator==(const MapIter<K, V>&other) const {
+		bool operator==(const MapConstIter<K, V>&other) const {
 			return m_node == other.m_node && m_map == other.m_map;
 		}
 
-		bool operator!=(const MapIter<K, V>&other) const {
+		bool operator!=(const MapConstIter<K, V>&other) const {
 			return !(*this == other);
 		}
 

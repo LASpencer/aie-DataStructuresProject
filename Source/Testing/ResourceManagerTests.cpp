@@ -5,35 +5,36 @@
 //TODO rewrite after refactoring REsourceManager
 
 TEST_CASE("Resource Manager") {
-	ResourceManager<aie::Texture> textureManager;
-	ResourceManager<aie::Texture>::ResourcePtr sprite;
-
-	SECTION("Adding resources") {
-		REQUIRE(textureManager.size() == 0);
-		textureManager.get("./textures/car.png");
-		REQUIRE(textureManager.size() == 1);
-		textureManager.get("./textures/ship.png");
-		REQUIRE(textureManager.size() == 2);
-		textureManager.get("./textures/car.png");
-		REQUIRE(textureManager.size() == 2);
-		sprite = textureManager.get("./textures/ship.png");
-		REQUIRE((*sprite)->getHeight() == 80);
-	}
-	SECTION("Garbage collection") {
-		textureManager.get("./textures/car.png");
-		textureManager.get("./textures/ship.png");
-		textureManager.get("./textures/grass.png");
-		REQUIRE(textureManager.size() == 3);
-		SECTION("Collect all garbage") {
-			textureManager.collectGarbage();
-			REQUIRE(textureManager.size() == 0);
-		}
-		SECTION("Don't collect resource in use") {
-			sprite = textureManager.get("./textures/ship.png");
-			CHECK(textureManager.size() == 3);
-			textureManager.collectGarbage();
-			REQUIRE(textureManager.size() == 1);
+	ResourceManager resourceManager;
+	SECTION("Textures") {
+		TexturePtr sprite;
+		SECTION("Adding resources") {
+			REQUIRE(resourceManager.size(ResourceManager::ResourceType::texture) == 0);
+			resourceManager.getTexture("./textures/car.png");
+			REQUIRE(resourceManager.size(ResourceManager::texture) == 1);
+			resourceManager.getTexture("./textures/ship.png");
+			REQUIRE(resourceManager.size(ResourceManager::texture) == 2);
+			resourceManager.getTexture("./textures/car.png");
+			REQUIRE(resourceManager.size(ResourceManager::texture) == 2);
+			sprite = resourceManager.getTexture("./textures/ship.png");
 			REQUIRE((*sprite)->getHeight() == 80);
+		}
+		SECTION("Garbage collection") {
+			resourceManager.getTexture("./textures/car.png");
+			resourceManager.getTexture("./textures/ship.png");
+			resourceManager.getTexture("./textures/grass.png");
+			REQUIRE(resourceManager.size(ResourceManager::texture) == 3);
+			SECTION("Collect all garbage") {
+				resourceManager.collectGarbage();
+				REQUIRE(resourceManager.size(ResourceManager::texture) == 0);
+			}
+			SECTION("Don't collect resource in use") {
+				sprite = resourceManager.getTexture("./textures/ship.png");
+				CHECK(resourceManager.size(ResourceManager::texture) == 3);
+				resourceManager.collectGarbage();
+				REQUIRE(resourceManager.size(ResourceManager::texture) == 1);
+				REQUIRE((*sprite)->getHeight() == 80);
+			}
 		}
 	}
 }

@@ -10,7 +10,7 @@ public:
 	~GameStateMachine();
 
 	//TODO change when ResourceManager refactored to have all resources
-	void loadTextures(ResourceManager<aie::Texture>* textureManager);
+	void loadResources(ResourceManager* resourceManager);
 
 	enum states {
 		splash_screen,

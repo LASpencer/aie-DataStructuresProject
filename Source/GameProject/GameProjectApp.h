@@ -22,7 +22,7 @@ protected:
 
 	aie::Renderer2D*	m_2dRenderer;
 	aie::Font*			m_font;
-	ResourceManager<aie::Texture>* m_textureManager;
+	ResourceManager*	m_resourceManager;
 	GameStateMachine*	m_stateMachine;
 
 };

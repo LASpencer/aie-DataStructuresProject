@@ -16,7 +16,7 @@ public:
 
 	virtual void update(float deltaTime) = 0;
 	virtual void draw(aie::Renderer2D* renderer) = 0; //TODO pass in renderer2d?
-	virtual void loadTextures(ResourceManager<aie::Texture>* textureManager);
+	virtual void loadResources(ResourceManager* resourceManager);
 
 	virtual void onEnter();
 	virtual void onExit();

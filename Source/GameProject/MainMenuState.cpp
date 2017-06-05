@@ -30,7 +30,7 @@ void MainMenuState::draw(aie::Renderer2D* renderer)
 	renderer->drawSprite(m_menuImage->get(), 640, 360);
 }
 
-void MainMenuState::loadTextures(ResourceManager<aie::Texture>* textureManager)
+void MainMenuState::loadResources(ResourceManager* resourceManager)
 {
-	m_menuImage = textureManager->get("./textures/mainMenu.png");
+	m_menuImage = resourceManager->getTexture("./textures/mainMenu.png");
 }

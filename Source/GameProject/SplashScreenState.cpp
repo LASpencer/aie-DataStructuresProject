@@ -38,9 +38,9 @@ void SplashScreenState::draw(aie::Renderer2D* renderer)
 	renderer->drawSprite(m_splashImage->get(), 640, 360);
 }
 
-void SplashScreenState::loadTextures(ResourceManager<aie::Texture>* textureManager)
+void SplashScreenState::loadResources(ResourceManager* resourceManager)
 {
-	m_splashImage = textureManager->get("./textures/splashScreen.png");
+	m_splashImage = resourceManager->getTexture("./textures/splashScreen.png");
 }
 
 void SplashScreenState::onEnter()

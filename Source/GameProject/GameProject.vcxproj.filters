@@ -64,6 +64,12 @@
     <Filter Include="Source Files\Observers">
       <UniqueIdentifier>{97dc202c-ec90-45f7-82cb-936e19e5c99d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\UI Elements">
+      <UniqueIdentifier>{35574505-47e7-4474-8dac-1ac8f0b62da5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\UI Elements">
+      <UniqueIdentifier>{2940a156-5ad3-4b33-a7e2-7935b999202d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -119,6 +125,12 @@
     </ClCompile>
     <ClCompile Include="ResourceManager.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TextBar.cpp">
+      <Filter>Source Files\UI Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="Button.cpp">
+      <Filter>Source Files\UI Elements</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -199,6 +211,12 @@
     </ClInclude>
     <ClInclude Include="TimerCondition.h">
       <Filter>Header Files\State Machine\Conditions</Filter>
+    </ClInclude>
+    <ClInclude Include="TextBar.h">
+      <Filter>Header Files\UI Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>Header Files\UI Elements</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

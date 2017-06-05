@@ -24,7 +24,9 @@ public:
 		gain_focus,
 		lose_focus,
 		timer_start,
-		timer_finished
+		timer_finished,
+		mouse_over,
+		click
 	};
 	
 };

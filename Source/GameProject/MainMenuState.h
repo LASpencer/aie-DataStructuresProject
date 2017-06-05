@@ -13,7 +13,7 @@ public:
 	virtual void update(float deltaTime);
 	virtual void draw(aie::Renderer2D* renderer);
 
-	virtual void loadTextures(ResourceManager<aie::Texture>* textureManager);
+	virtual void loadResources(ResourceManager* resourceManager);
 
 protected:
 	TexturePtr m_menuImage;

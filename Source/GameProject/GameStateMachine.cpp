@@ -22,9 +22,9 @@ GameStateMachine::~GameStateMachine()
 {
 }
 
-void GameStateMachine::loadTextures(ResourceManager<aie::Texture>* textureManager)
+void GameStateMachine::loadResources(ResourceManager* resourceManager)
 {
 	for (std::pair<int,std::shared_ptr<GameState>> state : m_states) {
-		state.second->loadTextures(textureManager);
+		state.second->loadResources(resourceManager);
 	}
 }

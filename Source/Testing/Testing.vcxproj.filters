@@ -128,5 +128,8 @@
     <ClCompile Include="..\GameProject\SceneObject.cpp">
       <Filter>Source Files\Test Classes\Components</Filter>
     </ClCompile>
+    <ClCompile Include="..\GameProject\ResourceManager.cpp">
+      <Filter>Source Files\Test Classes</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

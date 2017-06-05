@@ -649,8 +649,16 @@ TEST_CASE("Map", "[map][container]") {
 
 TEST_CASE("Map Iterators", "[map][container][iterator]") {
 	las::Map<int, int> map{ {1,5},{2,7},{3,13},{4,15},{5,21},{6,23} };
+	las::Map<int, int> emptyMap;
 	SECTION("MapIter") {
 		las::Map<int, int>::iterator it = map.begin();
+		SECTION("End iterator") {
+			REQUIRE_THROWS(*map.end());
+			REQUIRE_THROWS(map.end()->first == 1);
+			// Empty map's beginning and end iterators are equal
+			REQUIRE(emptyMap.begin() == emptyMap.end());
+			REQUIRE_THROWS(*emptyMap.begin());
+		}
 		SECTION("Get pair from iterator") {
 			REQUIRE((*it).first == 1);
 			REQUIRE((*it).second == 5);
@@ -674,7 +682,6 @@ TEST_CASE("Map Iterators", "[map][container][iterator]") {
 			REQUIRE((--map.end())->second == 23);
 			REQUIRE_THROWS((map.end()--)->second);
 		}
-		//TODO write to value using iterator
 		SECTION("Write") {
 			it->second = 3;
 			REQUIRE(it->second == 3);
@@ -683,6 +690,16 @@ TEST_CASE("Map Iterators", "[map][container][iterator]") {
 	//TODO test const iterator
 	SECTION("MapConstIter") {
 		las::Map<int, int>::const_iterator it = map.begin();
+		SECTION("End iterator") {
+			it = map.end();
+			REQUIRE_THROWS(*it);
+			REQUIRE_THROWS(it->first == 1);
+			// Empty map's beginning and end iterators are equal
+			it = emptyMap.begin();
+			las::Map<int, int>::const_iterator end = emptyMap.end();
+			REQUIRE(it == end);
+			REQUIRE_THROWS(*it);
+		}
 		SECTION("Get pair from iterator") {
 			REQUIRE((*it).first == 1);
 			REQUIRE((*it).second == 5);
@@ -717,6 +734,7 @@ TEST_CASE("Tree Node", "[map][container]") {
 		las::TreeNode<int, int> max(99, 6);
 		REQUIRE(*(root->getSubtreeMin()) == min);
 		REQUIRE(*(root->getSubtreeMax()) == max);
+
 	}
 	SECTION("Successor and predecessor") {
 		las::TreeNode<int, int>* min = root->getSubtreeMin();
