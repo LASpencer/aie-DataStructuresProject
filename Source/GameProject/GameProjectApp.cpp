@@ -17,12 +17,16 @@ bool GameProjectApp::startup() {
 	
 	m_2dRenderer = new aie::Renderer2D();
 	m_font = new aie::Font("./font/consolas.ttf", 32);
-
+	m_textureManager = new ResourceManager<aie::Texture>();
+	m_stateMachine = new GameStateMachine();
+	m_stateMachine->loadTextures(m_textureManager);
 	return true;
 }
 
 void GameProjectApp::shutdown() {
 
+	delete m_stateMachine;
+	delete m_textureManager;
 	delete m_font;
 	delete m_2dRenderer;
 }
@@ -35,6 +39,11 @@ void GameProjectApp::update(float deltaTime) {
 	// exit the application
 	if (input->isKeyDown(aie::INPUT_KEY_ESCAPE))
 		quit();
+	m_stateMachine->updateState();
+	las::Stack<std::shared_ptr<GameState>> stack = m_stateMachine->getStateStack();
+	while (!stack.empty()) {
+		stack.pop()->update(deltaTime);
+	}
 }
 
 void GameProjectApp::draw() {
@@ -46,6 +55,10 @@ void GameProjectApp::draw() {
 	m_2dRenderer->begin();
 
 	// draw your stuff here!
+	las::Stack<std::shared_ptr<GameState>> stack = m_stateMachine->getStateStack(true);
+	while (!stack.empty()) {
+		stack.pop()->draw(m_2dRenderer);
+	}
 	
 	// output some text, uses the last used colour
 	m_2dRenderer->drawText(m_font, "Press ESC to quit", 0, 0);

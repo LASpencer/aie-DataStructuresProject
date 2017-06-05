@@ -11,7 +11,7 @@ BazState::~BazState()
 {
 }
 
-BazState * BazState::clone() const
+State * BazState::clone() const
 {
 	return new BazState(*this);
 }

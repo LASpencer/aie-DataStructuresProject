@@ -12,7 +12,7 @@ FooStackState::~FooStackState()
 {
 }
 
-FooStackState * FooStackState::clone() const
+State * FooStackState::clone() const
 {
 	return new FooStackState(*this);
 }
@@ -59,7 +59,7 @@ BarStackState::~BarStackState()
 {
 }
 
-BarStackState * BarStackState::clone() const
+State * BarStackState::clone() const
 {
 	return new BarStackState(*this);
 }

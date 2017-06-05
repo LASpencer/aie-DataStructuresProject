@@ -3,6 +3,8 @@
 
 #include "Application.h"
 #include "Renderer2D.h"
+#include "ResourceManager.h"
+#include "GameStateMachine.h"
 
 class GameProjectApp : public aie::Application {
 public:
@@ -20,4 +22,7 @@ protected:
 
 	aie::Renderer2D*	m_2dRenderer;
 	aie::Font*			m_font;
+	ResourceManager<aie::Texture>* m_textureManager;
+	GameStateMachine*	m_stateMachine;
+
 };

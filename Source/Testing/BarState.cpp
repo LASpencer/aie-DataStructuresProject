@@ -11,7 +11,7 @@ BarState::~BarState()
 {
 }
 
-BarState * BarState::clone() const
+State * BarState::clone() const
 {
 	return new BarState(*this);
 }

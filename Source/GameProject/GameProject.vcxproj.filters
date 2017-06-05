@@ -52,11 +52,20 @@
     <Filter Include="Source Files\Components">
       <UniqueIdentifier>{3929476d-2eab-462a-afe0-1b59ced8b3b5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\State Machine\States\Game States">
+      <UniqueIdentifier>{5e0ee1ba-d852-4432-a964-30c5b1d99c10}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\State Machine\States\Game States">
+      <UniqueIdentifier>{f6e950c6-7abc-4266-b2a7-8a2ea8d8708d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Observer">
+      <UniqueIdentifier>{bb7bdb55-ebc9-46d5-9e2c-943390680727}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Observers">
+      <UniqueIdentifier>{97dc202c-ec90-45f7-82cb-936e19e5c99d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="GameProjectApp.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -68,12 +77,6 @@
     </ClCompile>
     <ClCompile Include="State.cpp">
       <Filter>Source Files\State Machine\States</Filter>
-    </ClCompile>
-    <ClCompile Include="Observer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Subject.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
@@ -89,6 +92,30 @@
     </ClCompile>
     <ClCompile Include="Sprite.cpp">
       <Filter>Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="GameStateMachine.cpp">
+      <Filter>Source Files\State Machine</Filter>
+    </ClCompile>
+    <ClCompile Include="GameState.cpp">
+      <Filter>Source Files\State Machine\States\Game States</Filter>
+    </ClCompile>
+    <ClCompile Include="SplashScreenState.cpp">
+      <Filter>Source Files\State Machine\States\Game States</Filter>
+    </ClCompile>
+    <ClCompile Include="GameProjectApp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EventManager.cpp">
+      <Filter>Source Files\Observers</Filter>
+    </ClCompile>
+    <ClCompile Include="MainMenuState.cpp">
+      <Filter>Source Files\State Machine\States\Game States</Filter>
+    </ClCompile>
+    <ClCompile Include="EventCondition.cpp">
+      <Filter>Source Files\State Machine\Conditions</Filter>
+    </ClCompile>
+    <ClCompile Include="TimerCondition.cpp">
+      <Filter>Source Files\State Machine\Conditions</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -125,12 +152,6 @@
     <ClInclude Include="State.h">
       <Filter>Header Files\State Machine\States</Filter>
     </ClInclude>
-    <ClInclude Include="Observer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Subject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="stdafx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -148,6 +169,33 @@
     </ClInclude>
     <ClInclude Include="Sprite.h">
       <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="GameStateMachine.h">
+      <Filter>Header Files\State Machine</Filter>
+    </ClInclude>
+    <ClInclude Include="GameState.h">
+      <Filter>Header Files\State Machine\States\Game States</Filter>
+    </ClInclude>
+    <ClInclude Include="SplashScreenState.h">
+      <Filter>Header Files\State Machine\States\Game States</Filter>
+    </ClInclude>
+    <ClInclude Include="Observer.h">
+      <Filter>Header Files\Observer</Filter>
+    </ClInclude>
+    <ClInclude Include="Subject.h">
+      <Filter>Header Files\Observer</Filter>
+    </ClInclude>
+    <ClInclude Include="MainMenuState.h">
+      <Filter>Header Files\State Machine\States\Game States</Filter>
+    </ClInclude>
+    <ClInclude Include="EventCondition.h">
+      <Filter>Header Files\State Machine\Conditions</Filter>
+    </ClInclude>
+    <ClInclude Include="EventManager.h">
+      <Filter>Header Files\Observer</Filter>
+    </ClInclude>
+    <ClInclude Include="TimerCondition.h">
+      <Filter>Header Files\State Machine\Conditions</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -90,17 +90,22 @@
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="Condition.cpp" />
     <ClCompile Include="Entity.cpp" />
+    <ClCompile Include="EventCondition.cpp" />
+    <ClCompile Include="EventManager.cpp" />
     <ClCompile Include="GameProjectApp.cpp" />
+    <ClCompile Include="GameState.cpp" />
+    <ClCompile Include="GameStateMachine.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Observer.cpp" />
+    <ClCompile Include="MainMenuState.cpp" />
     <ClCompile Include="SceneObject.cpp" />
+    <ClCompile Include="SplashScreenState.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="State.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="Subject.cpp" />
+    <ClCompile Include="TimerCondition.cpp" />
     <ClCompile Include="Transition.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -109,12 +114,18 @@
     <ClInclude Include="Condition.h" />
     <ClInclude Include="Defines.h" />
     <ClInclude Include="Entity.h" />
+    <ClInclude Include="EventCondition.h" />
+    <ClInclude Include="EventManager.h" />
     <ClInclude Include="GameProjectApp.h" />
+    <ClInclude Include="GameState.h" />
+    <ClInclude Include="GameStateMachine.h" />
     <ClInclude Include="List.h" />
+    <ClInclude Include="MainMenuState.h" />
     <ClInclude Include="Observer.h" />
     <ClInclude Include="Queue.h" />
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="SceneObject.h" />
+    <ClInclude Include="SplashScreenState.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="Stack.h" />
     <ClInclude Include="Map.h" />
@@ -122,6 +133,7 @@
     <ClInclude Include="StateMachine.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Subject.h" />
+    <ClInclude Include="TimerCondition.h" />
     <ClInclude Include="Transition.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -118,7 +118,7 @@ public:
 
 	virtual void forceState(int id) {
 		// If going to same state, no transition
-		//TODO also check if state exists somewhere in stack and instead pop down to it???
+		// Otherwise, pop until state wanted reached. If stack emptied, push state
 		bool stateInStack = false;
 		for (size_t i = 0; i < m_stateStack.size(); ++i) {
 			if (m_stateStack.peek(i).first == id) {
@@ -126,20 +126,22 @@ public:
 				break;
 			}
 		}
-		if (m_stateStack.empty()||m_stateStack.top().first != id) {
-			//Throws exception if id doesn't exist
-			std::shared_ptr<S> newState;
-			try {
-				newState = m_states.at(id);
+		//Throws exception if id doesn't exist
+		std::shared_ptr<S> newState;
+		try {
+			newState = m_states.at(id);
+		}
+		catch (const std::out_of_range& e) {
+			throw std::out_of_range("No state with given id exists in state machine");
+		}
+		while (m_stateStack.empty() || m_stateStack.top().first != id) {
+			if (m_stateStack.empty()) {
+				newState->onEnter();
+				m_stateStack.push(std::make_pair(id, newState));
 			}
-			catch (const std::out_of_range& e) {
-				throw std::out_of_range("No state with given id exists in state machine");
-			}
-			if (!m_stateStack.empty()) {
+			else {
 				m_stateStack.pop().second->onExit();
 			}
-			newState->onEnter();
-			m_stateStack.push(std::make_pair(id,newState));
 		}
 	}
 

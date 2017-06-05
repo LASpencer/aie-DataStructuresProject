@@ -12,6 +12,8 @@ public:
 
 	bool isConditionMet();
 
+	std::shared_ptr<const Condition> getCondition();
+
 	int getTargetID() const;
 
 private:

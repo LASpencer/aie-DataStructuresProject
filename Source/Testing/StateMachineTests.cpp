@@ -93,7 +93,7 @@ TEST_CASE("State Machine", "[state][state machine]") {
 			}
 		}
 		SECTION("Transition from any state") {
-			std::shared_ptr<BazState> baz(new BazState);
+			std::shared_ptr<BazState> baz(new BazState());
 			std::shared_ptr<fooValueEqualsCondition> bazReach53(new fooValueEqualsCondition(53, baz));
 			baz->addTransition(std::make_shared<Transition>(bazReach53, 1));
 			std::shared_ptr<fooDivisibleByCondition> anyDiv3(new fooDivisibleByCondition(3, &fooMachine));

@@ -12,7 +12,7 @@ FooState::~FooState()
 {
 }
 
-FooState * FooState::clone() const
+State * FooState::clone() const
 {
 	return new FooState(*this);
 }

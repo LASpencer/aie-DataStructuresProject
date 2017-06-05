@@ -1,18 +1,21 @@
 #include "stdafx.h"
-#include "Subject.h"
+#include "EventManager.h"
 #include "Observer.h"
 
+EventManager::EventManager() : m_owner(nullptr)
+{
+}
 
-Subject::Subject()
+EventManager::EventManager(Subject * owner) : m_owner(owner)
 {
 }
 
 
-Subject::~Subject()
+EventManager::~EventManager()
 {
 }
 
-void Subject::addObserver(std::shared_ptr<Observer> observer)
+void EventManager::addObserver(std::shared_ptr<Observer> observer)
 {
 	// Check if observer is already in list
 	bool observerInList = false;
@@ -21,7 +24,8 @@ void Subject::addObserver(std::shared_ptr<Observer> observer)
 		if (it->expired()) {
 			// Remove expired observers
 			it = m_observers.erase(it);
-		} else {
+		}
+		else {
 			std::shared_ptr<Observer> current(*it);
 			if (observer.get() == current.get()) {
 				observerInList = true;
@@ -36,7 +40,7 @@ void Subject::addObserver(std::shared_ptr<Observer> observer)
 	}
 }
 
-void Subject::removeObserver(std::shared_ptr<Observer> observer)
+void EventManager::removeObserver(std::shared_ptr<Observer> observer)
 {
 	// Find observer in list
 	las::Array<std::weak_ptr<Observer>>::iterator it = m_observers.begin();
@@ -56,7 +60,7 @@ void Subject::removeObserver(std::shared_ptr<Observer> observer)
 	}
 }
 
-void Subject::notifyObservers(int eventID)
+void EventManager::notifyObservers(int eventID)
 {
 	las::Array<std::weak_ptr<Observer>>::iterator it = m_observers.begin();
 	while (it != m_observers.end()) {
@@ -67,8 +71,24 @@ void Subject::notifyObservers(int eventID)
 		else {
 			// Notify observers
 			std::shared_ptr<Observer> observer(*it);
-			observer->notify(this, eventID);
+			observer->notify(m_owner, eventID);
 			++it;
 		}
 	}
+}
+
+bool EventManager::isSubscribed(const Observer * observer) const
+{
+	// Find observer in list
+	las::Array<std::weak_ptr<Observer>>::const_iterator it = m_observers.begin();
+	while (it != m_observers.end()) {
+		if (!it->expired()) {
+			std::shared_ptr<Observer> current(*it);
+			if (observer == current.get()) {
+				return true;
+			}
+			++it;
+		}
+	}
+	return false;
 }

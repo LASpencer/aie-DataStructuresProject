@@ -7,7 +7,7 @@
 #include "Font.h"
 
 //TODO comment, document and test resource manager
-
+//TODO create specialized FontManager
 template<class T>
 class Resource
 {
@@ -20,6 +20,10 @@ public:
 
 	std::string getFilename() {
 		return m_filename;
+	}
+
+	T* get() {
+		return m_data.get();
 	}
 
 	T& operator*() {
