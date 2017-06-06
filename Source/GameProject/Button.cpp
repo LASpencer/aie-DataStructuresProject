@@ -17,6 +17,7 @@ Button::Button(float x, float y, float width, float height, unsigned int colour,
 
 Button::~Button()
 {
+	notifyObservers(destroyed);
 }
 
 void Button::setPosition(float x, float y)
@@ -67,14 +68,16 @@ void Button::update(float deltaTime)
 	aie::Input* input = aie::Input::getInstance();
 	int mouseX, mouseY;
 	input->getMouseXY(&mouseX, &mouseY);
+	notifyObservers(frame_start);
 	// Check collision with button
 	if (abs(m_xPos - mouseX) < m_xExtent && abs(m_yPos - mouseY) < m_yExtent) {
 		if (!m_hover) {
 			notifyObservers(mouse_over);
 		}
+		m_hover = true;
 		// Check for click
 		if (input->wasMouseButtonPressed(aie::INPUT_MOUSE_BUTTON_LEFT)) {
-			m_pressed != m_pressed;		//toggle state
+			m_pressed = !m_pressed;		//toggle state
 			notifyObservers(clicked);
 		}
 	} else {

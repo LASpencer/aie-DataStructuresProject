@@ -1,9 +1,10 @@
 #include "stdafx.h"
 #include "SplashScreenState.h"
+#include "GameProjectApp.h"
 
-const float SplashScreenState::TIMER_DURATION = 3.0f;
+const float SplashScreenState::TIMER_DURATION = 1.5f;
 
-SplashScreenState::SplashScreenState() : GameState(), m_timer(0), m_splashImage()
+SplashScreenState::SplashScreenState(GameProjectApp* app) : GameState(app), m_timer(0), m_splashImage()
 {
 }
 
@@ -13,7 +14,7 @@ SplashScreenState::~SplashScreenState()
 
 }
 
-SplashScreenState::SplashScreenState(const SplashScreenState & other) : GameState(other), m_timer(0)
+SplashScreenState::SplashScreenState(const SplashScreenState & other) : GameState(other), m_timer(0), m_splashImage(other.m_splashImage)
 {
 }
 
@@ -38,14 +39,11 @@ void SplashScreenState::draw(aie::Renderer2D* renderer)
 	renderer->drawSprite(m_splashImage->get(), 640, 360);
 }
 
-void SplashScreenState::loadResources(ResourceManager* resourceManager)
-{
-	m_splashImage = resourceManager->getTexture("./textures/splashScreen.png");
-}
 
 void SplashScreenState::onEnter()
 {
 	GameState::onEnter();
+	m_splashImage = m_app->getResourceManager()->getTexture("./textures/splashScreen.png");
 	m_timer = 0;
 	notifyObservers(timer_start);
 }

@@ -34,3 +34,13 @@ void TimerCondition::notify(Subject * subject, int eventID)
 		break;
 	}
 }
+
+bool TimerCondition::addSubject(Subject * subject)
+{
+	//TODO refuse if already have subject
+	return true;
+}
+
+void TimerCondition::removeSubject(Subject * subject)
+{
+}

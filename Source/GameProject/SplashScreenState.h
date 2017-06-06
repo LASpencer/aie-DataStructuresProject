@@ -7,7 +7,7 @@ class SplashScreenState :
 public:
 	static const float TIMER_DURATION;
 
-	SplashScreenState();
+	SplashScreenState(GameProjectApp* app);
 	virtual ~SplashScreenState();
 	SplashScreenState(const SplashScreenState& other);
 
@@ -15,7 +15,6 @@ public:
 
 	virtual void update(float deltaTime);
 	virtual void draw(aie::Renderer2D* renderer);
-	virtual void loadResources(ResourceManager* textureManager);
 	virtual void onEnter();
 
 protected:

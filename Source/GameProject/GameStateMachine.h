@@ -2,19 +2,24 @@
 #include "StateMachine.h"
 #include "GameState.h"
 
+class GameProjectApp;
+
 class GameStateMachine :
 	public StateStackMachine<GameState>
 {
 public:
-	GameStateMachine();
+	GameStateMachine(GameProjectApp* app);
 	~GameStateMachine();
-
-	//TODO change when ResourceManager refactored to have all resources
-	void loadResources(ResourceManager* resourceManager);
 
 	enum states {
 		splash_screen,
-		main_menu
+		main_menu,
+		battle_state,
+		pause_state,
+		final_state
 	};
+
+protected:
+	GameProjectApp* m_app;
 };
 

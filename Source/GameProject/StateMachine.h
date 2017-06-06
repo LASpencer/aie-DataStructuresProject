@@ -188,10 +188,6 @@ public:
 				break;
 			}
 		}
-		//Check pop from current state
-		if (m_stateStack.top().second->checkPopConditions()) {
-			forcePopState();
-		}
 		//Check transitions from any state
 		for (std::shared_ptr<Transition> transition : m_fromAnyTransitions) {
 			if (transition->isConditionMet()) {
@@ -202,11 +198,7 @@ public:
 				}
 			}
 		}
-		// Check transitions from current state
-		std::pair<bool, int> maybeNewState = m_stateStack.top().second->checkTransitions();
-		if (maybeNewState.first) {
-			forceState(maybeNewState.second);
-		}
+
 		// Check push onto any state
 		for (std::shared_ptr<Transition> pushTransition : m_fromAnyPushTransitions) {
 			if (pushTransition->isConditionMet()) {
@@ -217,10 +209,22 @@ public:
 				}
 			}
 		}
-		// Check push onto current state
-		std::pair<bool, int> maybePushState = m_stateStack.top().second->checkPushTransitions();
-		if (maybePushState.first) {
-			forceState(maybePushState.second);
+		//Check Transitions from current state
+
+		if (m_stateStack.top().second->checkPopConditions()) {
+			forcePopState();
+		}
+		else {
+			std::pair<bool, int> maybeNewState = m_stateStack.top().second->checkTransitions();
+			if (maybeNewState.first) {
+				forceState(maybeNewState.second);
+			}
+			else {
+				std::pair<bool, int> maybePushState = m_stateStack.top().second->checkPushTransitions();
+				if (maybePushState.first) {
+					forcePushState(maybePushState.second);
+				}
+			}
 		}
 	}
 

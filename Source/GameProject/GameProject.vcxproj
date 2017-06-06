@@ -87,17 +87,22 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BattleState.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="Condition.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="EventCondition.cpp" />
     <ClCompile Include="EventManager.cpp" />
+    <ClCompile Include="FinalState.cpp" />
     <ClCompile Include="GameProjectApp.cpp" />
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="GameStateMachine.cpp" />
+    <ClCompile Include="KeyboardInputCondition.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainMenuState.cpp" />
+    <ClCompile Include="OnClickCondition.cpp" />
+    <ClCompile Include="PauseState.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="SceneObject.cpp" />
     <ClCompile Include="SplashScreenState.cpp" />
@@ -113,6 +118,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Array.h" />
+    <ClInclude Include="BattleState.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="Condition.h" />
@@ -120,12 +126,16 @@
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EventCondition.h" />
     <ClInclude Include="EventManager.h" />
+    <ClInclude Include="FinalState.h" />
     <ClInclude Include="GameProjectApp.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="GameStateMachine.h" />
+    <ClInclude Include="KeyboardInputCondition.h" />
     <ClInclude Include="List.h" />
     <ClInclude Include="MainMenuState.h" />
     <ClInclude Include="Observer.h" />
+    <ClInclude Include="OnClickCondition.h" />
+    <ClInclude Include="PauseState.h" />
     <ClInclude Include="Queue.h" />
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="SceneObject.h" />

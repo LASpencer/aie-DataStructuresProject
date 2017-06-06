@@ -1,21 +1,32 @@
 #pragma once
 #include "GameState.h"
+#include "Button.h"
+
 class MainMenuState :
 	public GameState
 {
 public:
-	MainMenuState();
+	static const float play_button_x;
+	static const float play_button_y;
+	static const float exit_button_x;
+	static const float exit_button_y;
+
+	MainMenuState(GameProjectApp* app);
 	virtual ~MainMenuState();
 	MainMenuState(const MainMenuState& other);
 
 	State* clone() const;
-	//TODO
+
 	virtual void update(float deltaTime);
 	virtual void draw(aie::Renderer2D* renderer);
 
-	virtual void loadResources(ResourceManager* resourceManager);
+	virtual void onEnter();
 
 protected:
 	TexturePtr m_menuImage;
+	std::shared_ptr<Button> m_playButton;
+	std::shared_ptr<Button> m_exitButton;
+
+	//TODO overload CopyConditionIfSubscribed to also care about buttons
 };
 

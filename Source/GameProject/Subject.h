@@ -17,18 +17,18 @@ public:
 	virtual bool isSubscribed(const Observer* observer) const = 0;
 
 	enum event_id {
-		member_set,
-		member_updated,
-		state_entered,
-		state_exited,
-		gain_focus,
-		lose_focus,
-		timer_start,
-		timer_finished,
-		mouse_over,
-		mouse_exit,
-		clicked
+		member_updated,		//Some variable was updated
+		destroyed,			//Subject was destroyed
+		frame_start,		//Subject has started new update
+		state_entered,		//State was entered
+		state_exited,		//State was exited
+		gain_focus,			//State gained focus
+		lose_focus,			//State lost focus
+		timer_start,		//A timer was started
+		timer_finished,		//A timer has finished
+		mouse_over,			//The mouse cursor is over the subject
+		mouse_exit,			//The mouse cursor has left the subject
+		clicked				//The subject was clicked
 	};
-	
 };
 

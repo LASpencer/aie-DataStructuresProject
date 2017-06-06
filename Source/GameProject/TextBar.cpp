@@ -7,7 +7,7 @@ const float TextBar::def_margin = 3;
 const unsigned int TextBar::def_box_colour = 0x101010FF;
 const unsigned int TextBar::def_text_colour = 0xFFFFFFFF;
 
-TextBar::TextBar(FontPtr font, const std::string& content = "", float x = 0, float y = 0, unsigned int textColour = def_text_colour, unsigned int boxColour = def_box_colour)
+TextBar::TextBar(FontPtr font, const std::string& content, float x , float y, unsigned int textColour , unsigned int boxColour)
 	: m_font(font), m_content(content), m_xPos(x),m_yPos(y),m_textColour(textColour),m_boxColour(boxColour),m_lineSpace(def_linespace), m_margin(def_margin)
 {
 	assert((*font).get() != nullptr);

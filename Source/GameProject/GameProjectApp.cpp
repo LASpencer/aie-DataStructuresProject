@@ -16,10 +16,8 @@ GameProjectApp::~GameProjectApp() {
 bool GameProjectApp::startup() {
 	
 	m_2dRenderer = new aie::Renderer2D();
-	m_font = new aie::Font("./font/consolas.ttf", 32);
 	m_resourceManager = new ResourceManager();
-	m_stateMachine = new GameStateMachine();
-	m_stateMachine->loadResources(m_resourceManager);
+	m_stateMachine = new GameStateMachine(this);
 	return true;
 }
 
@@ -27,7 +25,6 @@ void GameProjectApp::shutdown() {
 
 	delete m_stateMachine;
 	delete m_resourceManager;
-	delete m_font;
 	delete m_2dRenderer;
 }
 
@@ -36,9 +33,6 @@ void GameProjectApp::update(float deltaTime) {
 	// input example
 	aie::Input* input = aie::Input::getInstance();
 
-	// exit the application
-	if (input->isKeyDown(aie::INPUT_KEY_ESCAPE))
-		quit();
 	m_stateMachine->updateState();
 	las::Stack<std::shared_ptr<GameState>> stack = m_stateMachine->getStateStack();
 	while (!stack.empty()) {
@@ -59,10 +53,17 @@ void GameProjectApp::draw() {
 	while (!stack.empty()) {
 		stack.pop()->draw(m_2dRenderer);
 	}
-	
-	// output some text, uses the last used colour
-	m_2dRenderer->drawText(m_font, "Press ESC to quit", 0, 0);
 
+	//fps info
+	m_2dRenderer->setRenderColour(1, 1, 0, 1);
+	char fps[32];
+	sprintf_s(fps, 32, "FPS: %i", getFPS());
+	m_2dRenderer->drawText((m_resourceManager->getFont("./font/consolas.ttf", 32))->get(), fps, 0, 720 - 32);
 	// done drawing sprites
 	m_2dRenderer->end();
+}
+
+ResourceManager * GameProjectApp::getResourceManager()
+{
+	return m_resourceManager;
 }

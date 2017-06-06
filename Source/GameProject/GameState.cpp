@@ -3,16 +3,17 @@
 #include "Transition.h"
 #include "EventCondition.h"
 
-GameState::GameState() : m_focus(false), m_eventManager(this)
+GameState::GameState(GameProjectApp* app) : m_app(app), m_focus(false), m_eventManager(this)
 {
 }
 
 
 GameState::~GameState()
 {
+	notifyObservers(destroyed);
 }
 
-GameState::GameState(const GameState & other) : StackState(other), m_focus(other.m_focus)
+GameState::GameState(const GameState & other) : StackState(other), m_app(other.m_app), m_focus(other.m_focus), m_eventManager(this)
 {
 	//TODO copy gamestate
 	//Copy over transitions and conditions
@@ -47,9 +48,6 @@ GameState::GameState(const GameState & other) : StackState(other), m_focus(other
 	}
 }
 
-void GameState::loadResources(ResourceManager* resourceManager)
-{
-}
 
 void GameState::onEnter()
 {

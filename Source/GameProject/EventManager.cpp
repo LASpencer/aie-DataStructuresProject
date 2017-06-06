@@ -35,8 +35,11 @@ void EventManager::addObserver(std::shared_ptr<Observer> observer)
 		}
 	}
 	if (!observerInList) {
-		// Add new observer to list
-		m_observers.push_back(observer);
+		// Check if observer accepts subscription
+		if (observer->addSubject(m_owner)) {
+			// Add new observer to list
+			m_observers.push_back(observer);
+		}
 	}
 }
 
@@ -52,6 +55,7 @@ void EventManager::removeObserver(std::shared_ptr<Observer> observer)
 		else {
 			std::shared_ptr<Observer> current(*it);
 			if (observer.get() == current.get()) {
+				observer->removeSubject(m_owner);
 				m_observers.erase(it);
 				break;
 			}

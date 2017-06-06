@@ -61,14 +61,14 @@
     <Filter Include="Header Files\Observer">
       <UniqueIdentifier>{bb7bdb55-ebc9-46d5-9e2c-943390680727}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Observers">
-      <UniqueIdentifier>{97dc202c-ec90-45f7-82cb-936e19e5c99d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\UI Elements">
       <UniqueIdentifier>{35574505-47e7-4474-8dac-1ac8f0b62da5}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\UI Elements">
       <UniqueIdentifier>{2940a156-5ad3-4b33-a7e2-7935b999202d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Observer">
+      <UniqueIdentifier>{97dc202c-ec90-45f7-82cb-936e19e5c99d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -112,7 +112,7 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="EventManager.cpp">
-      <Filter>Source Files\Observers</Filter>
+      <Filter>Source Files\Observer</Filter>
     </ClCompile>
     <ClCompile Include="MainMenuState.cpp">
       <Filter>Source Files\State Machine\States\Game States</Filter>
@@ -131,6 +131,21 @@
     </ClCompile>
     <ClCompile Include="Button.cpp">
       <Filter>Source Files\UI Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyboardInputCondition.cpp">
+      <Filter>Source Files\State Machine\Conditions</Filter>
+    </ClCompile>
+    <ClCompile Include="FinalState.cpp">
+      <Filter>Source Files\State Machine\States\Game States</Filter>
+    </ClCompile>
+    <ClCompile Include="PauseState.cpp">
+      <Filter>Source Files\State Machine\States\Game States</Filter>
+    </ClCompile>
+    <ClCompile Include="OnClickCondition.cpp">
+      <Filter>Source Files\State Machine\Conditions</Filter>
+    </ClCompile>
+    <ClCompile Include="BattleState.cpp">
+      <Filter>Source Files\State Machine\States\Game States</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -217,6 +232,21 @@
     </ClInclude>
     <ClInclude Include="Button.h">
       <Filter>Header Files\UI Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyboardInputCondition.h">
+      <Filter>Header Files\State Machine\Conditions</Filter>
+    </ClInclude>
+    <ClInclude Include="FinalState.h">
+      <Filter>Header Files\State Machine\States\Game States</Filter>
+    </ClInclude>
+    <ClInclude Include="PauseState.h">
+      <Filter>Header Files\State Machine\States\Game States</Filter>
+    </ClInclude>
+    <ClInclude Include="OnClickCondition.h">
+      <Filter>Header Files\State Machine\Conditions</Filter>
+    </ClInclude>
+    <ClInclude Include="BattleState.h">
+      <Filter>Header Files\State Machine\States\Game States</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
