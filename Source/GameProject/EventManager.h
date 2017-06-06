@@ -14,6 +14,8 @@ public:
 	virtual void notifyObservers(int eventID);
 	virtual bool isSubscribed(const Observer* observer) const;
 
+	void setOwner(Subject* owner);
+
 protected:
 	las::Array<std::weak_ptr<Observer>> m_observers;
 	Subject* m_owner;

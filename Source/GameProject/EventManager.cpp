@@ -92,3 +92,8 @@ bool EventManager::isSubscribed(const Observer * observer) const
 	}
 	return false;
 }
+
+void EventManager::setOwner(Subject * owner)
+{
+	m_owner = owner;
+}

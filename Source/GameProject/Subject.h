@@ -26,7 +26,8 @@ public:
 		timer_start,
 		timer_finished,
 		mouse_over,
-		click
+		mouse_exit,
+		clicked
 	};
 	
 };

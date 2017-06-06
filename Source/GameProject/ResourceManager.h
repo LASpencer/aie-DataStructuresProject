@@ -43,7 +43,7 @@ private:
 class FontResource
 {
 public:
-	FontResource(const std::string& filename, unsigned short height) : m_filename(filename), m_height(height) {
+	FontResource(const std::string& filename, unsigned short height) : m_filename(filename), m_yExtent(height) {
 		m_data = std::unique_ptr<aie::Font>(new aie::Font(filename.c_str(), height));
 	 }
 	~FontResource() {};
@@ -53,7 +53,7 @@ public:
 	}
 
 	unsigned short getHeight() {
-		return m_height;
+		return m_yExtent;
 	}
 
 	aie::Font* get() {
@@ -71,7 +71,7 @@ public:
 private:
 	std::unique_ptr<aie::Font> m_data;
 	std::string m_filename;
-	unsigned short m_height;
+	unsigned short m_yExtent;
 };
 
 typedef std::shared_ptr<Resource<aie::Audio>> AudioPtr;
