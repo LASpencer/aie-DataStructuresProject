@@ -43,14 +43,8 @@
     <Filter Include="Header Files\Entities">
       <UniqueIdentifier>{266e5b18-3719-40cd-943c-cd9e5821bf2f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Components">
-      <UniqueIdentifier>{ac809bbc-2d34-4e24-8ecd-cc838b3dba8c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Entities">
       <UniqueIdentifier>{e192c421-42f9-4562-87f8-ac74c7e87a19}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Components">
-      <UniqueIdentifier>{3929476d-2eab-462a-afe0-1b59ced8b3b5}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\State Machine\States\Game States">
       <UniqueIdentifier>{5e0ee1ba-d852-4432-a964-30c5b1d99c10}</UniqueIdentifier>
@@ -69,6 +63,24 @@
     </Filter>
     <Filter Include="Source Files\Observer">
       <UniqueIdentifier>{97dc202c-ec90-45f7-82cb-936e19e5c99d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\State Machine\Conditions\Complex Conditions">
+      <UniqueIdentifier>{e8750ae3-b6a2-4394-a59b-8e38efc33754}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\State Machine\Conditions\Complex Conditions">
+      <UniqueIdentifier>{900271db-66cd-4bdd-84af-b8b2acb79a94}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Observer\Events">
+      <UniqueIdentifier>{47383c6e-aaa0-483d-9a71-1da8f96b0c4b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Observer\Events">
+      <UniqueIdentifier>{a0348497-5c93-434c-9289-b186e8dfa4ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Entities\Components">
+      <UniqueIdentifier>{ac809bbc-2d34-4e24-8ecd-cc838b3dba8c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Entities\Components">
+      <UniqueIdentifier>{3929476d-2eab-462a-afe0-1b59ced8b3b5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -91,13 +103,13 @@
       <Filter>Source Files\Entities</Filter>
     </ClCompile>
     <ClCompile Include="Component.cpp">
-      <Filter>Source Files\Components</Filter>
+      <Filter>Source Files\Entities\Components</Filter>
     </ClCompile>
     <ClCompile Include="SceneObject.cpp">
-      <Filter>Source Files\Components</Filter>
+      <Filter>Source Files\Entities\Components</Filter>
     </ClCompile>
     <ClCompile Include="Sprite.cpp">
-      <Filter>Source Files\Components</Filter>
+      <Filter>Source Files\Entities\Components</Filter>
     </ClCompile>
     <ClCompile Include="GameStateMachine.cpp">
       <Filter>Source Files\State Machine</Filter>
@@ -147,6 +159,24 @@
     <ClCompile Include="BattleState.cpp">
       <Filter>Source Files\State Machine\States\Game States</Filter>
     </ClCompile>
+    <ClCompile Include="AndCondition.cpp">
+      <Filter>Source Files\State Machine\Conditions\Complex Conditions</Filter>
+    </ClCompile>
+    <ClCompile Include="BinaryCondition.cpp">
+      <Filter>Source Files\State Machine\Conditions\Complex Conditions</Filter>
+    </ClCompile>
+    <ClCompile Include="NotCondition.cpp">
+      <Filter>Source Files\State Machine\Conditions\Complex Conditions</Filter>
+    </ClCompile>
+    <ClCompile Include="OrCondition.cpp">
+      <Filter>Source Files\State Machine\Conditions\Complex Conditions</Filter>
+    </ClCompile>
+    <ClCompile Include="Events.cpp">
+      <Filter>Source Files\Observer\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="Ship.cpp">
+      <Filter>Source Files\Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameProjectApp.h">
@@ -189,16 +219,16 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Component.h">
-      <Filter>Header Files\Components</Filter>
+      <Filter>Header Files\Entities\Components</Filter>
     </ClInclude>
     <ClInclude Include="Entity.h">
       <Filter>Header Files\Entities</Filter>
     </ClInclude>
     <ClInclude Include="SceneObject.h">
-      <Filter>Header Files\Components</Filter>
+      <Filter>Header Files\Entities\Components</Filter>
     </ClInclude>
     <ClInclude Include="Sprite.h">
-      <Filter>Header Files\Components</Filter>
+      <Filter>Header Files\Entities\Components</Filter>
     </ClInclude>
     <ClInclude Include="GameStateMachine.h">
       <Filter>Header Files\State Machine</Filter>
@@ -247,6 +277,27 @@
     </ClInclude>
     <ClInclude Include="BattleState.h">
       <Filter>Header Files\State Machine\States\Game States</Filter>
+    </ClInclude>
+    <ClInclude Include="AndCondition.h">
+      <Filter>Header Files\State Machine\Conditions\Complex Conditions</Filter>
+    </ClInclude>
+    <ClInclude Include="BinaryCondition.h">
+      <Filter>Header Files\State Machine\Conditions\Complex Conditions</Filter>
+    </ClInclude>
+    <ClInclude Include="ComplexCondition.h">
+      <Filter>Header Files\State Machine\Conditions\Complex Conditions</Filter>
+    </ClInclude>
+    <ClInclude Include="NotCondition.h">
+      <Filter>Header Files\State Machine\Conditions\Complex Conditions</Filter>
+    </ClInclude>
+    <ClInclude Include="OrCondition.h">
+      <Filter>Header Files\State Machine\Conditions\Complex Conditions</Filter>
+    </ClInclude>
+    <ClInclude Include="Ship.h">
+      <Filter>Header Files\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Events.h">
+      <Filter>Header Files\Observer\Events</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

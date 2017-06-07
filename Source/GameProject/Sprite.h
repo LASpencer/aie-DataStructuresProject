@@ -7,7 +7,15 @@ class Sprite :
 {
 public:
 	Sprite();
+	Sprite(TexturePtr texture);
 	~Sprite();
+
+	void setTexture(TexturePtr texture);
+	void draw(Entity* entity, aie::Renderer2D* renderer);
+	//T
+	virtual Identifier getID();
+
+	//TODO: Animated sprite using UVRect
 protected:
 	TexturePtr m_texture;
 };

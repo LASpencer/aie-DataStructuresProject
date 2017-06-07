@@ -20,7 +20,7 @@ void Component::onRemove(Entity * entity)
 {
 }
 
-int Component::getID()
+Component::Identifier Component::getID()
 {
 	return Identifier::base;
 }

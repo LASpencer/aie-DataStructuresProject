@@ -17,9 +17,9 @@ void SceneObject::update(Entity * entity, float deltaTime)
 	translate(m_velocity * deltaTime, false);
 }
 
-int SceneObject::getID()
+SceneObject::Identifier SceneObject::getID()
 {
-	return Identifier::scene_object;
+	return scene_object;
 }
 
 bool SceneObject::addChild(SceneObjectPtr child)

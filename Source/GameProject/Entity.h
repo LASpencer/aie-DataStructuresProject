@@ -1,8 +1,8 @@
 #pragma once
 #include "stdafx.h"
 #include "Array.h"
-
-class Component;
+#include "Renderer2D.h"
+#include "Component.h"
 
 typedef std::shared_ptr<Component> ComponentPtr;
 
@@ -14,19 +14,19 @@ public:
 
 	bool addComponent(const ComponentPtr& component);
 
-	bool removeComponent(int id);
+	bool removeComponent(Component::Identifier id);
 
 	bool replaceComponent(const ComponentPtr& component);
 
-	bool hasComponent(int id);
+	bool hasComponent(Component::Identifier id);
 
-	ComponentPtr getComponent(int id);
+	ComponentPtr getComponent(Component::Identifier id);
 
 	virtual void update(float deltaTime);
 
-	virtual void draw();
+	virtual void draw(aie::Renderer2D* renderer);
 
 protected:
-	las::Array<ComponentPtr> m_components;
+	las::Array<ComponentPtr> m_components; //HACK: A map might be better?
 };
 

@@ -3,6 +3,7 @@
 #include "Input.h"
 
 /** A condition that checks keyboard input. Test returns true based on the state of specified key*/
+//TODO: MAke it an EventCondition, getting a KeyInputEvent from a specific subject
 class KeyboardInputCondition :
 	public Condition
 {

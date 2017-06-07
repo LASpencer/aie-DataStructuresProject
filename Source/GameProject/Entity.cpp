@@ -14,7 +14,7 @@ Entity::~Entity()
 bool Entity::addComponent(const ComponentPtr & component)
 {
 	//TODO figure out how to make this a lambda/function object
-	int id = component->getID();
+	Component::Identifier id = component->getID();
 	bool canAdd = true;
 	for (auto& current : m_components) {
 		if (current->getID() == id) {
@@ -31,7 +31,7 @@ bool Entity::addComponent(const ComponentPtr & component)
 	return canAdd;
 }
 
-bool Entity::removeComponent(int id)
+bool Entity::removeComponent(Component::Identifier id)
 {
 	las::Array<ComponentPtr>::iterator component = m_components.begin();
 	bool removed = false;
@@ -66,7 +66,7 @@ bool Entity::replaceComponent(const ComponentPtr & component)
 	return replaced || added;
 }
 
-bool Entity::hasComponent(int id)
+bool Entity::hasComponent(Component::Identifier id)
 {
 	for (auto& component : m_components) {
 		if (component->getID() == id) {
@@ -76,7 +76,7 @@ bool Entity::hasComponent(int id)
 	return false;
 }
 
-ComponentPtr Entity::getComponent(int id)
+ComponentPtr Entity::getComponent(Component::Identifier id)
 {
 	for (auto component : m_components) {
 		if (component->getID() == id) {
@@ -93,9 +93,9 @@ void Entity::update(float deltaTime)
 	}
 }
 
-void Entity::draw()
+void Entity::draw(aie::Renderer2D * renderer)
 {
 	for (auto& component : m_components) {
-		component->draw(this);
+		component->draw(this, renderer);
 	}
 }

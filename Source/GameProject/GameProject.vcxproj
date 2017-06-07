@@ -87,13 +87,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AndCondition.cpp" />
     <ClCompile Include="BattleState.cpp" />
+    <ClCompile Include="BinaryCondition.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="Condition.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="EventCondition.cpp" />
     <ClCompile Include="EventManager.cpp" />
+    <ClCompile Include="Events.cpp" />
     <ClCompile Include="FinalState.cpp" />
     <ClCompile Include="GameProjectApp.cpp" />
     <ClCompile Include="GameState.cpp" />
@@ -101,10 +104,13 @@
     <ClCompile Include="KeyboardInputCondition.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainMenuState.cpp" />
+    <ClCompile Include="NotCondition.cpp" />
     <ClCompile Include="OnClickCondition.cpp" />
+    <ClCompile Include="OrCondition.cpp" />
     <ClCompile Include="PauseState.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="SceneObject.cpp" />
+    <ClCompile Include="Ship.cpp" />
     <ClCompile Include="SplashScreenState.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="State.cpp" />
@@ -117,15 +123,19 @@
     <ClCompile Include="Transition.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AndCondition.h" />
     <ClInclude Include="Array.h" />
     <ClInclude Include="BattleState.h" />
+    <ClInclude Include="BinaryCondition.h" />
     <ClInclude Include="Button.h" />
+    <ClInclude Include="ComplexCondition.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="Condition.h" />
     <ClInclude Include="Defines.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EventCondition.h" />
     <ClInclude Include="EventManager.h" />
+    <ClInclude Include="Events.h" />
     <ClInclude Include="FinalState.h" />
     <ClInclude Include="GameProjectApp.h" />
     <ClInclude Include="GameState.h" />
@@ -133,12 +143,15 @@
     <ClInclude Include="KeyboardInputCondition.h" />
     <ClInclude Include="List.h" />
     <ClInclude Include="MainMenuState.h" />
+    <ClInclude Include="NotCondition.h" />
     <ClInclude Include="Observer.h" />
     <ClInclude Include="OnClickCondition.h" />
+    <ClInclude Include="OrCondition.h" />
     <ClInclude Include="PauseState.h" />
     <ClInclude Include="Queue.h" />
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="SceneObject.h" />
+    <ClInclude Include="Ship.h" />
     <ClInclude Include="SplashScreenState.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="Stack.h" />

@@ -18,7 +18,7 @@ public:
 
 	void update(Entity* entity, float deltaTime);
 
-	virtual int getID();
+	virtual Identifier getID();
 
 	bool addChild(SceneObjectPtr child);
 

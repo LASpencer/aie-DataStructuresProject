@@ -1,22 +1,7 @@
 #pragma once
-#include "stdafx.h"
-#include "Array.h"
 
-class Observer;
-
-class Subject
-{
+class Event {
 public:
-	Subject() {};
-	virtual ~Subject() {};
-	//TODO subject adds and removes observers
-	//TODO subject commenting
-	virtual void addObserver(std::shared_ptr<Observer> observer) = 0;
-	virtual void removeObserver(std::shared_ptr<Observer> observer) = 0;
-	virtual void notifyObservers(int eventID) = 0;
-	virtual bool isSubscribed(const Observer* observer) const = 0;
-
-	//TODO: Don't return eventID, but event object which may have different classes per id
 	enum event_id {
 		member_updated,		//Some variable was updated
 		destroyed,			//Subject was destroyed
@@ -31,5 +16,14 @@ public:
 		mouse_exit,			//The mouse cursor has left the subject
 		clicked				//The subject was clicked
 	};
-};
 
+	Event();
+	Event(event_id id);
+
+	event_id getEventID();
+
+protected:
+	event_id m_id;
+	// Check if event id is possible for concrete class
+	virtual bool isValidID(event_id id) = 0;
+};
