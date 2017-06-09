@@ -1,5 +1,7 @@
 #include "stdafx.h"
 #include "Ship.h"
+#include "SceneObject.h"
+#include "Sprite.h"
 
 Ship::Ship() : Entity()
 {

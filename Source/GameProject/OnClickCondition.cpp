@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "OnClickCondition.h"
 #include "Subject.h"
+#include "EventBase.h"
 
 OnClickCondition::OnClickCondition() : m_clicked(false), m_subscribed(false)
 {
@@ -25,15 +26,15 @@ bool OnClickCondition::test()
 	return m_clicked;
 }
 
-void OnClickCondition::notify(Subject * subject, int eventID)
+void OnClickCondition::notify(Subject * subject, EventBase* event)
 {
-	switch (eventID) {
-	case(Subject::event_id::clicked):
+	switch (event->getEventID()) {
+	case(EventBase::event_id::clicked):
 		m_clicked = true;
 		break;
-	case(Subject::event_id::frame_start):
+	case(EventBase::event_id::frame_start):
 		m_clicked = false;
-	case(Subject::event_id::destroyed):
+	case(EventBase::event_id::destroyed):
 		m_subscribed = false;
 		break;
 	default:

@@ -2,7 +2,7 @@
 #include "SceneObject.h"
 
 
-SceneObject::SceneObject() : m_parent(), m_children(), m_localTransform(1),m_globalTransform(1),m_velocity(0),dirtyGlobal(true)
+SceneObject::SceneObject() : m_parent(), m_children(), m_localTransform(1),m_globalTransform(1),dirtyGlobal(true)
 {
 }
 
@@ -13,8 +13,6 @@ SceneObject::~SceneObject()
 
 void SceneObject::update(Entity * entity, float deltaTime)
 {
-	//TODO automatically apply velocity and rotation(?)
-	translate(m_velocity * deltaTime, false);
 }
 
 SceneObject::Identifier SceneObject::getID()
@@ -37,11 +35,6 @@ void SceneObject::setLocalTransform(glm::mat3 local)
 {
 	m_localTransform = local;
 	setDirty();
-}
-
-void SceneObject::setVelocity(glm::vec2 velocity)
-{
-	m_velocity = velocity;
 }
 
 void SceneObject::applyTransform(glm::mat3 transform, bool post)
@@ -75,15 +68,6 @@ void SceneObject::rotate(float angle, bool post)
 	setDirty();
 }
 
-void SceneObject::applyDeltaV(glm::vec2 deltaV, bool local)
-{
-	if (local) {
-		glm::vec3 deltaV3(deltaV[0], deltaV[1], 0.0f);
-		deltaV3 = m_localTransform * deltaV3;
-		deltaV = (glm::vec2)deltaV3;
-	}
-	m_velocity += deltaV;
-}
 
 glm::mat3 SceneObject::getLocalTransform()
 {

@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "SplashScreenState.h"
 #include "GameProjectApp.h"
+#include "Event.h"
 
 const float SplashScreenState::TIMER_DURATION = 1.5f;
 
@@ -28,7 +29,8 @@ void SplashScreenState::update(float deltaTime)
 	if (m_focus) {
 		m_timer += deltaTime;
 		if (m_timer > TIMER_DURATION) {
-			notifyObservers(timer_finished);//should have transition to main menu, with condition that timer_finished has fired
+			Event timerFinished(EventBase::timer_finished);
+			notifyObservers(&timerFinished);//should have transition to main menu, with condition that timer_finished has fired
 		}
 	}
 }
@@ -45,6 +47,7 @@ void SplashScreenState::onEnter()
 	GameState::onEnter();
 	m_splashImage = m_app->getResourceManager()->getTexture("./textures/splashScreen.png");
 	m_timer = 0;
-	notifyObservers(timer_start);
+	Event timerStart(EventBase::timer_start);
+	notifyObservers(&timerStart);
 }
 

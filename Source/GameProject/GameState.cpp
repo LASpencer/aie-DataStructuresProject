@@ -2,6 +2,7 @@
 #include "GameState.h"
 #include "Transition.h"
 #include "EventCondition.h"
+#include "Event.h"
 
 GameState::GameState(GameProjectApp* app) : m_app(app), m_focus(false), m_eventManager(this)
 {
@@ -10,7 +11,6 @@ GameState::GameState(GameProjectApp* app) : m_app(app), m_focus(false), m_eventM
 
 GameState::~GameState()
 {
-	notifyObservers(destroyed);
 }
 
 GameState::GameState(const GameState & other) : StackState(other), m_app(other.m_app), m_focus(other.m_focus), m_eventManager(this)
@@ -52,24 +52,28 @@ GameState::GameState(const GameState & other) : StackState(other), m_app(other.m
 void GameState::onEnter()
 {
 	m_focus = true;
-	notifyObservers(state_entered);
+	Event wasEntered(EventBase::state_entered);
+	notifyObservers(&wasEntered);
 }
 
 void GameState::onExit()
 {
-	notifyObservers(state_exited);
+	Event wasExited(EventBase::state_exited);
+	notifyObservers(&wasExited);
 }
 
 void GameState::onFocus()
 {
 	m_focus = true;
-	notifyObservers(gain_focus);
+	Event gainedFocus(EventBase::gain_focus);
+	notifyObservers(&gainedFocus);
 }
 
 void GameState::onLoseFocus()
 {
 	m_focus = false;
-	notifyObservers(lose_focus);
+	Event lostFocus(EventBase::lose_focus);
+	notifyObservers(&lostFocus);
 }
 
 void GameState::addObserver(std::shared_ptr<Observer> observer)
@@ -82,9 +86,9 @@ void GameState::removeObserver(std::shared_ptr<Observer> observer)
 	m_eventManager.removeObserver(observer);
 }
 
-void GameState::notifyObservers(int eventID)
+void GameState::notifyObservers(EventBase* event)
 {
-	m_eventManager.notifyObservers(eventID);
+	m_eventManager.notifyObservers(event);
 }
 
 bool GameState::isSubscribed(const Observer * observer) const

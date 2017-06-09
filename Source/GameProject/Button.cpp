@@ -2,6 +2,7 @@
 #include "Button.h"
 #include "Renderer2D.h"
 #include "Input.h"
+#include "Event.h"
 
 const unsigned int Button::def_button_colour = 0x3030c0ff;
 const unsigned int Button::def_hover_colour = 0x4040e0ff;
@@ -17,7 +18,6 @@ Button::Button(float x, float y, float width, float height, unsigned int colour,
 
 Button::~Button()
 {
-	notifyObservers(destroyed);
 }
 
 void Button::setPosition(float x, float y)
@@ -68,21 +68,25 @@ void Button::update(float deltaTime)
 	aie::Input* input = aie::Input::getInstance();
 	int mouseX, mouseY;
 	input->getMouseXY(&mouseX, &mouseY);
-	notifyObservers(frame_start);
+	Event frameStart(EventBase::frame_start);
+	notifyObservers(&frameStart);
 	// Check collision with button
 	if (abs(m_xPos - mouseX) < m_xExtent && abs(m_yPos - mouseY) < m_yExtent) {
 		if (!m_hover) {
-			notifyObservers(mouse_over);
+			Event mouseOver(EventBase::mouse_over);
+			notifyObservers(&mouseOver);
 		}
 		m_hover = true;
 		// Check for click
 		if (input->wasMouseButtonPressed(aie::INPUT_MOUSE_BUTTON_LEFT)) {
 			m_pressed = !m_pressed;		//toggle state
-			notifyObservers(clicked);
+			Event wasClicked(EventBase::clicked);
+			notifyObservers(&wasClicked);
 		}
 	} else {
 		if (m_hover) {
-			notifyObservers(mouse_exit);
+			Event mouseExit(EventBase::mouse_exit);
+			notifyObservers(&mouseExit);
 		}
 		m_hover = false;
 	}
@@ -111,9 +115,9 @@ void Button::removeObserver(std::shared_ptr<Observer> observer)
 	m_eventManager.removeObserver(observer);
 }
 
-void Button::notifyObservers(int eventID)
+void Button::notifyObservers(EventBase* event)
 {
-	m_eventManager.notifyObservers(eventID);
+	m_eventManager.notifyObservers(event);
 }
 
 bool Button::isSubscribed(const Observer * observer) const

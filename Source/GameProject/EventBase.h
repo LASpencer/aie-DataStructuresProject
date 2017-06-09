@@ -1,9 +1,10 @@
 #pragma once
 
-class Event {
+
+class EventBase {
 public:
 	enum event_id {
-		member_updated,		//Some variable was updated
+		//member_updated,		//Some variable was updated
 		destroyed,			//Subject was destroyed
 		frame_start,		//Subject has started new update
 		state_entered,		//State was entered
@@ -17,8 +18,8 @@ public:
 		clicked				//The subject was clicked
 	};
 
-	Event();
-	Event(event_id id);
+	EventBase(event_id id);
+	virtual ~EventBase();
 
 	event_id getEventID();
 

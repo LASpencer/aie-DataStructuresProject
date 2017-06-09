@@ -94,9 +94,10 @@
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="Condition.cpp" />
     <ClCompile Include="Entity.cpp" />
+    <ClCompile Include="Event.cpp" />
     <ClCompile Include="EventCondition.cpp" />
     <ClCompile Include="EventManager.cpp" />
-    <ClCompile Include="Events.cpp" />
+    <ClCompile Include="EventBase.cpp" />
     <ClCompile Include="FinalState.cpp" />
     <ClCompile Include="GameProjectApp.cpp" />
     <ClCompile Include="GameState.cpp" />
@@ -133,9 +134,10 @@
     <ClInclude Include="Condition.h" />
     <ClInclude Include="Defines.h" />
     <ClInclude Include="Entity.h" />
+    <ClInclude Include="Event.h" />
     <ClInclude Include="EventCondition.h" />
     <ClInclude Include="EventManager.h" />
-    <ClInclude Include="Events.h" />
+    <ClInclude Include="EventBase.h" />
     <ClInclude Include="FinalState.h" />
     <ClInclude Include="GameProjectApp.h" />
     <ClInclude Include="GameState.h" />

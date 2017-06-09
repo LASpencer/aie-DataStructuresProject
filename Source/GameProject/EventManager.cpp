@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "EventManager.h"
 #include "Observer.h"
+#include "Event.h"
 
 EventManager::EventManager() : m_owner(nullptr)
 {
@@ -13,6 +14,8 @@ EventManager::EventManager(Subject * owner) : m_owner(owner)
 
 EventManager::~EventManager()
 {
+	Event wasDestoyed(EventBase::destroyed);
+	notifyObservers(&wasDestoyed);
 }
 
 void EventManager::addObserver(std::shared_ptr<Observer> observer)
@@ -64,7 +67,7 @@ void EventManager::removeObserver(std::shared_ptr<Observer> observer)
 	}
 }
 
-void EventManager::notifyObservers(int eventID)
+void EventManager::notifyObservers(EventBase* event)
 {
 	las::Array<std::weak_ptr<Observer>>::iterator it = m_observers.begin();
 	while (it != m_observers.end()) {
@@ -75,7 +78,7 @@ void EventManager::notifyObservers(int eventID)
 		else {
 			// Notify observers
 			std::shared_ptr<Observer> observer(*it);
-			observer->notify(m_owner, eventID);
+			observer->notify(m_owner, event);
 			++it;
 		}
 	}

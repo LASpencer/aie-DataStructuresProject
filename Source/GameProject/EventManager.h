@@ -11,7 +11,7 @@ public:
 	virtual void addObserver(std::shared_ptr<Observer> observer);
 	virtual void removeObserver(std::shared_ptr<Observer> observer);
 
-	virtual void notifyObservers(int eventID);
+	virtual void notifyObservers(EventBase* event);
 	virtual bool isSubscribed(const Observer* observer) const;
 
 	void setOwner(Subject* owner);

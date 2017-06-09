@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "TimerCondition.h"
 #include "Subject.h"
+#include "EventBase.h"
 
 TimerCondition::TimerCondition() : m_triggered(false)
 {
@@ -21,13 +22,13 @@ bool TimerCondition::test()
 	return m_triggered;
 }
 
-void TimerCondition::notify(Subject * subject, int eventID)
+void TimerCondition::notify(Subject * subject, EventBase* event)
 {
-	switch (eventID) {
-	case(Subject::event_id::timer_start):
+	switch (event->getEventID()) {
+	case(EventBase::event_id::timer_start):
 		m_triggered = false;
 		break;
-	case(Subject::event_id::timer_finished):
+	case(EventBase::event_id::timer_finished):
 		m_triggered = true;
 		break;
 	default:

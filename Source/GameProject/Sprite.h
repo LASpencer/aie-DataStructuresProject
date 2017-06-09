@@ -2,6 +2,7 @@
 #include "Component.h"
 #include "ResourceManager.h"
 
+
 class Sprite :
 	public Component
 {
@@ -11,6 +12,7 @@ public:
 	~Sprite();
 
 	void setTexture(TexturePtr texture);
+	void update(Entity* entity, float deltaTime) {};
 	void draw(Entity* entity, aie::Renderer2D* renderer);
 	//T
 	virtual Identifier getID();

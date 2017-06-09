@@ -171,11 +171,14 @@
     <ClCompile Include="OrCondition.cpp">
       <Filter>Source Files\State Machine\Conditions\Complex Conditions</Filter>
     </ClCompile>
-    <ClCompile Include="Events.cpp">
-      <Filter>Source Files\Observer\Events</Filter>
-    </ClCompile>
     <ClCompile Include="Ship.cpp">
       <Filter>Source Files\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="EventBase.cpp">
+      <Filter>Source Files\Observer\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="Event.cpp">
+      <Filter>Source Files\Observer\Events</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -296,7 +299,10 @@
     <ClInclude Include="Ship.h">
       <Filter>Header Files\Entities</Filter>
     </ClInclude>
-    <ClInclude Include="Events.h">
+    <ClInclude Include="EventBase.h">
+      <Filter>Header Files\Observer\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Event.h">
       <Filter>Header Files\Observer\Events</Filter>
     </ClInclude>
   </ItemGroup>

@@ -10,7 +10,7 @@ public:
 	virtual EventCondition* clone() const;
 
 	virtual bool test();
-	virtual void notify(Subject* subject, int eventID);
+	virtual void notify(Subject* subject, EventBase* event);
 	virtual bool addSubject(Subject* subject);
 	virtual void removeSubject(Subject* subject);
 
