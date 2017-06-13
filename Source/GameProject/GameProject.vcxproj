@@ -107,6 +107,7 @@
     <ClCompile Include="KeyboardInputCondition.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainMenuState.cpp" />
+    <ClCompile Include="MultiSprite.cpp" />
     <ClCompile Include="NotCondition.cpp" />
     <ClCompile Include="OnClickCondition.cpp" />
     <ClCompile Include="OrCondition.cpp" />
@@ -116,6 +117,7 @@
     <ClCompile Include="Ship.cpp" />
     <ClCompile Include="SplashScreenState.cpp" />
     <ClCompile Include="Sprite.cpp" />
+    <ClCompile Include="SpriteBase.cpp" />
     <ClCompile Include="State.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -157,6 +159,7 @@
     <ClInclude Include="KeyboardInputCondition.h" />
     <ClInclude Include="List.h" />
     <ClInclude Include="MainMenuState.h" />
+    <ClInclude Include="MultiSprite.h" />
     <ClInclude Include="NotCondition.h" />
     <ClInclude Include="Observer.h" />
     <ClInclude Include="OnClickCondition.h" />
@@ -168,6 +171,7 @@
     <ClInclude Include="Ship.h" />
     <ClInclude Include="SplashScreenState.h" />
     <ClInclude Include="Sprite.h" />
+    <ClInclude Include="SpriteBase.h" />
     <ClInclude Include="Stack.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="State.h" />

@@ -3,6 +3,7 @@
 #include "ResourceManager.h"
 #include "SceneObject.h"
 #include "Sprite.h"
+#include "MultiSprite.h"
 
 las::Map<Hero::Stance, std::pair<float, float>> Hero::m_animationFrames;
 
@@ -11,22 +12,30 @@ const float Hero::sprite_height = 50.0f;
 const float Hero::sprite_uv_width = 0.125f;
 const float Hero::sprite_uv_height = 0.25f;
 
+const std::string Hero::sprite_filepath = "./textures/player/player-spritemap-v9.png";
+const std::string Hero::robe_filepath = "./textures/armor/robe02-spritemap-v9.png";
+const std::string Hero::armour_filepath = "./textures/armor/armor02-spritemap-v9.png";
+const std::string Hero::shield_filepath = "./textures/accessories/shield02-spritemap-v9.png";
+const std::string Hero::helmet_filepath = "./textures/accessories/helm02-spritemap-v9.png";
+const std::string Hero::sword_filepath = "./textures/weapons/sword-slash-05-60x30.png";
+
 Hero::Hero()
 {
 	//TODO extract into init function
 	setupFrames();
 	std::pair<float, float> startFrame = m_animationFrames.at(idle);
 	addComponent(std::make_shared<SceneObject>());
-	addComponent(std::make_shared<Sprite>(nullptr, sprite_width,sprite_height, startFrame.first,startFrame.second,sprite_uv_width,sprite_uv_height));
+	addComponent(std::make_shared<MultiSprite>(las::Array<TexturePtr>(), sprite_width,sprite_height, startFrame.first,startFrame.second,sprite_uv_width,sprite_uv_height));
 
 }
 
-Hero::Hero(TexturePtr texture)
+//TODO rewrite this
+Hero::Hero(las::Array<TexturePtr>& textures)
 {
 	setupFrames();
 	std::pair<float, float> startFrame = m_animationFrames.at(idle);
 	addComponent(std::make_shared<SceneObject>());
-	addComponent(std::make_shared<Sprite>(texture, sprite_width, sprite_height, startFrame.first, startFrame.second, sprite_uv_width, sprite_uv_height));
+	addComponent(std::make_shared<MultiSprite>(textures, sprite_width, sprite_height, startFrame.first, startFrame.second, sprite_uv_width, sprite_uv_height));
 }
 
 Hero::~Hero()

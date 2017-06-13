@@ -36,10 +36,17 @@ public:
 	static const float sprite_uv_width;
 	static const float sprite_uv_height;
 
+	static const std::string sprite_filepath;
+	static const std::string robe_filepath;
+	static const std::string armour_filepath;
+	static const std::string shield_filepath;
+	static const std::string helmet_filepath;
+	static const std::string sword_filepath;
+
 	//Sword: Up 10 across ~8 on windup, Up 10 across ~8 on strike1, up 10 across ~8 on strike2, up ~1 across ~10 on winddown
 	Hero();
 
-	Hero(TexturePtr texture);
+	Hero(las::Array<TexturePtr>& textures);
 
 	virtual ~Hero();
 
@@ -51,7 +58,7 @@ public:
 protected:
 	// Map holding UVRect values for each stance
 	static las::Map<Stance, std::pair<float, float>> m_animationFrames;
-	
+	//TODO add sword entity (reference?)
 	
 
 };

@@ -27,3 +27,12 @@ public:
 	
 };
 
+class missing_component : public std::invalid_argument {
+public:
+	explicit missing_component(const std::string& what_arg) : std::invalid_argument(what_arg)
+	{};
+	explicit missing_component(const char* what_arg) : std::invalid_argument(what_arg)
+	{};
+
+	virtual ~missing_component() {};
+};

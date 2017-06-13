@@ -42,7 +42,13 @@ void BattleState::onEnter()
 	GameState::onEnter();
 	m_battleImage = m_app->getResourceManager()->getTexture("./textures/combatBG.png");
 
-	m_hero = new Hero(m_app->getResourceManager()->getTexture("./textures/player/player-spritemap-v9.png"));//TODO make a const
+	//TODO move this out to a Creature Factory class
+	las::Array<TexturePtr> textures({	m_app->getResourceManager()->getTexture(Hero::sprite_filepath),
+										m_app->getResourceManager()->getTexture(Hero::robe_filepath), 
+										m_app->getResourceManager()->getTexture(Hero::armour_filepath), 
+										m_app->getResourceManager()->getTexture(Hero::shield_filepath), 
+										m_app->getResourceManager()->getTexture(Hero::helmet_filepath) });
+	m_hero = new Hero(textures);//TODO make a const
 	std::dynamic_pointer_cast<SceneObject>(m_hero->getComponent(Component::scene_object))->setLocalTransform({ 1,0,0,0,1,0,300,300,1 });
 }
 

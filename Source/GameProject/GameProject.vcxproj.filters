@@ -189,6 +189,12 @@
     <ClCompile Include="Hero.cpp">
       <Filter>Source Files\Entities</Filter>
     </ClCompile>
+    <ClCompile Include="SpriteBase.cpp">
+      <Filter>Source Files\Entities\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="MultiSprite.cpp">
+      <Filter>Source Files\Entities\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameProjectApp.h">
@@ -346,6 +352,12 @@
     </ClInclude>
     <ClInclude Include="HurtState.h">
       <Filter>Header Files\State Machine\States\Hero States</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteBase.h">
+      <Filter>Header Files\Entities\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="MultiSprite.h">
+      <Filter>Source Files\Entities\Components</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
