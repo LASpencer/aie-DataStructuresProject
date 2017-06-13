@@ -121,7 +121,7 @@ public:
 		// Otherwise, pop until state wanted reached. If stack emptied, push state
 		bool stateInStack = false;
 		for (size_t i = 0; i < m_stateStack.size(); ++i) {
-			if (m_stateStack.peek(i).first == id) {
+			if (m_stateStack.peek(i) == id) {
 				stateInStack = true;
 				break;
 			}
@@ -134,13 +134,13 @@ public:
 		catch (const std::out_of_range& e) {
 			throw std::out_of_range("No state with given id exists in state machine");
 		}
-		while (m_stateStack.empty() || m_stateStack.top().first != id) {
+		while (m_stateStack.empty() || m_stateStack.top() != id) {
 			if (m_stateStack.empty()) {
 				newState->onEnter();
-				m_stateStack.push(std::make_pair(id, newState));
+				m_stateStack.push(id);
 			}
 			else {
-				m_stateStack.pop().second->onExit();
+				m_states.at(m_stateStack.pop())->onExit();
 			}
 		}
 	}
@@ -149,7 +149,7 @@ public:
 		// If state already in stack, don't push it on again
 			bool stateInStack = false;
 			for (size_t i = 0; i < m_stateStack.size(); ++i) {
-				if (m_stateStack.peek(i).first == id) {
+				if (m_stateStack.peek(i) == id) {
 					stateInStack = true;
 					break;
 				}
@@ -164,17 +164,17 @@ public:
 					throw std::out_of_range("No state with given id exists in state machine");
 				}
 				if (!m_stateStack.empty()) {
-					m_stateStack.top().second->onLoseFocus();
+					m_states.at(m_stateStack.top())->onLoseFocus();
 				}
 				newState->onEnter();
-				m_stateStack.push(std::make_pair(id, newState));
+				m_stateStack.push(id);
 			}
 	}
 
 	void forcePopState() {
 		if (m_stateStack.size() > 1) {		//Cannot pop last state in stack
-			m_stateStack.pop().second->onExit();
-			m_stateStack.top().second->onFocus();
+			m_states.at(m_stateStack.pop())->onExit();
+			m_states.at(m_stateStack.top())->onFocus();
 		}
 	}
 
@@ -192,7 +192,7 @@ public:
 		for (std::shared_ptr<Transition> transition : m_fromAnyTransitions) {
 			if (transition->isConditionMet()) {
 				int id = transition->getTargetID();
-				if (m_stateStack.top().first != id) {
+				if (m_stateStack.top() != id) {
 					forceState(id);
 					break;
 				}
@@ -203,24 +203,24 @@ public:
 		for (std::shared_ptr<Transition> pushTransition : m_fromAnyPushTransitions) {
 			if (pushTransition->isConditionMet()) {
 				int id = pushTransition->getTargetID();
-				if (m_stateStack.top().first != id) {
+				if (m_stateStack.top() != id) {
 					forcePushState(pushTransition->getTargetID());
 					break;
 				}
 			}
 		}
 		//Check Transitions from current state
-
-		if (m_stateStack.top().second->checkPopConditions()) {
+		std::shared_ptr<S> topState = m_states.at(m_stateStack.top());
+		if (topState->checkPopConditions()) {
 			forcePopState();
 		}
 		else {
-			std::pair<bool, int> maybeNewState = m_stateStack.top().second->checkTransitions();
+			std::pair<bool, int> maybeNewState = topState->checkTransitions();
 			if (maybeNewState.first) {
 				forceState(maybeNewState.second);
 			}
 			else {
-				std::pair<bool, int> maybePushState = m_stateStack.top().second->checkPushTransitions();
+				std::pair<bool, int> maybePushState = topState->checkPushTransitions();
 				if (maybePushState.first) {
 					forcePushState(maybePushState.second);
 				}
@@ -228,29 +228,20 @@ public:
 		}
 	}
 
-	std::shared_ptr<S> getState() {
-		return m_stateStack.top().second;
+	std::shared_ptr<S> getCurrentState() {
+		return m_states.at(m_stateStack.top());
 	}
 
-	las::Stack<std::shared_ptr<S>> getStateStack(bool reversed = false) {
-		las::Stack<std::shared_ptr<S>> stateStack;
-		size_t stackSize = m_stateStack.size();
-		if (reversed) {
-			for (size_t i = 0; i < stackSize; ++i) {
-				stateStack.push(m_stateStack.peek(i).second);
-			}
-		}
-		else {
-			for (size_t i = 0; i < stackSize; ++i) {
-				size_t pos = stackSize - (i + 1);
-				stateStack.push(m_stateStack.peek(pos).second);
-			}
-		}
-		return stateStack;
+	std::shared_ptr<S> getState(int id) {
+		return m_states.at(id);
+	}
+
+	const las::Stack<int>* getStateStack() {
+		return &m_stateStack;
 	}
 
 protected:
-	las::Stack<std::pair<int,std::shared_ptr<S>>> m_stateStack;
+	las::Stack<int> m_stateStack;
 	las::Map<int, std::shared_ptr<S>> m_states;
 	las::Array<std::shared_ptr<Transition>> m_fromAnyTransitions;
 	las::Array<std::shared_ptr<Transition>> m_fromAnyPushTransitions;

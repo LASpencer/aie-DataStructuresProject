@@ -10,6 +10,8 @@ public:
 	static const float play_button_y;
 	static const float exit_button_x;
 	static const float exit_button_y;
+	static const std::string button_font_path;
+	static const unsigned short button_font_height;
 
 	MainMenuState(GameProjectApp* app);
 	virtual ~MainMenuState();
