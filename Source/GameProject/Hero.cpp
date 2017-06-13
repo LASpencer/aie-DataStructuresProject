@@ -1,11 +1,32 @@
 #include "stdafx.h"
 #include "Hero.h"
+#include "ResourceManager.h"
+#include "SceneObject.h"
+#include "Sprite.h"
 
 las::Map<Hero::Stance, std::pair<float, float>> Hero::m_animationFrames;
 
+const float Hero::sprite_width = 46.0f;
+const float Hero::sprite_height = 50.0f;
+const float Hero::sprite_uv_width = 0.125f;
+const float Hero::sprite_uv_height = 0.25f;
+
 Hero::Hero()
 {
+	//TODO extract into init function
 	setupFrames();
+	std::pair<float, float> startFrame = m_animationFrames.at(idle);
+	addComponent(std::make_shared<SceneObject>());
+	addComponent(std::make_shared<Sprite>(nullptr, sprite_width,sprite_height, startFrame.first,startFrame.second,sprite_uv_width,sprite_uv_height));
+
+}
+
+Hero::Hero(TexturePtr texture)
+{
+	setupFrames();
+	std::pair<float, float> startFrame = m_animationFrames.at(idle);
+	addComponent(std::make_shared<SceneObject>());
+	addComponent(std::make_shared<Sprite>(texture, sprite_width, sprite_height, startFrame.first, startFrame.second, sprite_uv_width, sprite_uv_height));
 }
 
 Hero::~Hero()

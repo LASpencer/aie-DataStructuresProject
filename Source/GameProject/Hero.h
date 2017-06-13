@@ -1,6 +1,7 @@
 #pragma once
 #include "Entity.h"
 #include "Map.h"
+#include "ResourceManager.h"
 
 //TODO extract out common functionality between this and creatures into superclass
 
@@ -29,8 +30,16 @@ public:
 		downed,
 		run			//Indicates first run frame, additional frames are 0.125 away up to 0.875
 	};
+
+	static const float sprite_width;
+	static const float sprite_height;
+	static const float sprite_uv_width;
+	static const float sprite_uv_height;
+
 	//Sword: Up 10 across ~8 on windup, Up 10 across ~8 on strike1, up 10 across ~8 on strike2, up ~1 across ~10 on winddown
 	Hero();
+
+	Hero(TexturePtr texture);
 
 	virtual ~Hero();
 

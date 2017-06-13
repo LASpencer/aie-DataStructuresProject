@@ -1,7 +1,8 @@
 #pragma once
 #include "GameState.h"
+#include "ResourceManager.h"
 
-class Ship;//HACK for testing
+class Hero;
 
 class BattleState :
 	public GameState
@@ -23,6 +24,6 @@ protected:
 	TexturePtr m_battleImage;
 
 	//HACK for testing
-	Ship* ship;
+	Hero* m_hero;
 };
 

@@ -1,8 +1,7 @@
 #include "stdafx.h"
 #include "BattleState.h"
 #include "GameProjectApp.h"
-
-#include "Ship.h"
+#include "Hero.h"
 #include "SceneObject.h"
 #include "Sprite.h"
 
@@ -27,14 +26,15 @@ State * BattleState::clone() const
 void BattleState::update(float deltaTime)
 {
 	//TODO game logic here
-	ship->update(deltaTime);
+	m_hero->update(deltaTime);
 }
 
 void BattleState::draw(aie::Renderer2D * renderer)
 {
+	renderer->setUVRect(0, 0, 1, 1);
 	renderer->drawSprite(m_battleImage->get(), 640, 360);
 	//HACK for testing
-	ship->draw(renderer);
+	m_hero->draw(renderer);
 }
 
 void BattleState::onEnter()
@@ -42,18 +42,13 @@ void BattleState::onEnter()
 	GameState::onEnter();
 	m_battleImage = m_app->getResourceManager()->getTexture("./textures/combatBG.png");
 
-	//HACK just for testing
-	ship = new Ship();
-	std::shared_ptr<SceneObject> pos = std::make_shared<SceneObject>();
-	pos->setLocalTransform(glm::mat3(1, 0, 1, 0, 1, 1, 300,200, 1));
-	ship->addComponent(pos);
-	std::shared_ptr<Sprite> sprite = std::make_shared <Sprite>(m_app->getResourceManager()->getTexture("./textures/ship.png"));
-	ship->addComponent(sprite);
+	m_hero = new Hero(m_app->getResourceManager()->getTexture("./textures/player/player-spritemap-v9.png"));//TODO make a const
+	std::dynamic_pointer_cast<SceneObject>(m_hero->getComponent(Component::scene_object))->setLocalTransform({ 1,0,0,0,1,0,300,300,1 });
 }
 
 void BattleState::onExit()
 {
 	//HACK just for testing
-	delete ship;
-	ship = nullptr;
+	delete m_hero;
+	m_hero = nullptr;
 }
