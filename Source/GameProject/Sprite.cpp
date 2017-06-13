@@ -30,7 +30,7 @@ void Sprite::draw(Entity * entity, aie::Renderer2D* renderer)
 	}
 	//TODO: Sprite can have origin point set
 	//TODO figure out correct matrix pointer cast
-	renderer->drawSpriteTransformed3x3(m_texture->get(), glm::value_ptr(sceneObject->getGlobalTransform()));
+	renderer->drawSpriteTransformed3x3(m_texture->get(), &sceneObject->getGlobalTransform()[0][0]);
 }
 
 Sprite::Identifier Sprite::getID()

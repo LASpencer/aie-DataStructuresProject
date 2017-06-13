@@ -9,11 +9,14 @@ const float MainMenuState::play_button_x = 640.0f;
 const float MainMenuState::play_button_y = 400.0f;
 const float MainMenuState::exit_button_x = 640.0f;
 const float MainMenuState::exit_button_y = 200.0f;
+const std::string MainMenuState::button_font_path = "./font/consolas_bold.ttf";
+const unsigned short MainMenuState::button_font_height = 32;
 
 MainMenuState::MainMenuState(GameProjectApp* app) : GameState(app)
 {
-	m_playButton = std::make_shared<Button>(play_button_x, play_button_y);
-	m_exitButton = std::make_shared<Button>(exit_button_x, exit_button_y);
+	FontPtr buttonFont = m_app->getResourceManager()->getFont(button_font_path, button_font_height);
+	m_playButton = std::make_shared<Button>(buttonFont, "Play",play_button_x, play_button_y);
+	m_exitButton = std::make_shared<Button>(buttonFont, "Quit",exit_button_x, exit_button_y);
 	
 	std::shared_ptr<OnClickCondition> clickPlay = std::make_shared<OnClickCondition>();
 	addTransition(std::make_shared<Transition>(clickPlay, GameStateMachine::battle_state));
