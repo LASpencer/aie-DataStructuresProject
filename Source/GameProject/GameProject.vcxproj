@@ -101,6 +101,7 @@
     <ClCompile Include="GameProjectApp.cpp" />
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="GameStateMachine.cpp" />
+    <ClCompile Include="Hero.cpp" />
     <ClCompile Include="KeyboardInputCondition.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainMenuState.cpp" />
@@ -125,12 +126,15 @@
   <ItemGroup>
     <ClInclude Include="AndCondition.h" />
     <ClInclude Include="Array.h" />
+    <ClInclude Include="AttackState.h" />
     <ClInclude Include="BattleState.h" />
     <ClInclude Include="BinaryCondition.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="ComplexCondition.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="Condition.h" />
+    <ClInclude Include="CrouchState.h" />
+    <ClInclude Include="DeadState.h" />
     <ClInclude Include="Defines.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EventCondition.h" />
@@ -140,6 +144,12 @@
     <ClInclude Include="GameProjectApp.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="GameStateMachine.h" />
+    <ClInclude Include="GetUpState.h" />
+    <ClInclude Include="Hero.h" />
+    <ClInclude Include="HeroState.h" />
+    <ClInclude Include="HurtState.h" />
+    <ClInclude Include="IdleState.h" />
+    <ClInclude Include="JumpState.h" />
     <ClInclude Include="KeyboardInputCondition.h" />
     <ClInclude Include="List.h" />
     <ClInclude Include="MainMenuState.h" />
@@ -163,6 +173,7 @@
     <ClInclude Include="TextBar.h" />
     <ClInclude Include="TimerCondition.h" />
     <ClInclude Include="Transition.h" />
+    <ClInclude Include="WalkState.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

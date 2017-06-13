@@ -20,3 +20,4 @@ protected:
 	TexturePtr m_texture;
 };
 
+//TODO map of enumerated stances to UVRect values
