@@ -180,6 +180,9 @@
     <ClCompile Include="Event.cpp">
       <Filter>Source Files\Observer\Events</Filter>
     </ClCompile>
+    <ClCompile Include="InputEvent.cpp">
+      <Filter>Source Files\Observer\Events</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameProjectApp.h">
@@ -303,6 +306,9 @@
       <Filter>Header Files\Observer\Events</Filter>
     </ClInclude>
     <ClInclude Include="Event.h">
+      <Filter>Header Files\Observer\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="InputEvent.h">
       <Filter>Header Files\Observer\Events</Filter>
     </ClInclude>
   </ItemGroup>

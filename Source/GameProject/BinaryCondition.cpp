@@ -32,6 +32,16 @@ void BinaryCondition::setSecondCondition(std::shared_ptr<Condition> second)
 	m_second = second;
 }
 
+std::shared_ptr<Condition> BinaryCondition::getFirstCondition()
+{
+	return m_first;
+}
+
+std::shared_ptr<Condition> BinaryCondition::getSecondCondition()
+{
+	return m_second;
+}
+
 bool BinaryCondition::isDependentOn(ComplexCondition * condition)
 {
 	if (condition == this) {

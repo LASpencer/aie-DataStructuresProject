@@ -2,9 +2,24 @@
 #include "OnClickCondition.h"
 #include "Subject.h"
 #include "EventBase.h"
+#include "InputEvent.h"
 
-OnClickCondition::OnClickCondition() : m_clicked(false), m_subscribed(false)
+OnClickCondition::OnClickCondition() : m_clicked(false), m_subscribed(false), m_button(aie::INPUT_MOUSE_BUTTON_LEFT)
 {
+}
+
+OnClickCondition::OnClickCondition(aie::EInputCodes button) : m_clicked(false), m_subscribed(false), m_button(button)
+{
+	if (button != aie::INPUT_MOUSE_BUTTON_LEFT ||
+		button != aie::INPUT_MOUSE_BUTTON_MIDDLE ||
+		button != aie::INPUT_MOUSE_BUTTON_RIGHT ||
+		button != aie::INPUT_MOUSE_BUTTON_4 ||
+		button != aie::INPUT_MOUSE_BUTTON_5 ||
+		button != aie::INPUT_MOUSE_BUTTON_6 ||
+		button != aie::INPUT_MOUSE_BUTTON_7 ||
+		button != aie::INPUT_MOUSE_BUTTON_8) {
+		throw std::invalid_argument("Button must be mouse button");
+	}
 }
 
 
@@ -27,10 +42,14 @@ bool OnClickCondition::test()
 }
 
 void OnClickCondition::notify(Subject * subject, EventBase* event)
-{
+{	
+	InputEvent* inputEvent = dynamic_cast<InputEvent*>(event);
 	switch (event->getEventID()) {
 	case(EventBase::event_id::clicked):
-		m_clicked = true;
+		assert(inputEvent != nullptr);
+		if (inputEvent->getInputCode() == m_button) {
+			m_clicked = true;
+		}
 		break;
 	case(EventBase::event_id::frame_start):
 		m_clicked = false;

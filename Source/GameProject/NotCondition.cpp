@@ -23,6 +23,11 @@ void NotCondition::setCondition(std::shared_ptr<Condition> condition)
 	m_condition = condition;
 }
 
+std::shared_ptr<Condition> NotCondition::getCondition()
+{
+	return m_condition;
+}
+
 bool NotCondition::isDependentOn(ComplexCondition* condition)
 {
 	if (condition == this) {

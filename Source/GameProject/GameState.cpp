@@ -2,6 +2,7 @@
 #include "GameState.h"
 #include "Transition.h"
 #include "EventCondition.h"
+#include "ComplexCondition.h"
 #include "Event.h"
 
 GameState::GameState(GameProjectApp* app) : m_app(app), m_focus(false), m_eventManager(this)
@@ -100,6 +101,7 @@ std::pair<bool, std::shared_ptr<Condition>> GameState::copyConditionIfSubscribed
 {
 	//TODO if Condition is compound, recursively call to build up each part if necessary
 	const EventCondition* subscriber = dynamic_cast<const EventCondition*>(condition.get());
+	const ComplexCondition* complex = dynamic_cast<const ComplexCondition*>(condition.get());
 	if (subscriber != nullptr) {
 		if (other.isSubscribed(subscriber)) {
 			// Must copy condition
@@ -107,6 +109,9 @@ std::pair<bool, std::shared_ptr<Condition>> GameState::copyConditionIfSubscribed
 			addObserver(conditionCopy);
 			return std::make_pair(true, conditionCopy);
 		}
+	}
+	else if (complex != nullptr) {
+		//TODO check if NotCondition or BinaryCondition, and call on either part
 	}
 	return std::make_pair(false, std::shared_ptr<EventCondition>());
 }

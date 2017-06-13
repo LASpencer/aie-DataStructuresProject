@@ -11,6 +11,9 @@ public:
 	void setFirstCondition(std::shared_ptr<Condition> first);
 	void setSecondCondition(std::shared_ptr<Condition> second);
 
+	std::shared_ptr<Condition> getFirstCondition();
+	std::shared_ptr<Condition> getSecondCondition();
+
 	virtual bool isDependentOn(ComplexCondition* condition);
 protected:
 	std::shared_ptr<Condition> m_first;

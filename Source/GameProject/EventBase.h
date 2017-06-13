@@ -15,7 +15,10 @@ public:
 		timer_finished,		//A timer has finished
 		mouse_over,			//The mouse cursor is over the subject
 		mouse_exit,			//The mouse cursor has left the subject
-		clicked				//The subject was clicked
+		clicked,			//The subject was clicked
+		mouse_release,		//A mouse button was released
+		key_press,			//The subject noticed a key press
+		key_release			//The subjct noticed a key being released
 	};
 
 	EventBase(event_id id);

@@ -11,6 +11,9 @@ public:
 	// 
 	void setCondition(std::shared_ptr<Condition> condition);
 
+	std::shared_ptr<Condition> getCondition();
+
+
 	//Returns true if test depends on conditions test
 	virtual bool isDependentOn(ComplexCondition* condition);
 

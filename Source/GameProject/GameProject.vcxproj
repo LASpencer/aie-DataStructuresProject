@@ -102,6 +102,7 @@
     <ClCompile Include="GameProjectApp.cpp" />
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="GameStateMachine.cpp" />
+    <ClCompile Include="InputEvent.cpp" />
     <ClCompile Include="KeyboardInputCondition.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainMenuState.cpp" />
@@ -142,6 +143,7 @@
     <ClInclude Include="GameProjectApp.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="GameStateMachine.h" />
+    <ClInclude Include="InputEvent.h" />
     <ClInclude Include="KeyboardInputCondition.h" />
     <ClInclude Include="List.h" />
     <ClInclude Include="MainMenuState.h" />

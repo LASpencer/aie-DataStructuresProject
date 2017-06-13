@@ -3,6 +3,7 @@
 #include "Renderer2D.h"
 #include "Input.h"
 #include "Event.h"
+#include "InputEvent.h"
 
 const unsigned int Button::def_button_colour = 0x3030c0ff;
 const unsigned int Button::def_hover_colour = 0x4040e0ff;
@@ -80,7 +81,7 @@ void Button::update(float deltaTime)
 		// Check for click
 		if (input->wasMouseButtonPressed(aie::INPUT_MOUSE_BUTTON_LEFT)) {
 			m_pressed = !m_pressed;		//toggle state
-			Event wasClicked(EventBase::clicked);
+			InputEvent wasClicked(EventBase::clicked, aie::INPUT_MOUSE_BUTTON_LEFT);
 			notifyObservers(&wasClicked);
 		}
 	} else {
