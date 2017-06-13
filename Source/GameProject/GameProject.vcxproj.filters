@@ -82,6 +82,12 @@
     <Filter Include="Source Files\Entities\Components">
       <UniqueIdentifier>{3929476d-2eab-462a-afe0-1b59ced8b3b5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\State Machine\States\Hero States">
+      <UniqueIdentifier>{37e96484-dfaf-4244-8fbb-6963648a8a16}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\State Machine\States\Hero States">
+      <UniqueIdentifier>{303dcaa0-cbb9-438f-9792-157dd774abb9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -182,6 +188,9 @@
     </ClCompile>
     <ClCompile Include="InputEvent.cpp">
       <Filter>Source Files\Observer\Events</Filter>
+
+    <ClCompile Include="Hero.cpp">
+      <Filter>Source Files\Entities</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -310,6 +319,36 @@
     </ClInclude>
     <ClInclude Include="InputEvent.h">
       <Filter>Header Files\Observer\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Hero.h">
+      <Filter>Header Files\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="HeroState.h">
+      <Filter>Source Files\State Machine\States\Hero States</Filter>
+    </ClInclude>
+    <ClInclude Include="IdleState.h">
+      <Filter>Source Files\State Machine\States\Hero States</Filter>
+    </ClInclude>
+    <ClInclude Include="JumpState.h">
+      <Filter>Source Files\State Machine\States\Hero States</Filter>
+    </ClInclude>
+    <ClInclude Include="CrouchState.h">
+      <Filter>Source Files\State Machine\States\Hero States</Filter>
+    </ClInclude>
+    <ClInclude Include="WalkState.h">
+      <Filter>Source Files\State Machine\States\Hero States</Filter>
+    </ClInclude>
+    <ClInclude Include="HurtState.h">
+      <Filter>Source Files\State Machine\States\Hero States</Filter>
+    </ClInclude>
+    <ClInclude Include="GetUpState.h">
+      <Filter>Source Files\State Machine\States\Hero States</Filter>
+    </ClInclude>
+    <ClInclude Include="AttackState.h">
+      <Filter>Source Files\State Machine\States\Hero States</Filter>
+    </ClInclude>
+    <ClInclude Include="DeadState.h">
+      <Filter>Source Files\State Machine\States\Hero States</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
