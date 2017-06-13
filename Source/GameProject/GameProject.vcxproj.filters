@@ -188,6 +188,10 @@
     </ClCompile>
     <ClCompile Include="InputEvent.cpp">
       <Filter>Source Files\Observer\Events</Filter>
+<<<<<<< HEAD
+=======
+
+>>>>>>> 9d5be8667c51bd51ef524e43b57d4e8ce9b0d897
     <ClCompile Include="Hero.cpp">
       <Filter>Source Files\Entities</Filter>
     </ClCompile>
