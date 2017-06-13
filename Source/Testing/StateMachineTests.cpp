@@ -21,12 +21,12 @@ std::shared_ptr<FooState> update(StateMachine<FooState>& machine) {
 
 
 std::shared_ptr<FooStackState> update(StateStackMachine<FooStackState>& machine) {
-	las::Stack<std::shared_ptr<FooStackState>> stateStack = machine.getStateStack();
-	while (!stateStack.empty()) {
-		stateStack.pop()->update();
+	const las::Stack<int>* stateStack = machine.getStateStack();
+	for (size_t i = 0; i < stateStack->size(); ++i) {
+		machine.getState(stateStack->peek(i))->update();
 	}
 	machine.updateState();
-	return machine.getState();
+	return machine.getCurrentState();
 }
 
 TEST_CASE("State Machine", "[state][state machine]") {
@@ -132,34 +132,34 @@ TEST_CASE("Stack State Machine", "[state][state machine][stack]") {
 		SECTION("Force and get state") {
 			REQUIRE_THROWS(fooMachine.forceState(7));
 			fooMachine.forceState(1);
-			REQUIRE(fooMachine.getState()->getValue() == 1);
+			REQUIRE(fooMachine.getCurrentState()->getValue() == 1);
 			fooMachine.forceState(2);
-			REQUIRE(fooMachine.getState()->getValue() == 100);
-			fooMachine.getState()->update();
-			REQUIRE(fooMachine.getState()->getValue() == 91);
+			REQUIRE(fooMachine.getCurrentState()->getValue() == 100);
+			fooMachine.getCurrentState()->update();
+			REQUIRE(fooMachine.getCurrentState()->getValue() == 91);
 		}
 		SECTION("Force push and pop") {
 			update(fooMachine);
 			// Popping bottom does nothing
 			fooMachine.forcePopState();
-			REQUIRE(fooMachine.getState()->getValue() == 12);
+			REQUIRE(fooMachine.getCurrentState()->getValue() == 12);
 			// Pushing same state does nothing
 			fooMachine.forcePushState(1);
-			REQUIRE(fooMachine.getState()->getValue() == 12);
+			REQUIRE(fooMachine.getCurrentState()->getValue() == 12);
 			fooMachine.forcePushState(2);
 			state = update(fooMachine);
 			REQUIRE(state->getValue() == 91);
 			// Lower states lose focus
-			REQUIRE(fooMachine.getStateStack().peek(1)->getValue() == 13);
+			REQUIRE(fooMachine.getState(fooMachine.getStateStack()->peek(1))->getValue() == 13);
 			// Popping gets lower state and gives back focus to it
 			fooMachine.forcePopState();
 			state = update(fooMachine);
 			REQUIRE(state->getValue() == 24);
-			REQUIRE(fooMachine.getStateStack().size() == 1);
+			REQUIRE(fooMachine.getStateStack()->size() == 1);
 			// Pushing lower state onto stack does nothing
 			fooMachine.forcePushState(2);
 			fooMachine.forcePushState(1);
-			REQUIRE(fooMachine.getState()->getValue() == 100);
+			REQUIRE(fooMachine.getCurrentState()->getValue() == 100);
 		}
 		//TODO test forcing lower state transfer when behaviour decided
 	}
