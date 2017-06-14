@@ -1,11 +1,12 @@
 #pragma once
-#include "Condition.h"
+#include "EventCondition.h"
 #include "Input.h"
+#include "Map.h"
 
 /** A condition that checks keyboard input. Test returns true based on the state of specified key*/
 //TODO: MAke it an EventCondition, getting a KeyInputEvent from a specific subject
 class KeyboardInputCondition :
-	public Condition
+	public EventCondition
 {
 public:
 	
@@ -22,14 +23,22 @@ public:
 	KeyboardInputCondition(aie::EInputCodes key, key_state state = pressed);
 	~KeyboardInputCondition();
 
-	void setKeyState(key_state state);
+	void addKeyState(key_state state);
+	void removeKeyState(key_state state);
 	void setKey(aie::EInputCodes key);
 
 	// Returns true if specified key is in chosen state
 	virtual bool test();
 
+	void notify(Subject* subject, EventBase* event);
+
+	virtual bool addSubject(Subject* subject);
+	virtual void removeSubject(Subject* subject);
+
 protected:
-	key_state m_state;			// State of key for which test returns true
-	aie::EInputCodes m_key;		// Key to check
+	las::Map<key_state, bool> m_states;			// State of key for which test returns true
+	aie::EInputCodes m_key;						// Key to check
+	bool m_triggered;
+	bool m_subscribed;
 };
 

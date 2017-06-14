@@ -14,6 +14,7 @@ public:
 	//TODO subject commenting
 	virtual void addObserver(std::shared_ptr<Observer> observer) = 0;
 	virtual void removeObserver(std::shared_ptr<Observer> observer) = 0;
+	virtual void clearObservers() = 0;
 	virtual void notifyObservers(EventBase* event) = 0;
 	virtual bool isSubscribed(const Observer* observer) const = 0;
 };

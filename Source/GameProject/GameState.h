@@ -16,6 +16,8 @@ public:
 
 	GameState(const GameState& other);
 
+	GameState& operator=(const GameState& other);
+
 	virtual void update(float deltaTime) = 0;
 	virtual void draw(aie::Renderer2D* renderer) = 0; //TODO pass in renderer2d?
 
@@ -26,6 +28,7 @@ public:
 
 	virtual void addObserver(std::shared_ptr<Observer> observer);
 	virtual void removeObserver(std::shared_ptr<Observer> observer);
+	virtual void clearObservers();
 	virtual void notifyObservers(EventBase* event);
 	virtual bool isSubscribed(const Observer* observer) const;
 

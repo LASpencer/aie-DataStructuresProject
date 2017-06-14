@@ -14,9 +14,8 @@ GameState::~GameState()
 {
 }
 
-GameState::GameState(const GameState & other) : StackState(other), m_app(other.m_app), m_focus(other.m_focus), m_eventManager(this)
+GameState::GameState(const GameState & other) : StackState(), m_app(other.m_app), m_focus(other.m_focus), m_eventManager(this)
 {
-	//TODO copy gamestate
 	//Copy over transitions and conditions
 	// Transitions
 	for (std::shared_ptr<Transition> transition : other.m_transitions) {
@@ -47,6 +46,52 @@ GameState::GameState(const GameState & other) : StackState(other), m_app(other.m
 			addPopCondition(condition);
 		}
 	}
+}
+
+GameState & GameState::operator=(const GameState & other)
+{
+	// Tell observers this is being destroyed and empty event manager
+	Event wasDestoyed(EventBase::destroyed);
+	notifyObservers(&wasDestoyed);
+	m_eventManager = EventManager(this);
+	m_app = other.m_app;
+	m_focus = other.m_focus;
+	m_transitions.clear();
+	m_pushTransitions.clear();
+	m_popConditions.clear();
+
+	//Copy over transitions and conditions
+	// Transitions
+	for (std::shared_ptr<Transition> transition : other.m_transitions) {
+		std::pair<bool, std::shared_ptr<Condition>> conditionCopy = copyConditionIfSubscribed(transition->getCondition(), other);
+		if (conditionCopy.first) {
+			addTransition(std::make_shared<Transition>(conditionCopy.second, transition->getTargetID()));
+		}
+		else {
+			addTransition(transition);
+		}
+	}
+	// Push transitions
+	for (std::shared_ptr<Transition> transition : other.m_pushTransitions) {
+		std::pair<bool, std::shared_ptr<Condition>> conditionCopy = copyConditionIfSubscribed(transition->getCondition(), other);
+		if (conditionCopy.first) {
+			addPushTransition(std::make_shared<Transition>(conditionCopy.second, transition->getTargetID()));
+		}
+		else {
+			addPushTransition(transition);
+		}
+	}
+	// Pop conditions
+	for (std::shared_ptr<Condition> condition : other.m_popConditions) {
+		std::pair<bool, std::shared_ptr<Condition>> conditionCopy = copyConditionIfSubscribed(condition, other);
+		if (conditionCopy.first) {
+			addPopCondition(conditionCopy.second);
+		}
+		else {
+			addPopCondition(condition);
+		}
+	}
+
 }
 
 
@@ -85,6 +130,11 @@ void GameState::addObserver(std::shared_ptr<Observer> observer)
 void GameState::removeObserver(std::shared_ptr<Observer> observer)
 {
 	m_eventManager.removeObserver(observer);
+}
+
+void GameState::clearObservers()
+{
+	m_eventManager.clearObservers();
 }
 
 void GameState::notifyObservers(EventBase* event)

@@ -67,6 +67,17 @@ void EventManager::removeObserver(std::shared_ptr<Observer> observer)
 	}
 }
 
+void EventManager::clearObservers()
+{
+	for (std::weak_ptr<Observer> observer : m_observers) {
+		if (!observer.expired()) {
+			std::shared_ptr<Observer> subscriber(observer);
+			subscriber->removeSubject(m_owner);
+		}
+	}
+	m_observers.clear();
+}
+
 void EventManager::notifyObservers(EventBase* event)
 {
 	las::Array<std::weak_ptr<Observer>>::iterator it = m_observers.begin();

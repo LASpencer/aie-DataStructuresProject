@@ -10,6 +10,7 @@ public:
 
 	virtual void addObserver(std::shared_ptr<Observer> observer);
 	virtual void removeObserver(std::shared_ptr<Observer> observer);
+	virtual void clearObservers();
 
 	virtual void notifyObservers(EventBase* event);
 	virtual bool isSubscribed(const Observer* observer) const;
