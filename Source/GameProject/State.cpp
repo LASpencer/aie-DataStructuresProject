@@ -11,24 +11,16 @@ State::~State()
 {
 }
 
-void State::addTransition(std::shared_ptr<Transition> transition)
+bool State::shouldTransition()
 {
-	m_transitions.push_back(transition);
+	return m_shouldTransition;
 }
 
-std::pair<bool, int> State::checkTransitions()
+int State::getTarget()
 {
-	bool conditionMet = false;
-	int newState = 0;
-	for (std::shared_ptr<Transition> transition : m_transitions) {
-		if (transition->isConditionMet()) {
-			conditionMet = true;
-			newState = transition->getTargetID();
-			break;
-		}
-	}
-	return std::make_pair(conditionMet, newState);
+	return m_target;
 }
+
 
 
 StackState::StackState() {
@@ -39,36 +31,12 @@ StackState::~StackState()
 {
 }
 
-void StackState::addPushTransition(std::shared_ptr<Transition> transition)
+bool StackState::shouldPop()
 {
-	m_pushTransitions.push_back(transition);
+	return m_shouldPop;
 }
 
-void StackState::addPopCondition(std::shared_ptr<Condition> condition)
+bool StackState::shouldPush()
 {
-	m_popConditions.push_back(condition);
-}
-
-std::pair<bool, int> StackState::checkPushTransitions()
-{
-	bool conditionMet = false;
-	int newState = 0;
-	for (std::shared_ptr<Transition> transition : m_pushTransitions) {
-		if (transition->isConditionMet()) {
-			conditionMet = true;
-			newState = transition->getTargetID();
-			break;
-		}
-	}
-	return std::make_pair(conditionMet, newState);
-}
-
-bool StackState::checkPopConditions()
-{
-	for (std::shared_ptr<Condition> condition : m_popConditions) {
-		if (condition->test()) {
-			return true;
-		}
-	}
-	return false;
+	return m_shouldPush;
 }

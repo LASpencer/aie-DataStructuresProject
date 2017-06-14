@@ -1,9 +1,9 @@
 #pragma once
 #include "GameState.h"
 #include "Button.h"
-
+#include "Observer.h"
 class MainMenuState :
-	public GameState
+	public GameState, public Observer, public std::enable_shared_from_this<MainMenuState>
 {
 public:
 	static const float play_button_x;
@@ -23,6 +23,10 @@ public:
 	virtual void draw(aie::Renderer2D* renderer);
 
 	virtual void onEnter();
+
+	virtual void notify(Subject* subject, EventBase* event);
+	virtual bool addSubject(Subject* subject);
+	virtual void removeSubject(Subject* subject);
 
 protected:
 	TexturePtr m_menuImage;

@@ -33,6 +33,8 @@ State * PauseState::clone() const
 
 void PauseState::update(float deltaTime)
 {
+	//TODO pop if esc pressed
+	//TODO transition to final_state if quit button pressed
 }
 
 void PauseState::draw(aie::Renderer2D * renderer)

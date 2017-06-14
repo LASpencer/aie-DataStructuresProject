@@ -27,6 +27,9 @@ void BattleState::update(float deltaTime)
 {
 	//TODO game logic here
 	m_hero->update(deltaTime);
+	//TODO push pause_state if esc pressed
+	//TODO transition win_screen if all enemies dead
+	//TODO transition game_over if hero dead
 }
 
 void BattleState::draw(aie::Renderer2D * renderer)

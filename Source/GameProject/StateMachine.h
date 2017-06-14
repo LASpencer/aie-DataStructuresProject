@@ -1,8 +1,6 @@
 #pragma once
 #include "stdafx.h"
 #include "State.h"
-#include "Condition.h"
-#include "Transition.h"
 #include "Map.h"
 #include "Array.h"
 #include "Stack.h"
@@ -29,10 +27,6 @@ public:
 		return success;
 	}
 
-	void addTransition(std::shared_ptr<Transition> transition) {
-		m_fromAnyTransitions.push_back(transition);
-	}
-
 	void forceState(int id) {
 		// If going to same state, no transition
 		if (!m_currentState || m_currentID != id) {
@@ -53,26 +47,18 @@ public:
 		}
 	}
 
-	void updateState() {
+	virtual void update(float deltaTime) {
 		//TODO exception instead?
 		assert(m_currentState);	//Assert current state not null
-		//Check transitions from any state
-		for (std::shared_ptr<Transition> transition : m_fromAnyTransitions) {
-			if (transition->isConditionMet()) {
-				int id = transition->getTargetID();
-				if (!m_currentState || m_currentID != id) {
-					forceState(id);
-					break;
-				}
-			}
+		m_currentState->update(deltaTime);
+		if (m_currentState->shouldTransition()) {
+			forceState(m_currentState->getTarget());
 		}
-		// Check transitions from current state
-		if (m_currentState) {
-			std::pair<bool, int> maybeNewState = m_currentState->checkTransitions();
-			if (maybeNewState.first) {
-				forceState(maybeNewState.second);
-			}
-		}
+	}
+
+	virtual void draw(aie::Renderer2D* renderer) {
+		assert(m_currentState);
+		m_currentState->draw(renderer);
 	}
 
 	std::shared_ptr<S> getState() {
@@ -83,7 +69,6 @@ protected:
 	int m_currentID;
 	std::shared_ptr<S> m_currentState;
 	las::Map<int, std::shared_ptr<S>> m_states;
-	las::Array<std::shared_ptr<Transition>> m_fromAnyTransitions;
 };
 
 template <typename S, typename = std::enable_if<std::is_base_of<StackState, S>::value>>	//S is class derived from StackState abstract class
@@ -102,18 +87,6 @@ public:
 			forceState(id);
 		}
 		return success;
-	}
-
-	void addTransition(std::shared_ptr<Transition> transition) {
-		m_fromAnyTransitions.push_back(transition);
-	}
-
-	void addPushTransition(std::shared_ptr<Transition> transition) {
-		m_fromAnyPushTransitions.push_back(transition);
-	}
-
-	void addPopCondition(std::shared_ptr<Condition> condition) {
-		m_popAnyConditions.push_back(condition);
 	}
 
 	virtual void forceState(int id) {
@@ -178,53 +151,26 @@ public:
 		}
 	}
 
-	virtual void updateState() {
+	virtual void update(float deltaTime) {
 		//TODO exception instead?
 		assert(!m_stateStack.empty());	//Assert stack not empty
-		//Check pop from any state
-		for (std::shared_ptr<Condition> condition : m_popAnyConditions) {
-			if (condition->test()) {
-				forcePopState();
-				break;
-			}
+		for (size_t i = 0; i < m_stateStack.size(); ++i) {
+			m_states.at(m_stateStack.peek(i))->update(deltaTime);
 		}
-		//Check transitions from any state
-		for (std::shared_ptr<Transition> transition : m_fromAnyTransitions) {
-			if (transition->isConditionMet()) {
-				int id = transition->getTargetID();
-				if (m_stateStack.top() != id) {
-					forceState(id);
-					break;
-				}
-			}
-		}
-
-		// Check push onto any state
-		for (std::shared_ptr<Transition> pushTransition : m_fromAnyPushTransitions) {
-			if (pushTransition->isConditionMet()) {
-				int id = pushTransition->getTargetID();
-				if (m_stateStack.top() != id) {
-					forcePushState(pushTransition->getTargetID());
-					break;
-				}
-			}
-		}
-		//Check Transitions from current state
-		std::shared_ptr<S> topState = m_states.at(m_stateStack.top());
-		if (topState->checkPopConditions()) {
+		std::shared_ptr<S> currentState = m_states.at(m_stateStack.top())
+		if (currentState->shouldPop()) {
 			forcePopState();
+		} else if (currentState->shouldPush()){
+			forcePushState(currentState->getTarget());
+		} else if (currentState->shouldTransition()){
+			forceState(currentState->getTarget());
 		}
-		else {
-			std::pair<bool, int> maybeNewState = topState->checkTransitions();
-			if (maybeNewState.first) {
-				forceState(maybeNewState.second);
-			}
-			else {
-				std::pair<bool, int> maybePushState = topState->checkPushTransitions();
-				if (maybePushState.first) {
-					forcePushState(maybePushState.second);
-				}
-			}
+	}
+
+	virtual void draw(aie::Renderer2D* renderer) {
+		assert(!m_stateStack.empty());
+		for (size_t i = m_stateStack.size(); i > 0; ++i) {
+			m_states.at(m_stateStack.peek(i - 1))->draw(renderer);
 		}
 	}
 
@@ -243,7 +189,4 @@ public:
 protected:
 	las::Stack<int> m_stateStack;
 	las::Map<int, std::shared_ptr<S>> m_states;
-	las::Array<std::shared_ptr<Transition>> m_fromAnyTransitions;
-	las::Array<std::shared_ptr<Transition>> m_fromAnyPushTransitions;
-	las::Array<std::shared_ptr<Condition>> m_popAnyConditions;
 };
