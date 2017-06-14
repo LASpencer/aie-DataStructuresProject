@@ -157,7 +157,7 @@ public:
 		for (size_t i = 0; i < m_stateStack.size(); ++i) {
 			m_states.at(m_stateStack.peek(i))->update(deltaTime);
 		}
-		std::shared_ptr<S> currentState = m_states.at(m_stateStack.top())
+		std::shared_ptr<S> currentState = m_states.at(m_stateStack.top());
 		if (currentState->shouldPop()) {
 			forcePopState();
 		} else if (currentState->shouldPush()){
@@ -169,7 +169,7 @@ public:
 
 	virtual void draw(aie::Renderer2D* renderer) {
 		assert(!m_stateStack.empty());
-		for (size_t i = m_stateStack.size(); i > 0; ++i) {
+		for (size_t i = m_stateStack.size(); i > 0; --i) {
 			m_states.at(m_stateStack.peek(i - 1))->draw(renderer);
 		}
 	}

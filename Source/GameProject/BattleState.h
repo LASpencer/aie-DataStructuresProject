@@ -1,4 +1,5 @@
 #pragma once
+#include "Input.h"
 #include "GameState.h"
 #include "ResourceManager.h"
 
@@ -8,6 +9,8 @@ class BattleState :
 	public GameState
 {
 public:
+	static const aie::EInputCodes pause_key;
+
 	BattleState(GameProjectApp* app);
 	virtual ~BattleState();
 	BattleState(const BattleState& other);

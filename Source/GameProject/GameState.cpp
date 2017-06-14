@@ -24,7 +24,7 @@ GameState & GameState::operator=(const GameState & other)
 	m_eventManager = EventManager(this);
 	m_app = other.m_app;
 	m_focus = other.m_focus;
-
+	return *this;
 }
 
 

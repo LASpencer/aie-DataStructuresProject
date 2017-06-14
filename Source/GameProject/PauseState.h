@@ -1,5 +1,8 @@
 #pragma once
 #include "GameState.h"
+#include "Button.h"
+#include "Observer.h"
+#include "Input.h"
 #include <string>
 
 class TextBar;
@@ -13,6 +16,14 @@ public:
 	static const unsigned short pause_font_height;
 	static const float text_pos_x;
 	static const float text_pos_y;
+	static const float quit_button_x;
+	static const float quit_button_y;
+	static const float button_width;
+	static const float button_height;
+	static const std::string button_font_path;
+	static const unsigned short button_font_height;
+
+	static const aie::EInputCodes unpause_key;
 
 	PauseState(GameProjectApp* app);
 	virtual ~PauseState();
@@ -23,7 +34,13 @@ public:
 	virtual void update(float deltaTime);
 	virtual void draw(aie::Renderer2D* renderer);
 
+	virtual void onEnter();
+
+	
+
+
 protected:
-	TextBar* m_pauseText;
+	TextBar* m_pauseText;//TODO convert to uniqueptr
+	std::shared_ptr<Button> m_quitButton;
 };
 

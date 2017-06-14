@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "Filepaths.h"
 #include "Hero.h"
 #include "ResourceManager.h"
 #include "SceneObject.h"
@@ -12,12 +13,12 @@ const float Hero::sprite_height = 50.0f;
 const float Hero::sprite_uv_width = 0.125f;
 const float Hero::sprite_uv_height = 0.25f;
 
-const std::string Hero::sprite_filepath = "./textures/player/player-spritemap-v9.png";
-const std::string Hero::robe_filepath = "./textures/armor/robe02-spritemap-v9.png";
-const std::string Hero::armour_filepath = "./textures/armor/armor02-spritemap-v9.png";
-const std::string Hero::shield_filepath = "./textures/accessories/shield02-spritemap-v9.png";
-const std::string Hero::helmet_filepath = "./textures/accessories/helm02-spritemap-v9.png";
-const std::string Hero::sword_filepath = "./textures/weapons/sword-slash-05-60x30.png";
+const std::string Hero::sprite_filepath = filepath::hero_blue;
+const std::string Hero::robe_filepath = filepath::robe_brown;
+const std::string Hero::armour_filepath = filepath::armour_steel;
+const std::string Hero::shield_filepath = filepath::shield_steel;
+const std::string Hero::helmet_filepath = filepath::helmet_steel;
+const std::string Hero::sword_filepath = filepath::sword_rapier;
 
 Hero::Hero()
 {

@@ -5,6 +5,8 @@
 #include "SceneObject.h"
 #include "Sprite.h"
 
+const aie::EInputCodes BattleState::pause_key = aie::INPUT_KEY_ESCAPE;
+
 BattleState::BattleState(GameProjectApp* app) : GameState(app)
 {
 }
@@ -25,11 +27,16 @@ State * BattleState::clone() const
 
 void BattleState::update(float deltaTime)
 {
-	//TODO game logic here
-	m_hero->update(deltaTime);
-	//TODO push pause_state if esc pressed
-	//TODO transition win_screen if all enemies dead
-	//TODO transition game_over if hero dead
+	if (m_focus) {
+		//TODO game logic here
+		m_hero->update(deltaTime);
+		if (aie::Input::getInstance()->wasKeyPressed(pause_key)) {
+			m_shouldPush = true;
+			m_target = GameStateMachine::pause_state;
+		}
+		//TODO transition win_screen if all enemies dead
+		//TODO transition game_over if hero dead
+	}
 }
 
 void BattleState::draw(aie::Renderer2D * renderer)

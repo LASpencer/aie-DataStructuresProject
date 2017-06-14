@@ -37,10 +37,5 @@ protected:
 	GameProjectApp* m_app;
 	EventManager m_eventManager;
 
-	/** Creates a copy of a condition if it relies on a subscription to another GameState
-	* @param condition a condition
-	* @param other another GameState which may hold a subscription to condition
-	* @return false, or true and shared_ptr to new Condition if condition was subscribed to Other*/
-	virtual std::pair<bool,std::shared_ptr<Condition>> copyConditionIfSubscribed(std::shared_ptr<const Condition> condition, const GameState& other);
 };
 

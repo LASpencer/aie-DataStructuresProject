@@ -3,9 +3,10 @@
 #include "Button.h"
 #include "Observer.h"
 class MainMenuState :
-	public GameState, public Observer, public std::enable_shared_from_this<MainMenuState>
-{
+	public GameState{
 public:
+	static const float button_width;
+	static const float button_height;
 	static const float play_button_x;
 	static const float play_button_y;
 	static const float exit_button_x;
@@ -24,9 +25,6 @@ public:
 
 	virtual void onEnter();
 
-	virtual void notify(Subject* subject, EventBase* event);
-	virtual bool addSubject(Subject* subject);
-	virtual void removeSubject(Subject* subject);
 
 protected:
 	TexturePtr m_menuImage;

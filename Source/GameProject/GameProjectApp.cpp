@@ -33,11 +33,7 @@ void GameProjectApp::update(float deltaTime) {
 	// input example
 	aie::Input* input = aie::Input::getInstance();
 
-	m_stateMachine->updateState();
-	const las::Stack<int>* stateStack = m_stateMachine->getStateStack();
-	for (size_t i = 0; i < stateStack->size(); ++i) {
-		m_stateMachine->getState(stateStack->peek(i))->update(deltaTime);
-	}
+	m_stateMachine->update(deltaTime);
 }
 
 void GameProjectApp::draw() {
@@ -49,10 +45,7 @@ void GameProjectApp::draw() {
 	m_2dRenderer->begin();
 
 	// draw your stuff here!
-	const las::Stack<int>* stateStack = m_stateMachine->getStateStack();
-	for (size_t i = stateStack->size(); i >0; --i) {
-		m_stateMachine->getState(stateStack->peek(i-1))->draw(m_2dRenderer);
-	}
+	m_stateMachine->draw(m_2dRenderer);
 
 	//fps info
 	m_2dRenderer->setRenderColour(1, 1, 0, 1);
