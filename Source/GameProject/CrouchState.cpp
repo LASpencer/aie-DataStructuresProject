@@ -1,9 +1,10 @@
 #include "stdafx.h"
 #include "CrouchState.h"
 #include "HeroStateMachine.h"
-#include "Hero.h"
+#include "HeroController.h"
+#include "Entity.h"
 
-CrouchState::CrouchState(Hero * hero) : HeroState(hero)
+CrouchState::CrouchState(HeroController* controller) : HeroState(controller)
 {
 }
 
@@ -33,7 +34,7 @@ void CrouchState::update(float deltaTime)
 	*		Moves to JumpState on pressing jump button
 	*		Moves to CrouchHurtState on taking damage
 	*/
-	m_hero->setStance(Hero::crouch);
+	m_controller->setStance(HeroController::crouch);
 	aie::Input* input = aie::Input::getInstance();
 	if (input->isKeyUp(crouch_button)) {
 		m_shouldTransition = true;

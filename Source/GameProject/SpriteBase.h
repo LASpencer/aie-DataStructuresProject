@@ -15,8 +15,8 @@ public:
 	void setDimensions(float width, float height);
 	void setOrigin(float x, float y);
 
-	virtual void update(Entity* entity, float deltaTime) {};
-	virtual void draw(Entity* entity, aie::Renderer2D* renderer) = 0;
+	virtual void update(float deltaTime) {};
+	virtual void draw(aie::Renderer2D* renderer) = 0;
 
 	virtual Identifier getID();
 

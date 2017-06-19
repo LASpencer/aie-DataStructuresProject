@@ -21,8 +21,10 @@ void MultiSprite::setTextures(las::Array<TexturePtr>& textures)
 	m_textures = textures;
 }
 
-void MultiSprite::draw(Entity * entity, aie::Renderer2D * renderer)
+void MultiSprite::draw(aie::Renderer2D * renderer)
 {
+	EntityPtr entity(m_entity);
+	assert(entity);
 	SceneObjectPtr position = entity->getPosition();
 	renderer->setUVRect(m_uvx, m_uvy, m_uvw, m_uvh);
 	for (TexturePtr texture : m_textures) {

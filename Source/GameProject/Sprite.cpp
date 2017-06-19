@@ -23,8 +23,10 @@ void Sprite::setTexture(TexturePtr texture)
 }
 
 
-void Sprite::draw(Entity * entity, aie::Renderer2D* renderer)
+void Sprite::draw(aie::Renderer2D* renderer)
 {
+	EntityPtr entity(m_entity);
+	assert(entity);
 	SceneObjectPtr position = entity->getPosition();
 	//TODO: Sprite can have origin point set
 	//TODO figure out correct matrix pointer cast

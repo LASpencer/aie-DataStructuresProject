@@ -216,6 +216,15 @@
     <ClCompile Include="WalkState.cpp">
       <Filter>Source Files\State Machine\States\Hero States</Filter>
     </ClCompile>
+    <ClCompile Include="Controller.cpp">
+      <Filter>Source Files\Entities\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="HeroController.cpp">
+      <Filter>Source Files\Entities\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="EntityFactory.cpp">
+      <Filter>Source Files\Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameProjectApp.h">
@@ -396,6 +405,15 @@
       <Filter>Header Files\Entities</Filter>
     </ClInclude>
     <ClInclude Include="Block.h">
+      <Filter>Header Files\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Controller.h">
+      <Filter>Header Files\Entities\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="HeroController.h">
+      <Filter>Header Files\Entities\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityFactory.h">
       <Filter>Header Files\Entities</Filter>
     </ClInclude>
   </ItemGroup>

@@ -9,6 +9,7 @@ SceneObject::SceneObject() : m_parent(), m_children(), m_localTransform(1),m_glo
 
 SceneObject::~SceneObject()
 {
+	//TODO fix sceneObject memory bug
 }
 
 void SceneObject::update(Entity * entity, float deltaTime)

@@ -32,8 +32,8 @@ public:
 	virtual void notifyObservers(EventBase* event);
 	virtual bool isSubscribed(const Observer* observer) const;
 
-	virtual void update(Entity* entity, float deltaTime);
-	virtual void draw(Entity* entity, aie::Renderer2D* renderer);
+	virtual void update(float deltaTime);
+	virtual void draw(aie::Renderer2D* renderer);
 	static const bool draw_boxes = true;
 
 	virtual Identifier getID();

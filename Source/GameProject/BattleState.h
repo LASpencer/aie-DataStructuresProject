@@ -25,8 +25,5 @@ public:
 
 protected:
 	TexturePtr m_battleImage;
-
-	//HACK for testing
-	Hero* m_hero;
 };
 

@@ -10,7 +10,7 @@ class WalkState : public HeroState {
 	*		Move to IdleState on release left/right buttons
 	*/
 public:
-	WalkState(Hero* hero);
+	WalkState(HeroController* controller);
 
 	virtual ~WalkState();
 

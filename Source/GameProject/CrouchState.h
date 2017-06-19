@@ -10,7 +10,7 @@ public:
 	*/
 	//TODO: Maybe allow slides while crouched?
 
-	CrouchState(Hero* hero);
+	CrouchState(HeroController* controller);
 
 	virtual ~CrouchState();
 

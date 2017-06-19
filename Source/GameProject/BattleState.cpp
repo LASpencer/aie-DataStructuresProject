@@ -28,13 +28,15 @@ State * BattleState::clone() const
 void BattleState::update(float deltaTime)
 {
 	if (m_focus) {
-		//TODO game logic here
-		m_hero->update(deltaTime);
+		//TODO update components as a group, from all entities with said component
+		for (EntityPtr entity : m_app->getEntityList()) {
+			entity->update(deltaTime);
+		}
 		if (aie::Input::getInstance()->wasKeyPressed(pause_key)) {
 			m_shouldPush = true;
 			m_target = GameStateMachine::pause_state;
 		}
-		//TODO transition win_screen if all enemies dead
+		//TODO transition win_screen if door reached
 		//TODO transition game_over if hero dead
 	}
 }
@@ -43,28 +45,21 @@ void BattleState::draw(aie::Renderer2D * renderer)
 {
 	renderer->setUVRect(0, 0, 1, 1);
 	renderer->drawSprite(m_battleImage->get(), 640, 360);
-	//HACK for testing
-	m_hero->draw(renderer);
+	//TODO just draw sprite components and (if activated) colliders
+	for (EntityPtr entity : m_app->getEntityList()) {
+		entity->draw(renderer);
+	}
 }
 
 void BattleState::onEnter()
 {
 	GameState::onEnter();
 	m_battleImage = m_app->getResourceManager()->getTexture("./textures/combatBG.png");
+	m_app->getEntityFactory()->createEntity(EntityFactory::hero, { 1,0,0,0,1,0,300,300,1 });
 
-	//TODO move this out to a Creature Factory class
-	las::Array<TexturePtr> textures({	m_app->getResourceManager()->getTexture(Hero::sprite_filepath),
-										m_app->getResourceManager()->getTexture(Hero::robe_filepath), 
-										m_app->getResourceManager()->getTexture(Hero::armour_filepath),
-										m_app->getResourceManager()->getTexture(Hero::helmet_filepath),
-										m_app->getResourceManager()->getTexture(Hero::shield_filepath) });
-	m_hero = new Hero(textures);//TODO make a const
-	m_hero->getPosition()->setLocalTransform({ 1,0,0,0,1,0,300,300,1 });//HACK scale back to 1,1
 }
 
 void BattleState::onExit()
 {
-	//HACK just for testing
-	delete m_hero;
-	m_hero = nullptr;
+	//TODO cleanup unused resources
 }

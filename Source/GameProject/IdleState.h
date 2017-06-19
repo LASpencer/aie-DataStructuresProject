@@ -4,7 +4,7 @@
 class IdleState : public HeroState {
 
 public:
-	IdleState(Hero* hero);
+	IdleState(HeroController* controller);
 
 	virtual ~IdleState();
 

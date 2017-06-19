@@ -1,9 +1,10 @@
 #include "stdafx.h"
 #include "IdleState.h"
-#include "Hero.h"
+#include "HeroController.h"
 #include "HeroStateMachine.h"
+#include "Entity.h"
 
-IdleState::IdleState(Hero * hero) : HeroState(hero)
+IdleState::IdleState(HeroController * controller) : HeroState(controller)
 {
 }
 
@@ -34,7 +35,9 @@ void IdleState::update(float deltaTime)
 	*		Moves to AttackState when attack button pressed
 	*		Moves to HurtState when damage taken
 	*/
-	m_hero->setStance(Hero::idle);
+	EntityPtr hero(m_hero);
+	assert(hero);
+	m_controller->setStance(HeroController::idle);
 	aie::Input* input = aie::Input::getInstance();
 	if (input->isKeyDown(left_move_button) || input->isKeyDown(right_move_button)) {
 		m_shouldTransition = true;

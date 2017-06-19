@@ -33,6 +33,7 @@ void SplashScreenState::update(float deltaTime)
 			m_target = GameStateMachine::main_menu;
 		}
 	}
+	//TODO load resources while waiting
 }
 
 void SplashScreenState::draw(aie::Renderer2D* renderer)

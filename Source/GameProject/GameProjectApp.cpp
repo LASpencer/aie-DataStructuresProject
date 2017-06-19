@@ -6,12 +6,13 @@
 #include "Input.h"
 
 
-GameProjectApp::GameProjectApp() {
+GameProjectApp::GameProjectApp() : m_entityList()
+{
 
 }
 
 GameProjectApp::~GameProjectApp() {
-
+	//TODO fix sceneObject memory bug
 }
 
 bool GameProjectApp::startup() {
@@ -19,15 +20,20 @@ bool GameProjectApp::startup() {
 	m_2dRenderer = new aie::Renderer2D();
 	m_resourceManager = new ResourceManager();
 	m_stateMachine = new GameStateMachine(this);
+	m_entityFactory = new EntityFactory(this);
+	m_sceneRoot = std::make_shared<SceneObject>();
+	// Disable face culling, so sprites can be flipped
 	glDisable(GL_CULL_FACE);
 	return true;
 }
 
 void GameProjectApp::shutdown() {
 
+	delete m_entityFactory;
 	delete m_stateMachine;
 	delete m_resourceManager;
 	delete m_2dRenderer;
+	//TODO fix sceneObject memory bug
 }
 
 void GameProjectApp::update(float deltaTime) {
@@ -61,4 +67,19 @@ void GameProjectApp::draw() {
 ResourceManager * GameProjectApp::getResourceManager()
 {
 	return m_resourceManager;
+}
+
+EntityFactory * GameProjectApp::getEntityFactory()
+{
+	return m_entityFactory;
+}
+
+SceneObjectPtr GameProjectApp::getSceneRoot()
+{
+	return m_sceneRoot;
+}
+
+las::Array<EntityPtr>& GameProjectApp::getEntityList()
+{
+	return m_entityList;
 }
