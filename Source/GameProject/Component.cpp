@@ -19,8 +19,3 @@ bool Component::onAdd(Entity * entity)
 void Component::onRemove(Entity * entity)
 {
 }
-
-Component::Identifier Component::getID()
-{
-	return Identifier::base;
-}

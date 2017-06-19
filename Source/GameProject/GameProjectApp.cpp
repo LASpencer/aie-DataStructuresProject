@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "gl_core_4_4.h"
 #include "GameProjectApp.h"
 #include "Texture.h"
 #include "Font.h"
@@ -18,6 +19,7 @@ bool GameProjectApp::startup() {
 	m_2dRenderer = new aie::Renderer2D();
 	m_resourceManager = new ResourceManager();
 	m_stateMachine = new GameStateMachine(this);
+	glDisable(GL_CULL_FACE);
 	return true;
 }
 

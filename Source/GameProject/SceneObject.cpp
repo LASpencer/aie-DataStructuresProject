@@ -15,10 +15,6 @@ void SceneObject::update(Entity * entity, float deltaTime)
 {
 }
 
-SceneObject::Identifier SceneObject::getID()
-{
-	return scene_object;
-}
 
 bool SceneObject::addChild(SceneObjectPtr child)
 {

@@ -3,6 +3,7 @@
 #include "Array.h"
 #include "Renderer2D.h"
 #include "Component.h"
+#include "SceneObject.h"
 
 typedef std::shared_ptr<Component> ComponentPtr;
 
@@ -16,11 +17,11 @@ public:
 
 	bool removeComponent(Component::Identifier id);
 
-	bool replaceComponent(const ComponentPtr& component);
-
-	bool hasComponent(Component::Identifier id);
+	int getComponentMask();
 
 	ComponentPtr getComponent(Component::Identifier id);
+
+	SceneObjectPtr getPosition();
 
 	virtual void update(float deltaTime);
 
@@ -28,5 +29,7 @@ public:
 
 protected:
 	las::Array<ComponentPtr> m_components; //HACK: A map might be better?
+	int m_componentBitmask;
+	SceneObjectPtr m_position;
 };
 

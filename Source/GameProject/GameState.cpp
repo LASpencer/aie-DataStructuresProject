@@ -2,7 +2,7 @@
 #include "GameState.h"
 #include "Event.h"
 
-GameState::GameState(GameProjectApp* app) : m_app(app), m_focus(false), m_eventManager(this)
+GameState::GameState(GameProjectApp* app) : m_app(app), m_eventManager(this)
 {
 }
 
@@ -11,9 +11,9 @@ GameState::~GameState()
 {
 }
 
-GameState::GameState(const GameState & other) : StackState(), m_app(other.m_app), m_focus(other.m_focus), m_eventManager(this)
+GameState::GameState(const GameState & other) : StackState(), m_app(other.m_app), m_eventManager(this)
 {
-	
+	m_focus = other.m_focus;
 }
 
 GameState & GameState::operator=(const GameState & other)
@@ -30,33 +30,28 @@ GameState & GameState::operator=(const GameState & other)
 
 void GameState::onEnter()
 {
-	m_focus = true;
-	m_shouldTransition = false;
-	m_shouldPop = false;
-	m_shouldPush = false;
+	StackState::onEnter();
 	Event wasEntered(EventBase::state_entered);
 	notifyObservers(&wasEntered);
 }
 
 void GameState::onExit()
 {
+	StackState::onExit();
 	Event wasExited(EventBase::state_exited);
 	notifyObservers(&wasExited);
 }
 
 void GameState::onFocus()
 {
-	m_focus = true;
-	m_shouldTransition = false;
-	m_shouldPop = false;
-	m_shouldPush = false;
+	StackState::onFocus();
 	Event gainedFocus(EventBase::gain_focus);
 	notifyObservers(&gainedFocus);
 }
 
 void GameState::onLoseFocus()
 {
-	m_focus = false;
+	StackState::onLoseFocus();
 	Event lostFocus(EventBase::lose_focus);
 	notifyObservers(&lostFocus);
 }

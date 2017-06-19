@@ -9,4 +9,22 @@ class WalkState : public HeroState {
 	*		Maybe move to CrouchState on crouch press (possibly with slide?)
 	*		Move to IdleState on release left/right buttons
 	*/
-}
+public:
+	WalkState(Hero* hero);
+
+	virtual ~WalkState();
+
+	virtual State* clone() const;
+
+	virtual void onEnter();
+
+	virtual void onExit();
+
+	virtual void update(float deltaTime);
+
+	virtual void draw(aie::Renderer2D* renderer);
+
+protected:
+	float m_timer;
+	size_t m_frame;
+};

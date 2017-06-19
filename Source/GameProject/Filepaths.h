@@ -22,6 +22,10 @@ namespace filepath {
 	const std::string shield_steel = "./textures/accessories/shield02-spritemap-v9.png";
 	const std::string shield_knight = "./textures/accessories/shield03-spritemap-v9.png";
 	const std::string shield_gold = "./textures/accessories/shield04-spritemap-v9.png";
+	const std::string shield_hylian = "./textures/accessories/shield05-spritemap.png";
+	const std::string shield_roman = "./textures/accessories/shield06-spritemap.png";
+	const std::string shield_spartan = "./textures/accessories/shield07-spritemap.png";
+	const std::string shield_zulu = "./textures/accessories/shield08-spritemap.png";
 	const std::string helmet_leather = "./textures/accessories/helm01-spritemap-v9.png";
 	const std::string helmet_steel = "./textures/accessories/helm02-spritemap-v9.png";
 	const std::string helmet_mail = "./textures/accessories/helm03-spritemap-v9.png";
@@ -43,10 +47,6 @@ namespace filepath {
 	const std::string armour_samurai = "./textures/armor/armor06-spritemap.png";
 	const std::string armour_black = "./textures/armor/armor07-spritemap.png";
 	const std::string armour_silver = "./textures/armor/armor08-spritemap.png";
-	const std::string shield_hylian = "./textures/accessories/shield05-spritemap.png";
-	const std::string shield_roman = "./textures/accessories/shield06-spritemap.png";
-	const std::string shield_spartan = "./textures/accessories/shield07-spritemap.png";
-	const std::string shield_zulu = "./textures/accessories/shield08-spritemap.png";
 	const std::string helmet_red = "./textures/accessories/helm05-spritemap.png";
 	const std::string helmet_black = "./textures/accessories/helm06-spritemap.png";
 	const std::string helmet_blue = "./textures/accessories/helm07-spritemap.png";

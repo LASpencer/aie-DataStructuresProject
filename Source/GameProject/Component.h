@@ -16,13 +16,14 @@ public:
 	virtual bool onAdd(Entity* entity);
 	virtual void onRemove(Entity* entity);
 
+	
 	enum Identifier {
-		base,
-		scene_object,
-		sprite
+		sprite = 1,
+		collider = 2,
+		physics = 4
 	};
 
-	virtual Identifier getID();
+	virtual Identifier getID() = 0;
 	
 	
 };

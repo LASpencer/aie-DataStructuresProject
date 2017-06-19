@@ -13,10 +13,10 @@ public:
 	virtual State* clone() const = 0;
 
 	// Called when transitioning to the state
-	virtual void onEnter() = 0;
+	virtual void onEnter();
 
 	// Called when transitioning from the state
-	virtual void onExit() = 0;
+	virtual void onExit();
 
 	virtual void update(float deltaTime) = 0;
 	virtual void draw(aie::Renderer2D* renderer) = 0;
@@ -35,17 +35,24 @@ public:
 
 	virtual ~StackState();
 
+	// Called when transitioning to the state
+	virtual void onEnter();
+
+	// Called when transitioning from the state
+	virtual void onExit();
+
 	// Called when state above is popped
-	virtual void onFocus() = 0;
+	virtual void onFocus();
 
 	// Called when a state is pushed onto this
-	virtual void onLoseFocus() = 0;
+	virtual void onLoseFocus();
 
 	bool shouldPop();
 
 	bool shouldPush();
 
 protected:
+	bool m_focus;
 	bool m_shouldPop;
 	bool m_shouldPush;
 };

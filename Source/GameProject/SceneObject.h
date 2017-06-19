@@ -8,8 +8,7 @@ typedef std::shared_ptr<SceneObject> SceneObjectPtr;
 typedef std::weak_ptr<SceneObject> SceneObjectWeakPtr;
 
 //TODO comment, test, document SceneObject
-class SceneObject :
-	public Component
+class SceneObject 
 {
 public:
 	SceneObject();
@@ -17,9 +16,7 @@ public:
 	virtual ~SceneObject();
 
 	void update(Entity* entity, float deltaTime);
-
-	virtual Identifier getID();
-
+  
 	bool addChild(SceneObjectPtr child);
 
 	void setLocalTransform(glm::mat3 local);

@@ -85,6 +85,9 @@
     <Filter Include="Header Files\State Machine\States\Hero States">
       <UniqueIdentifier>{478a6e79-418f-4315-87e8-fb0e934baeac}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\State Machine\States\Hero States">
+      <UniqueIdentifier>{45e66a83-5e40-4c9f-80c2-d01ed1006055}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -106,9 +109,6 @@
       <Filter>Source Files\Entities</Filter>
     </ClCompile>
     <ClCompile Include="Component.cpp">
-      <Filter>Source Files\Entities\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="SceneObject.cpp">
       <Filter>Source Files\Entities\Components</Filter>
     </ClCompile>
     <ClCompile Include="Sprite.cpp">
@@ -198,6 +198,24 @@
     <ClCompile Include="Collider.cpp">
       <Filter>Source Files\Entities\Components</Filter>
     </ClCompile>
+    <ClCompile Include="SceneObject.cpp">
+      <Filter>Source Files\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="HeroStateMachine.cpp">
+      <Filter>Source Files\State Machine</Filter>
+    </ClCompile>
+    <ClCompile Include="HeroState.cpp">
+      <Filter>Source Files\State Machine\States\Hero States</Filter>
+    </ClCompile>
+    <ClCompile Include="IdleState.cpp">
+      <Filter>Source Files\State Machine\States\Hero States</Filter>
+    </ClCompile>
+    <ClCompile Include="CrouchState.cpp">
+      <Filter>Source Files\State Machine\States\Hero States</Filter>
+    </ClCompile>
+    <ClCompile Include="WalkState.cpp">
+      <Filter>Source Files\State Machine\States\Hero States</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameProjectApp.h">
@@ -244,9 +262,6 @@
     </ClInclude>
     <ClInclude Include="Entity.h">
       <Filter>Header Files\Entities</Filter>
-    </ClInclude>
-    <ClInclude Include="SceneObject.h">
-      <Filter>Header Files\Entities\Components</Filter>
     </ClInclude>
     <ClInclude Include="Sprite.h">
       <Filter>Header Files\Entities\Components</Filter>
@@ -359,14 +374,20 @@
     <ClInclude Include="SpriteBase.h">
       <Filter>Header Files\Entities\Components</Filter>
     </ClInclude>
-    <ClInclude Include="MultiSprite.h">
-      <Filter>Source Files\Entities\Components</Filter>
-    </ClInclude>
     <ClInclude Include="Filepaths.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Collider.h">
       <Filter>Header Files\Entities\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="MultiSprite.h">
+      <Filter>Header Files\Entities\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneObject.h">
+      <Filter>Header Files\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="HeroStateMachine.h">
+      <Filter>Header Files\State Machine</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -25,13 +25,9 @@ void Sprite::setTexture(TexturePtr texture)
 
 void Sprite::draw(Entity * entity, aie::Renderer2D* renderer)
 {
-	SceneObject* sceneObject = std::dynamic_pointer_cast<SceneObject>(entity->getComponent(scene_object)).get();
-	if (sceneObject == nullptr) {
-		throw missing_component("Sprite requires SceneObject component");
-		//TODO create invalid argument subclass for missing component dependency
-	}
+	SceneObjectPtr position = entity->getPosition();
 	//TODO: Sprite can have origin point set
 	//TODO figure out correct matrix pointer cast
 	renderer->setUVRect(m_uvx, m_uvy, m_uvw, m_uvh);
-	renderer->drawSpriteTransformed3x3(m_texture->get(), &sceneObject->getGlobalTransform()[0][0], m_width,m_height,0,m_xOrigin,m_yOrigin);//TODO fix bug where uvrect sprite is size of entire sheet
+	renderer->drawSpriteTransformed3x3(m_texture->get(), &position->getGlobalTransform()[0][0], m_width,m_height,0,m_xOrigin,m_yOrigin);//TODO fix bug where uvrect sprite is size of entire sheet
 }

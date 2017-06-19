@@ -13,7 +13,7 @@
 GameStateMachine::GameStateMachine(GameProjectApp* app)
 {
 	m_app = app;
-	//TODO refactor this mess
+
 	std::shared_ptr<SplashScreenState> splashScreen = std::make_shared<SplashScreenState>(app);
 	addState(splash_screen, splashScreen);
 

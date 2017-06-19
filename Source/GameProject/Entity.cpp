@@ -2,7 +2,7 @@
 #include "Entity.h"
 #include "Component.h"
 
-Entity::Entity()
+Entity::Entity() : m_position(std::make_shared<SceneObject>()), m_componentBitmask(0)
 {
 }
 
@@ -16,16 +16,14 @@ bool Entity::addComponent(const ComponentPtr & component)
 	//TODO figure out how to make this a lambda/function object
 	Component::Identifier id = component->getID();
 	bool canAdd = true;
-	for (auto& current : m_components) {
-		if (current->getID() == id) {
+		if (m_componentBitmask & id) {
 			canAdd = false;
-			break;
 		}
-	}
 	if (canAdd) {
 		canAdd = component->onAdd(this);
 		if (canAdd) {
 			m_components.push_back(component);
+			m_componentBitmask |= id;
 		}
 	}
 	return canAdd;
@@ -37,7 +35,9 @@ bool Entity::removeComponent(Component::Identifier id)
 	bool removed = false;
 	while (component != m_components.end()) {
 		if ((*component)->getID() == id) {
+			(*component)->onRemove(this);
 			component = m_components.erase(component);
+			m_componentBitmask &= !id;
 			removed = true;
 			break;
 		} else {
@@ -47,33 +47,10 @@ bool Entity::removeComponent(Component::Identifier id)
 	return removed;
 }
 
-bool Entity::replaceComponent(const ComponentPtr & component)
-{
-	int id = component->getID();
-	bool replaced = false;
-	bool added = false;
-	for (auto& current : m_components) {
-		if (current->getID() == id) {
-			current = component;
-			replaced = true;
-			break;
-		}
-	}
-	if (!replaced) {
-		m_components.push_back(component);
-		bool added = true;
-	}
-	return replaced || added;
-}
 
-bool Entity::hasComponent(Component::Identifier id)
+int Entity::getComponentMask()
 {
-	for (auto& component : m_components) {
-		if (component->getID() == id) {
-			return true;
-		}
-	}
-	return false;
+	return m_componentBitmask;
 }
 
 ComponentPtr Entity::getComponent(Component::Identifier id)
@@ -84,6 +61,11 @@ ComponentPtr Entity::getComponent(Component::Identifier id)
 		}
 	}
 	return ComponentPtr();
+}
+
+SceneObjectPtr Entity::getPosition()
+{
+	return m_position;
 }
 
 void Entity::update(float deltaTime)

@@ -33,7 +33,6 @@ public:
 	virtual bool isSubscribed(const Observer* observer) const;
 
 protected:
-	bool m_focus;
 	GameProjectApp* m_app;
 	EventManager m_eventManager;
 

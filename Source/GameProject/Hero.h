@@ -2,6 +2,7 @@
 #include "Entity.h"
 #include "Map.h"
 #include "ResourceManager.h"
+#include "HeroStateMachine.h"
 
 //TODO extract out common functionality between this and creatures into superclass
 
@@ -28,13 +29,23 @@ public:
 		jump_wind_down,
 		falling,
 		downed,
-		run			//Indicates first run frame, additional frames are 0.125 away up to 0.875
+		run1,
+		run2,
+		run3,
+		run4,
+		run5,
+		run6,
+		run7,
+		run8
 	};
 
 	static const float sprite_width;
 	static const float sprite_height;
 	static const float sprite_uv_width;
 	static const float sprite_uv_height;
+
+	static const float move_speed;
+	static const float move_frame_length;
 
 	static const std::string sprite_filepath;
 	static const std::string robe_filepath;
@@ -55,10 +66,13 @@ public:
 	virtual void draw(aie::Renderer2D* renderer);
 
 	static void setupFrames();
+
+	void setStance(Stance stance);
+
 protected:
 	// Map holding UVRect values for each stance
 	static las::Map<Stance, std::pair<float, float>> m_animationFrames;
 	//TODO add sword entity (reference?)
-	
+	HeroStateMachine m_stateMachine;
 
 };
