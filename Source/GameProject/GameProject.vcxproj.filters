@@ -389,5 +389,14 @@
     <ClInclude Include="HeroStateMachine.h">
       <Filter>Header Files\State Machine</Filter>
     </ClInclude>
+    <ClInclude Include="Floor.h">
+      <Filter>Header Files\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Door.h">
+      <Filter>Header Files\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Block.h">
+      <Filter>Header Files\Entities</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

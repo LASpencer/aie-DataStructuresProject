@@ -20,7 +20,7 @@ public:
 	enum Identifier {
 		sprite = 1,
 		collider = 2,
-		physics = 4
+		physics = 4	
 	};
 
 	virtual Identifier getID() = 0;

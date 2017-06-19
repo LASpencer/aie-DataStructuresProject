@@ -139,6 +139,7 @@
     <ClInclude Include="AttackState.h" />
     <ClInclude Include="BattleState.h" />
     <ClInclude Include="BinaryCondition.h" />
+    <ClInclude Include="Block.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="Collider.h" />
     <ClInclude Include="ComplexCondition.h" />
@@ -147,6 +148,7 @@
     <ClInclude Include="CrouchState.h" />
     <ClInclude Include="DeadState.h" />
     <ClInclude Include="Defines.h" />
+    <ClInclude Include="Door.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Event.h" />
     <ClInclude Include="EventCondition.h" />
@@ -154,6 +156,7 @@
     <ClInclude Include="EventBase.h" />
     <ClInclude Include="Filepaths.h" />
     <ClInclude Include="FinalState.h" />
+    <ClInclude Include="Floor.h" />
     <ClInclude Include="GameProjectApp.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="GameStateMachine.h" />

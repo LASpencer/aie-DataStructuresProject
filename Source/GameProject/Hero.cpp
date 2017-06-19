@@ -5,6 +5,7 @@
 #include "SceneObject.h"
 #include "Sprite.h"
 #include "MultiSprite.h"
+#include "Collider.h"
 
 las::Map<Hero::Stance, std::pair<float, float>> Hero::m_animationFrames;
 
@@ -29,6 +30,7 @@ Hero::Hero() : Entity(), m_stateMachine(this)
 	setupFrames();
 	std::pair<float, float> startFrame = m_animationFrames.at(idle);
 	addComponent(std::make_shared<MultiSprite>(las::Array<TexturePtr>(), sprite_width,sprite_height, startFrame.first,startFrame.second,sprite_uv_width,sprite_uv_height));
+	addComponent(std::make_shared<Collider>());
 	m_stateMachine.forceState(HeroStateMachine::idle_state);
 }
 
@@ -38,6 +40,7 @@ Hero::Hero(las::Array<TexturePtr>& textures) : Entity(), m_stateMachine(this)
 	setupFrames();
 	std::pair<float, float> startFrame = m_animationFrames.at(idle);
 	addComponent(std::make_shared<MultiSprite>(textures, sprite_width, sprite_height, startFrame.first, startFrame.second, sprite_uv_width, sprite_uv_height));
+	addComponent(std::make_shared<Collider>());
 	m_stateMachine.forceState(HeroStateMachine::idle_state);
 }
 
@@ -97,4 +100,45 @@ void Hero::setStance(Stance stance)
 	std::pair<float, float> UVpos = m_animationFrames[stance];
 	std::dynamic_pointer_cast<MultiSprite>(getComponent(Component::sprite))->setUVRect(UVpos.first, UVpos.second, sprite_uv_width, sprite_uv_height);
 	//TODO change collider based on stance
+	//TODO get rid of magic numbers
+	las::Array<Box> hitbox;
+	switch (stance) {
+	case(strike_1):
+	case(strike_2):
+	case(jump_strike_1):
+	case(jump_strike_2):
+		//TODO hurtbox from weapon
+	case(idle):
+	case(jump):
+	case(land):
+	case(wind_up):
+	case(wind_down):
+	case(jump_wind_up):
+	case(jump_wind_down):
+	case(hurt):
+	case(falling):
+	case(run1):
+	case(run2):
+	case(run3):
+	case(run4):
+	case(run5):
+	case(run6):
+	case(run7):
+	case(run8):
+		hitbox.push_back({ {-8,-23},{8,23},BoxType::body });
+		break;
+	case(crouch_strike_1):
+	case(crouch_strike_2):
+		//TODO hurtbox from weapon
+	case(crouch):
+	case(crouch_wind_up):
+	case(crouch_wind_down):
+	case(crouch_hurt):
+		hitbox.push_back({ {-8,-23},{8,8},BoxType::body });
+		break;
+	case(downed):
+		hitbox.push_back({ { -11,-23 },{ 11,-4 },BoxType::body });
+		break;
+	}
+	std::dynamic_pointer_cast<Collider>(getComponent(Component::collider))->setBoxes(hitbox);
 }

@@ -59,7 +59,7 @@ void BattleState::onEnter()
 										m_app->getResourceManager()->getTexture(Hero::helmet_filepath),
 										m_app->getResourceManager()->getTexture(Hero::shield_filepath) });
 	m_hero = new Hero(textures);//TODO make a const
-	m_hero->getPosition()->setLocalTransform({ 1,0,0,0,1,0,300,300,1 });
+	m_hero->getPosition()->setLocalTransform({ 1,0,0,0,1,0,300,300,1 });//HACK scale back to 1,1
 }
 
 void BattleState::onExit()
