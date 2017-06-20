@@ -6,5 +6,6 @@ sorlosheet and sorlo super sheet by Stephen Challener (Redshrike) and Doudouloli
 licensed under CC-BY 3.0
 https://creativecommons.org/licenses/by/3.0/legalcode
 
-Player and enemy sprite sheets by Balmer, hosted by OpenGameArt.org
-In public domain
+Accessories, armor, enemies, icons, player and weapons sprite sheets by Balmer, hosted by OpenGameArt.org
+
+oppcastle tileset by Buch (http://blog-buch.rhcloud.com), hosted by OpenGameArt.org

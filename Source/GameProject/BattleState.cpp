@@ -57,6 +57,7 @@ void BattleState::onEnter()
 	m_battleImage = m_app->getResourceManager()->getTexture("./textures/combatBG.png");
 	m_app->getEntityFactory()->createEntity(EntityFactory::hero, { 1,0,0,0,1,0,300,300,1 });
 	m_app->getEntityFactory()->createEntity(EntityFactory::block, { 1,0,0,0,1,0,600,330,1 });
+	m_app->getEntityFactory()->createEntity(EntityFactory::door, { 1,0,0,0,1,0,800,348,1 });
 }
 
 void BattleState::onExit()

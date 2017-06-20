@@ -6,6 +6,10 @@ namespace filepath {
 	const std::string pause_font_path = "./font/consolas_bold.ttf";
 
 	//Textures
+	// Background tiles
+	const std::string castle_tiles = "./textures/oppcastle-mod-tiles.png";
+
+	// Hero spritesheets
 	const std::string hero_blue = "./textures/player/player-spritemap-v9.png";
 	const std::string hero_red = "./textures/player/player-spritemap-v9-redpants.png";;
 	const std::string hero_green = "./textures/player/player-spritemap-v9-greenpants.png";;

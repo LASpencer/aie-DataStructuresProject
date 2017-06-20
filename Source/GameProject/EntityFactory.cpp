@@ -10,6 +10,22 @@
 const float EntityFactory::hero_sprite_width = 46.0f;
 const float EntityFactory::hero_sprite_height = 50.0f;
 
+const float EntityFactory::block_sprite_width = 69.f;
+const float EntityFactory::block_spright_height = 75.f;
+
+
+const float EntityFactory::door_sprite_width = 64.f;
+const float EntityFactory::door_sprite_height = 92.f;
+
+const float EntityFactory::door_uvx = 8.f/15.f;
+const float EntityFactory::door_uvy = 6.f/11.f;
+const float EntityFactory::door_uvw = 2.f/15.f;
+const float EntityFactory::door_uvh = 3.f/11.f;
+
+const Box EntityFactory::block_hitbox = { { -35,-38 },{ 35,38 },BoxType::body };
+const Box EntityFactory::door_hitbox = { { -16,-48 },{ 16,0 },BoxType::trigger };
+const Box EntityFactory::floor_hitbox = { { -750,-10 },{ 750, 0},BoxType::body };
+
 
 const std::string EntityFactory::hero_sprite_filepath = filepath::hero_blue;
 const std::string EntityFactory::hero_robe_filepath = filepath::robe_brown;
@@ -45,10 +61,14 @@ EntityPtr EntityFactory::createEntity(EntityType type, glm::mat3 position, Scene
 	case(block):
 		entity = createBlock(position, parent);
 		break;
+	case(door):
+		entity = createDoor(position, parent);
+		break;
 		//TODO functions for making floor, block, door
 	default:
 		break;
 	}
+	m_app->getEntityList().push_back(entity);
 	return entity;
 }
 
@@ -73,7 +93,6 @@ EntityPtr EntityFactory::createHero(glm::mat3 position, SceneObjectPtr parent)
 	hero->addComponent(std::make_shared<HeroController>());
 	//Set tags
 	hero->addTag(Entity::player);
-	m_app->getEntityList().push_back(hero);
 	//TODO add a sword entity, child of the hero, to entity list after hero
 	// hero has weakptr to it
 	return hero;
@@ -86,12 +105,23 @@ EntityPtr EntityFactory::createBlock(glm::mat3 position, SceneObjectPtr parent)
 	// Add components
 	block->addComponent(std::make_shared<Sprite>(m_app->getResourceManager()->getTexture(block_sprite_filepath)));
 	std::shared_ptr<Collider> collider = std::make_shared<Collider>();
-	collider->setBoxes({ { {-35,-38}, {35,38},BoxType::body } });
+	collider->setBoxes({ block_hitbox });
 	block->addComponent(collider);
 	// Set tags
 	block->addTag(Entity::block);
-	m_app->getEntityList().push_back(block);
 	return block;
+}
+
+EntityPtr EntityFactory::createDoor(glm::mat3 position, SceneObjectPtr parent)
+{
+	EntityPtr door = std::make_shared<Entity>();
+	setEntityPosition(door, position, parent);
+	door->addComponent(std::make_shared<Sprite>(m_app->getResourceManager()->getTexture(filepath::castle_tiles),
+		door_sprite_width, door_sprite_height, door_uvx, door_uvy, door_uvw, door_uvh));
+	std::shared_ptr<Collider> collider = std::make_shared<Collider>();
+	collider->setBoxes({ door_hitbox });
+	door->addComponent(collider);
+	return door;
 }
 
 bool EntityFactory::setEntityPosition(EntityPtr entity, glm::mat3 position, SceneObjectPtr parent)

@@ -94,6 +94,7 @@ void Entity::update(float deltaTime)
 void Entity::draw(aie::Renderer2D * renderer)
 {
 	for (auto& component : m_components) {
+		renderer->setRenderColour(0xFFFFFFFF);
 		component->draw(renderer);
 	}
 }

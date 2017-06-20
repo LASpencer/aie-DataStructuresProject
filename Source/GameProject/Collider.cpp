@@ -63,13 +63,13 @@ void Collider::draw(aie::Renderer2D * renderer)
 			float height = std::abs(corner1.y - corner2.y);
 			switch (box.type) {
 			case(body):
-				renderer->setRenderColour(0x0000FF88);
+				renderer->setRenderColour(0x0000FF80);
 				break;
 			case(attack):
-				renderer->setRenderColour(0xFF000088);
+				renderer->setRenderColour(0xFF000080);
 				break;
 			case(trigger):
-				renderer->setRenderColour(0x00FF0088);
+				renderer->setRenderColour(0x00FF0080);
 				break;
 			default:
 				break;
