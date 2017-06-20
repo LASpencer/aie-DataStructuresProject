@@ -33,15 +33,16 @@ std::shared_ptr<Entity> EntityFactory::createEntity(EntityType type, glm::mat3 p
 std::shared_ptr<Entity> EntityFactory::createEntity(EntityType type, glm::mat3 position, std::shared_ptr<SceneObject> parent)
 {
 	//TODO create entity based on passed value and add it to app's list
+	std::shared_ptr<Entity> entity;
 	switch (type) {
 	case(hero):
-		createHero(position, parent);
+		entity = createHero(position, parent);
 		break;
 		//TODO functions for making floor, block, door
 	default:
 		break;
 	}
-	return std::shared_ptr<Entity>();
+	return entity;
 }
 
 std::shared_ptr<Entity> EntityFactory::createHero(glm::mat3 position, std::shared_ptr<SceneObject> parent)
