@@ -21,7 +21,7 @@ bool SceneObject::addChild(SceneObjectPtr child)
 {
 	if (child->m_parent.get() == nullptr && child.get() != this) {
 		child->m_parent = SceneObjectPtr(shared_from_this());
-		child->dirtyGlobal = true;
+		child->setDirty();
 		m_children.push_back(SceneObjectWeakPtr(child));
 		return true;
 	}
