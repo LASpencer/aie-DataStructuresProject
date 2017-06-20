@@ -91,9 +91,13 @@
     <ClCompile Include="BattleState.cpp" />
     <ClCompile Include="BinaryCondition.cpp" />
     <ClCompile Include="Button.cpp" />
+    <ClCompile Include="Collider.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="Condition.cpp" />
+    <ClCompile Include="Controller.cpp" />
+    <ClCompile Include="CrouchState.cpp" />
     <ClCompile Include="Entity.cpp" />
+    <ClCompile Include="EntityFactory.cpp" />
     <ClCompile Include="Event.cpp" />
     <ClCompile Include="EventCondition.cpp" />
     <ClCompile Include="EventManager.cpp" />
@@ -102,6 +106,10 @@
     <ClCompile Include="GameProjectApp.cpp" />
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="GameStateMachine.cpp" />
+    <ClCompile Include="HeroController.cpp" />
+    <ClCompile Include="HeroState.cpp" />
+    <ClCompile Include="HeroStateMachine.cpp" />
+    <ClCompile Include="IdleState.cpp" />
     <ClCompile Include="InputEvent.cpp" />
     <ClCompile Include="Hero.cpp" />
     <ClCompile Include="KeyboardInputCondition.cpp" />
@@ -126,6 +134,7 @@
     <ClCompile Include="TextBar.cpp" />
     <ClCompile Include="TimerCondition.cpp" />
     <ClCompile Include="Transition.cpp" />
+    <ClCompile Include="WalkState.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AndCondition.h" />
@@ -133,22 +142,31 @@
     <ClInclude Include="AttackState.h" />
     <ClInclude Include="BattleState.h" />
     <ClInclude Include="BinaryCondition.h" />
+    <ClInclude Include="Block.h" />
     <ClInclude Include="Button.h" />
+    <ClInclude Include="Collider.h" />
     <ClInclude Include="ComplexCondition.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="Condition.h" />
+    <ClInclude Include="Controller.h" />
     <ClInclude Include="CrouchState.h" />
     <ClInclude Include="DeadState.h" />
     <ClInclude Include="Defines.h" />
+    <ClInclude Include="Door.h" />
     <ClInclude Include="Entity.h" />
+    <ClInclude Include="EntityFactory.h" />
     <ClInclude Include="Event.h" />
     <ClInclude Include="EventCondition.h" />
     <ClInclude Include="EventManager.h" />
     <ClInclude Include="EventBase.h" />
+    <ClInclude Include="Filepaths.h" />
     <ClInclude Include="FinalState.h" />
+    <ClInclude Include="Floor.h" />
     <ClInclude Include="GameProjectApp.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="GameStateMachine.h" />
+    <ClInclude Include="HeroController.h" />
+    <ClInclude Include="HeroStateMachine.h" />
     <ClInclude Include="InputEvent.h" />
     <ClInclude Include="GetUpState.h" />
     <ClInclude Include="Hero.h" />

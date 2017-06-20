@@ -13,7 +13,7 @@ public:
 
 	void setTextures(las::Array<TexturePtr>& textures);
 
-	virtual void draw(Entity* entity, aie::Renderer2D* renderer);
+	virtual void draw(aie::Renderer2D* renderer);
 protected:
 	las::Array<TexturePtr>	m_textures;
 };

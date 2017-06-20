@@ -9,21 +9,18 @@ SceneObject::SceneObject() : m_parent(), m_children(), m_localTransform(1),m_glo
 
 SceneObject::~SceneObject()
 {
+	//TODO fix sceneObject memory bug
 }
 
 void SceneObject::update(Entity * entity, float deltaTime)
 {
 }
 
-SceneObject::Identifier SceneObject::getID()
-{
-	return scene_object;
-}
 
 bool SceneObject::addChild(SceneObjectPtr child)
 {
 	if (child->m_parent.get() == nullptr && child.get() != this) {
-		child->m_parent = SceneObjectPtr(this);
+		child->m_parent = SceneObjectPtr(shared_from_this());
 		child->dirtyGlobal = true;
 		m_children.push_back(SceneObjectWeakPtr(child));
 		return true;

@@ -11,27 +11,29 @@ State::~State()
 {
 }
 
-void State::addTransition(std::shared_ptr<Transition> transition)
+void State::onEnter()
 {
-	m_transitions.push_back(transition);
+	m_shouldTransition = false;
 }
 
-std::pair<bool, int> State::checkTransitions()
+void State::onExit()
 {
-	bool conditionMet = false;
-	int newState = 0;
-	for (std::shared_ptr<Transition> transition : m_transitions) {
-		if (transition->isConditionMet()) {
-			conditionMet = true;
-			newState = transition->getTargetID();
-			break;
-		}
-	}
-	return std::make_pair(conditionMet, newState);
+}
+
+bool State::shouldTransition()
+{
+	return m_shouldTransition;
+}
+
+int State::getTarget()
+{
+	return m_target;
 }
 
 
-StackState::StackState() {
+
+StackState::StackState() :m_focus(false)
+{
 
 }
 
@@ -39,36 +41,38 @@ StackState::~StackState()
 {
 }
 
-void StackState::addPushTransition(std::shared_ptr<Transition> transition)
+void StackState::onEnter()
 {
-	m_pushTransitions.push_back(transition);
+	State::onEnter();
+	m_focus = true;
+	m_shouldPop = false;
+	m_shouldPush = false;
 }
 
-void StackState::addPopCondition(std::shared_ptr<Condition> condition)
+void StackState::onExit()
 {
-	m_popConditions.push_back(condition);
+	State::onExit();
 }
 
-std::pair<bool, int> StackState::checkPushTransitions()
+void StackState::onFocus()
 {
-	bool conditionMet = false;
-	int newState = 0;
-	for (std::shared_ptr<Transition> transition : m_pushTransitions) {
-		if (transition->isConditionMet()) {
-			conditionMet = true;
-			newState = transition->getTargetID();
-			break;
-		}
-	}
-	return std::make_pair(conditionMet, newState);
+	m_focus = true;
+	m_shouldTransition = false;
+	m_shouldPop = false;
+	m_shouldPush = false;
 }
 
-bool StackState::checkPopConditions()
+void StackState::onLoseFocus()
 {
-	for (std::shared_ptr<Condition> condition : m_popConditions) {
-		if (condition->test()) {
-			return true;
-		}
-	}
-	return false;
+	m_focus = false;
+}
+
+bool StackState::shouldPop()
+{
+	return m_shouldPop;
+}
+
+bool StackState::shouldPush()
+{
+	return m_shouldPush;
 }

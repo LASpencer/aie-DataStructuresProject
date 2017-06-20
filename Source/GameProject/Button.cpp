@@ -146,6 +146,11 @@ void Button::removeObserver(std::shared_ptr<Observer> observer)
 	m_eventManager.removeObserver(observer);
 }
 
+void Button::clearObservers()
+{
+	m_eventManager.clearObservers();
+}
+
 void Button::notifyObservers(EventBase* event)
 {
 	m_eventManager.notifyObservers(event);

@@ -29,10 +29,11 @@ void SplashScreenState::update(float deltaTime)
 	if (m_focus) {
 		m_timer += deltaTime;
 		if (m_timer > TIMER_DURATION) {
-			Event timerFinished(EventBase::timer_finished);
-			notifyObservers(&timerFinished);//should have transition to main menu, with condition that timer_finished has fired
+			m_shouldTransition = true;
+			m_target = GameStateMachine::main_menu;
 		}
 	}
+	//TODO load resources while waiting
 }
 
 void SplashScreenState::draw(aie::Renderer2D* renderer)

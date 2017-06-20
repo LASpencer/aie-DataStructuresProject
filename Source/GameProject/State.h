@@ -1,9 +1,7 @@
 #pragma once
 #include "stdafx.h"
 #include "Array.h"
-
-class Transition;
-class Condition;
+#include "Renderer2d.h"
 
 //TODO comment State
 class State {
@@ -15,21 +13,20 @@ public:
 	virtual State* clone() const = 0;
 
 	// Called when transitioning to the state
-	virtual void onEnter() = 0;
+	virtual void onEnter();
 
 	// Called when transitioning from the state
-	virtual void onExit() = 0;
+	virtual void onExit();
 
-	/** Add a transition to another state
-	* @param transition object defining conditions of transition and key of next state*/
-	void addTransition(std::shared_ptr<Transition> transition);
+	virtual void update(float deltaTime) = 0;
+	virtual void draw(aie::Renderer2D* renderer) = 0;
 
-	/** Check if any transition should occur
-	* @return pair containing whether a transition was found, and if so the key to that transition*/
-	std::pair<bool, int> checkTransitions();
+	bool shouldTransition();
+	int getTarget();
 
 protected:
-	las::Array<std::shared_ptr<Transition>> m_transitions;
+	bool m_shouldTransition;
+	int m_target;
 };
 
 class StackState : public State {
@@ -38,29 +35,24 @@ public:
 
 	virtual ~StackState();
 
+	// Called when transitioning to the state
+	virtual void onEnter();
+
+	// Called when transitioning from the state
+	virtual void onExit();
+
 	// Called when state above is popped
-	virtual void onFocus() = 0;
+	virtual void onFocus();
 
 	// Called when a state is pushed onto this
-	virtual void onLoseFocus() = 0;
+	virtual void onLoseFocus();
 
-	/** Add a transition to another state being pushed
-	* @param transition object defining conditions of transition and key of state to push*/
-	void addPushTransition(std::shared_ptr<Transition> transition);
+	bool shouldPop();
 
-	/** Add a condition under which this state is popped
-	* @param condition object containing test to determine whether object is pushed*/
-	void addPopCondition(std::shared_ptr<Condition> condition);
-
-	/** Check if any states should be pushed onto this
-	* @return pair containing whether a transition was found, and if so the key of the state to push*/
-	std::pair<bool, int> checkPushTransitions();
-
-	/** Check if state should be popped
-	* @return true if any pop conditions are true*/
-	bool checkPopConditions();
+	bool shouldPush();
 
 protected:
-	las::Array<std::shared_ptr<Transition>> m_pushTransitions;
-	las::Array<std::shared_ptr<Condition>> m_popConditions;
+	bool m_focus;
+	bool m_shouldPop;
+	bool m_shouldPush;
 };

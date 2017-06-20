@@ -18,7 +18,9 @@ public:
 		clicked,			//The subject was clicked
 		mouse_release,		//A mouse button was released
 		key_press,			//The subject noticed a key press
-		key_release			//The subjct noticed a key being released
+		key_release,			//The subjct noticed a key being released
+		collision
+
 	};
 
 	EventBase(event_id id);

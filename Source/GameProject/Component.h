@@ -2,6 +2,8 @@
 #include "Renderer2D.h"
 
 class Entity;
+typedef std::shared_ptr<Entity> EntityPtr;
+typedef std::weak_ptr<Entity>	EntityWeakPtr;
 
 class Component
 {
@@ -9,29 +11,31 @@ public:
 	Component();
 	virtual ~Component();
 
-	virtual void update(Entity* entity, float deltaTime) = 0;
+	virtual void update(float deltaTime) = 0;
 
-	virtual void draw(Entity* entity, aie::Renderer2D* renderer) {};
+	virtual void draw(aie::Renderer2D* renderer) {};
 
-	virtual bool onAdd(Entity* entity);
-	virtual void onRemove(Entity* entity);
+	virtual bool onAdd(EntityPtr entity);
+	virtual void onRemove(EntityPtr entity);
 
+	
 	enum Identifier {
-		base,
-		scene_object,
-		sprite
+		sprite = 0x1,
+		collider = 0x2,
+		controller = 0x4
 	};
 
-	virtual Identifier getID();
+	virtual Identifier getID() = 0;
 	
-	
+protected:
+	EntityWeakPtr m_entity;
 };
 
-class missing_component : public std::invalid_argument {
+class missing_component : public std::logic_error {
 public:
-	explicit missing_component(const std::string& what_arg) : std::invalid_argument(what_arg)
+	explicit missing_component(const std::string& what_arg) : std::logic_error(what_arg)
 	{};
-	explicit missing_component(const char* what_arg) : std::invalid_argument(what_arg)
+	explicit missing_component(const char* what_arg) : std::logic_error(what_arg)
 	{};
 
 	virtual ~missing_component() {};

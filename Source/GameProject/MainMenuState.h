@@ -1,11 +1,12 @@
 #pragma once
 #include "GameState.h"
 #include "Button.h"
-
+#include "Observer.h"
 class MainMenuState :
-	public GameState
-{
+	public GameState{
 public:
+	static const float button_width;
+	static const float button_height;
 	static const float play_button_x;
 	static const float play_button_y;
 	static const float exit_button_x;
@@ -23,6 +24,7 @@ public:
 	virtual void draw(aie::Renderer2D* renderer);
 
 	virtual void onEnter();
+
 
 protected:
 	TexturePtr m_menuImage;
