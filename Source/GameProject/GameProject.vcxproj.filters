@@ -219,6 +219,9 @@
     <ClCompile Include="EntityFactory.cpp">
       <Filter>Source Files\Entities</Filter>
     </ClCompile>
+    <ClCompile Include="CollisionEvent.cpp">
+      <Filter>Source Files\Observer\Events</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameProjectApp.h">
@@ -394,6 +397,9 @@
     </ClInclude>
     <ClInclude Include="EntityFactory.h">
       <Filter>Header Files\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionEvent.h">
+      <Filter>Header Files\Observer\Events</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

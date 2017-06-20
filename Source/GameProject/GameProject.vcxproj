@@ -92,6 +92,7 @@
     <ClCompile Include="BinaryCondition.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="Collider.cpp" />
+    <ClCompile Include="CollisionEvent.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="Condition.cpp" />
     <ClCompile Include="Controller.cpp" />
@@ -142,6 +143,7 @@
     <ClInclude Include="BinaryCondition.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="Collider.h" />
+    <ClInclude Include="CollisionEvent.h" />
     <ClInclude Include="ComplexCondition.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="Condition.h" />
