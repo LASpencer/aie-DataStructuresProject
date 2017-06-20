@@ -65,3 +65,13 @@ void BattleState::onExit()
 {
 	//TODO cleanup unused resources
 }
+
+las::Array<EntityPtr> BattleState::getEntitiesWithComponent(Component::Identifier component, las::Array<EntityPtr>::iterator first, las::Array<EntityPtr>::iterator last)
+{
+	//TODO AAAAAAAA use find_if to fill new array with all entities with matching bitmask
+	las::Array<EntityPtr> entitiesWithComponent();
+	las::Array<EntityPtr>::iterator entity = std::find_if(first, last, [=](EntityPtr e) {return component&(e->getComponentMask()); });
+	//TODO while entity not last, push entity into entitiesWithComponent and call find_if again
+	//TODO put lambda into a variale, it's going to be reused
+	return las::Array<EntityPtr>();
+}

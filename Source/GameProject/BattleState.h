@@ -25,5 +25,7 @@ public:
 
 protected:
 	TexturePtr m_battleImage;
+
+	las::Array<EntityPtr> getEntitiesWithComponent(Component::Identifier component, las::Array<EntityPtr>::iterator first, las::Array<EntityPtr>::iterator last);
 };
 
