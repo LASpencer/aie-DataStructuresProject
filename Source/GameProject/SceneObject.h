@@ -8,7 +8,7 @@ typedef std::shared_ptr<SceneObject> SceneObjectPtr;
 typedef std::weak_ptr<SceneObject> SceneObjectWeakPtr;
 
 //TODO comment, test, document SceneObject
-class SceneObject 
+class SceneObject : public std::enable_shared_from_this<SceneObject>
 {
 public:
 	SceneObject();

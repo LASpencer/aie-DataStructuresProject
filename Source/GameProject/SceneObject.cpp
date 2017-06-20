@@ -20,7 +20,7 @@ void SceneObject::update(Entity * entity, float deltaTime)
 bool SceneObject::addChild(SceneObjectPtr child)
 {
 	if (child->m_parent.get() == nullptr && child.get() != this) {
-		child->m_parent = SceneObjectPtr(this);
+		child->m_parent = SceneObjectPtr(shared_from_this());
 		child->dirtyGlobal = true;
 		m_children.push_back(SceneObjectWeakPtr(child));
 		return true;
