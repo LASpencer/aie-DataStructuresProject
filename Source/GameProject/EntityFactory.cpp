@@ -24,7 +24,7 @@ const float EntityFactory::door_uvh = 3.f/11.f;
 
 const Box EntityFactory::block_hitbox = { { -35,-38 },{ 35,38 },BoxType::body };
 const Box EntityFactory::door_hitbox = { { -16,-48 },{ 16,0 },BoxType::trigger };
-const Box EntityFactory::floor_hitbox = { { -750,-10 },{ 750, 0},BoxType::body };
+const Box EntityFactory::floor_hitbox = { { -650,-10 },{ 650, 0},BoxType::body };
 
 
 const std::string EntityFactory::hero_sprite_filepath = filepath::hero_blue;
@@ -64,7 +64,9 @@ EntityPtr EntityFactory::createEntity(EntityType type, glm::mat3 position, Scene
 	case(door):
 		entity = createDoor(position, parent);
 		break;
-		//TODO functions for making floor, block, door
+	case(floor):
+		entity = createFloor(position, parent);
+		break;
 	default:
 		break;
 	}
@@ -122,6 +124,16 @@ EntityPtr EntityFactory::createDoor(glm::mat3 position, SceneObjectPtr parent)
 	collider->setBoxes({ door_hitbox });
 	door->addComponent(collider);
 	return door;
+}
+
+EntityPtr EntityFactory::createFloor(glm::mat3 position, SceneObjectPtr parent)
+{
+	EntityPtr floor = std::make_shared<Entity>();
+	setEntityPosition(floor, position, parent);
+	std::shared_ptr<Collider> collider = std::make_shared<Collider>();
+	collider->setBoxes({ floor_hitbox });
+	floor->addComponent(collider);
+	return floor;
 }
 
 bool EntityFactory::setEntityPosition(EntityPtr entity, glm::mat3 position, SceneObjectPtr parent)

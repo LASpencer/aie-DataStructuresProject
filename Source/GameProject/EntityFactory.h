@@ -65,5 +65,6 @@ private:
 	EntityPtr createHero(glm::mat3 position, SceneObjectPtr parent);
 	EntityPtr createBlock(glm::mat3 position, SceneObjectPtr parent);
 	EntityPtr createDoor(glm::mat3 position, SceneObjectPtr parent);
+	EntityPtr createFloor(glm::mat3 position, SceneObjectPtr parent);
 	bool setEntityPosition(EntityPtr entity, glm::mat3 position, SceneObjectPtr parent);
 };
