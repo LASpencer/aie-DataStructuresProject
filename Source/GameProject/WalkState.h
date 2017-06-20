@@ -24,6 +24,8 @@ public:
 
 	virtual void draw(aie::Renderer2D* renderer);
 
+	virtual void notify(Subject* subject, EventBase* event);
+
 protected:
 	float m_timer;
 	size_t m_frame;

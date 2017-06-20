@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "HeroState.h"
 #include "HeroController.h"
+#include "Collider.h"
+#include "Entity.h"
 
 const aie::EInputCodes HeroState::left_move_button = aie::EInputCodes::INPUT_KEY_A;
 const aie::EInputCodes HeroState::right_move_button = aie::EInputCodes::INPUT_KEY_D;
@@ -19,6 +21,7 @@ HeroState::~HeroState()
 void HeroState::setHero(EntityPtr hero)
 {
 	m_hero = EntityWeakPtr(hero);
+	std::dynamic_pointer_cast<Collider>(hero->getComponent(Component::collider))->addObserver(shared_from_this());
 }
 
 void HeroState::onEnter()
@@ -29,4 +32,13 @@ void HeroState::onEnter()
 void HeroState::onExit()
 {
 	State::onExit();
+}
+
+bool HeroState::addSubject(Subject * subject)
+{
+	return true;
+}
+
+void HeroState::removeSubject(Subject * subject)
+{
 }

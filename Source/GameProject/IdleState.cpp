@@ -52,3 +52,7 @@ void IdleState::draw(aie::Renderer2D * renderer)
 {
 }
 
+void IdleState::notify(Subject * subject, EventBase * event)
+{
+}
+

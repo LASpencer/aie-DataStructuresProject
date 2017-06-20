@@ -69,16 +69,34 @@ void BattleState::draw(aie::Renderer2D * renderer)
 void BattleState::onEnter()
 {
 	GameState::onEnter();
+	//
 	m_battleImage = m_app->getResourceManager()->getTexture(filepath::castle_background);
 	m_app->getEntityFactory()->createEntity(EntityFactory::hero, { 1,0,0,0,1,0,300,405,1 });
 	m_app->getEntityFactory()->createEntity(EntityFactory::block, { 1,0,0,0,1,0,600,395,1 });
-	m_app->getEntityFactory()->createEntity(EntityFactory::door, { 1,0,0,0,1,0,1152,462,1 });
+	EntityPtr door = m_app->getEntityFactory()->createEntity(EntityFactory::door, { 1,0,0,0,1,0,1152,462,1 });
 	m_app->getEntityFactory()->createEntity(EntityFactory::floor, { 1,0,0,0,1,0,640,360,1 });
+
+	// Observe door collider to check for hero leaving
+	std::dynamic_pointer_cast<Collider>(door->getComponent(Component::collider))->addObserver(shared_from_this());
 }
 
 void BattleState::onExit()
 {
 	//TODO cleanup unused resources
+}
+
+void BattleState::notify(Subject * subject, EventBase * event)
+{
+	//TODO if event is collision between hero's collider and door trigger, move to win screen
+}
+
+bool BattleState::addSubject(Subject * subject)
+{
+	return true;
+}
+
+void BattleState::removeSubject(Subject * subject)
+{
 }
 
 las::Array<EntityPtr> BattleState::getEntitiesWithComponent(Component::Identifier component, las::Array<EntityPtr>::iterator first, las::Array<EntityPtr>::iterator last)

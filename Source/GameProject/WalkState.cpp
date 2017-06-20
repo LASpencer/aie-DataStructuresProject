@@ -72,3 +72,8 @@ void WalkState::update(float deltaTime)
 void WalkState::draw(aie::Renderer2D * renderer)
 {
 }
+
+void WalkState::notify(Subject * subject, EventBase * event)
+{
+	//TODO if walked into another body, move back (after jumping is written)
+}

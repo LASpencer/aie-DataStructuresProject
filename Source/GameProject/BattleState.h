@@ -3,11 +3,12 @@
 #include "GameState.h"
 #include "ResourceManager.h"
 #include "Component.h"
+#include "Observer.h"
 
 class Hero;
 
 class BattleState :
-	public GameState
+	public GameState, public Observer
 {
 public:
 	static const aie::EInputCodes pause_key;
@@ -23,6 +24,10 @@ public:
 
 	virtual void onEnter();
 	virtual void onExit();
+
+	virtual void notify(Subject* subject, EventBase* event) ;
+	virtual bool addSubject(Subject* subject);
+	virtual void removeSubject(Subject* subject);
 
 protected:
 	TexturePtr m_battleImage;

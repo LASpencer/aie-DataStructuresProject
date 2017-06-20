@@ -3,7 +3,7 @@
 class Subject;
 class EventBase;
 
-class Observer
+class Observer : public std::enable_shared_from_this<Observer>
 {
 public:
 	Observer() {};

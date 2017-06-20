@@ -24,4 +24,6 @@ public:
 
 	virtual void draw(aie::Renderer2D* renderer);
 
+	virtual void notify(Subject* subject, EventBase* event);
+
 };
