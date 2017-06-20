@@ -111,7 +111,6 @@
     <ClCompile Include="HeroStateMachine.cpp" />
     <ClCompile Include="IdleState.cpp" />
     <ClCompile Include="InputEvent.cpp" />
-    <ClCompile Include="Hero.cpp" />
     <ClCompile Include="KeyboardInputCondition.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainMenuState.cpp" />
@@ -122,7 +121,6 @@
     <ClCompile Include="PauseState.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="SceneObject.cpp" />
-    <ClCompile Include="Ship.cpp" />
     <ClCompile Include="SplashScreenState.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="SpriteBase.cpp" />
@@ -142,7 +140,6 @@
     <ClInclude Include="AttackState.h" />
     <ClInclude Include="BattleState.h" />
     <ClInclude Include="BinaryCondition.h" />
-    <ClInclude Include="Block.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="Collider.h" />
     <ClInclude Include="ComplexCondition.h" />
@@ -152,7 +149,6 @@
     <ClInclude Include="CrouchState.h" />
     <ClInclude Include="DeadState.h" />
     <ClInclude Include="Defines.h" />
-    <ClInclude Include="Door.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EntityFactory.h" />
     <ClInclude Include="Event.h" />
@@ -161,7 +157,6 @@
     <ClInclude Include="EventBase.h" />
     <ClInclude Include="Filepaths.h" />
     <ClInclude Include="FinalState.h" />
-    <ClInclude Include="Floor.h" />
     <ClInclude Include="GameProjectApp.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="GameStateMachine.h" />
@@ -169,7 +164,6 @@
     <ClInclude Include="HeroStateMachine.h" />
     <ClInclude Include="InputEvent.h" />
     <ClInclude Include="GetUpState.h" />
-    <ClInclude Include="Hero.h" />
     <ClInclude Include="HeroState.h" />
     <ClInclude Include="HurtState.h" />
     <ClInclude Include="IdleState.h" />
@@ -186,7 +180,6 @@
     <ClInclude Include="Queue.h" />
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="SceneObject.h" />
-    <ClInclude Include="Ship.h" />
     <ClInclude Include="SplashScreenState.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="SpriteBase.h" />

@@ -7,23 +7,29 @@
 #include "HeroController.h"
 #include "Filepaths.h"
 
-const float EntityFactory::hero_sprite_width = 46.0f;
-const float EntityFactory::hero_sprite_height = 50.0f;
+const float EntityFactory::hero_sprite_width = 92.0f;
+const float EntityFactory::hero_sprite_height = 100.0f;
 
-const float EntityFactory::block_sprite_width = 69.f;
-const float EntityFactory::block_spright_height = 75.f;
+const float EntityFactory::block_sprite_width = 64.f;
+const float EntityFactory::block_sprite_height = 64.f;
 
 
-const float EntityFactory::door_sprite_width = 64.f;
-const float EntityFactory::door_sprite_height = 92.f;
+const float EntityFactory::door_sprite_width = 128.f;
+const float EntityFactory::door_sprite_height = 184.f;
 
 const float EntityFactory::door_uvx = 8.f/15.f;
 const float EntityFactory::door_uvy = 6.f/11.f;
 const float EntityFactory::door_uvw = 2.f/15.f;
 const float EntityFactory::door_uvh = 3.f/11.f;
 
-const Box EntityFactory::block_hitbox = { { -35,-38 },{ 35,38 },BoxType::body };
-const Box EntityFactory::door_hitbox = { { -16,-48 },{ 16,0 },BoxType::trigger };
+const float EntityFactory::block_uvx = 1.f / 15.f;
+const float EntityFactory::block_uvy = 2.f / 11.f;
+const float EntityFactory::block_uvw = 1.f / 15.f;
+const float EntityFactory::block_uvh = 1.f / 11.f;
+
+
+const Box EntityFactory::block_hitbox = { { -22,-32 },{ 22,28 },BoxType::body };
+const Box EntityFactory::door_hitbox = { { -32,-96 },{ 32,0 },BoxType::trigger };
 const Box EntityFactory::floor_hitbox = { { -650,-10 },{ 650, 0},BoxType::body };
 
 
@@ -34,8 +40,6 @@ const std::string EntityFactory::hero_shield_filepath = filepath::shield_steel;
 const std::string EntityFactory::hero_helmet_filepath = filepath::helmet_gold;
 const std::string EntityFactory::sword_sprite_filepath = filepath::sword_rapier;
 
-//TODO extract out to filepath.h
-const std::string EntityFactory::block_sprite_filepath = "./textures/rock_large.png";
 
 EntityFactory::EntityFactory(GameProjectApp* app) : m_app(app)
 {
@@ -105,7 +109,8 @@ EntityPtr EntityFactory::createBlock(glm::mat3 position, SceneObjectPtr parent)
 	EntityPtr block = std::make_shared<Entity>();
 	setEntityPosition(block, position, parent);
 	// Add components
-	block->addComponent(std::make_shared<Sprite>(m_app->getResourceManager()->getTexture(block_sprite_filepath)));
+	block->addComponent(std::make_shared<Sprite>(m_app->getResourceManager()->getTexture(filepath::castle_tiles),
+		block_sprite_width, block_sprite_height, block_uvx, block_uvy, block_uvw, block_uvh));
 	std::shared_ptr<Collider> collider = std::make_shared<Collider>();
 	collider->setBoxes({ block_hitbox });
 	block->addComponent(collider);

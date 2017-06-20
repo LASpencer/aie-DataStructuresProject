@@ -174,9 +174,6 @@
     <ClCompile Include="OrCondition.cpp">
       <Filter>Source Files\State Machine\Conditions\Complex Conditions</Filter>
     </ClCompile>
-    <ClCompile Include="Ship.cpp">
-      <Filter>Source Files\Entities</Filter>
-    </ClCompile>
     <ClCompile Include="EventBase.cpp">
       <Filter>Source Files\Observer\Events</Filter>
     </ClCompile>
@@ -185,9 +182,6 @@
     </ClCompile>
     <ClCompile Include="InputEvent.cpp">
       <Filter>Source Files\Observer\Events</Filter>
-    </ClCompile>
-    <ClCompile Include="Hero.cpp">
-      <Filter>Source Files\Entities</Filter>
     </ClCompile>
     <ClCompile Include="SpriteBase.cpp">
       <Filter>Source Files\Entities\Components</Filter>
@@ -338,9 +332,6 @@
     <ClInclude Include="OrCondition.h">
       <Filter>Header Files\State Machine\Conditions\Complex Conditions</Filter>
     </ClInclude>
-    <ClInclude Include="Ship.h">
-      <Filter>Header Files\Entities</Filter>
-    </ClInclude>
     <ClInclude Include="EventBase.h">
       <Filter>Header Files\Observer\Events</Filter>
     </ClInclude>
@@ -364,9 +355,6 @@
     </ClInclude>
     <ClInclude Include="HeroState.h">
       <Filter>Header Files\State Machine\States\Hero States</Filter>
-    </ClInclude>
-    <ClInclude Include="Hero.h">
-      <Filter>Header Files\Entities</Filter>
     </ClInclude>
     <ClInclude Include="IdleState.h">
       <Filter>Header Files\State Machine\States\Hero States</Filter>
@@ -397,15 +385,6 @@
     </ClInclude>
     <ClInclude Include="HeroStateMachine.h">
       <Filter>Header Files\State Machine</Filter>
-    </ClInclude>
-    <ClInclude Include="Floor.h">
-      <Filter>Header Files\Entities</Filter>
-    </ClInclude>
-    <ClInclude Include="Door.h">
-      <Filter>Header Files\Entities</Filter>
-    </ClInclude>
-    <ClInclude Include="Block.h">
-      <Filter>Header Files\Entities</Filter>
     </ClInclude>
     <ClInclude Include="Controller.h">
       <Filter>Header Files\Entities\Components</Filter>

@@ -29,7 +29,7 @@ public:
 	static const float hero_sprite_height;
 
 	static const float block_sprite_width;
-	static const float block_spright_height;
+	static const float block_sprite_height;
 
 	static const float door_sprite_width;
 	static const float door_sprite_height;
@@ -43,13 +43,18 @@ public:
 	static const float door_uvw;
 	static const float door_uvh;
 
+	static const float block_uvx;
+	static const float block_uvy;
+	static const float block_uvw;
+	static const float block_uvh;
+
+
 	static const std::string hero_sprite_filepath;
 	static const std::string hero_robe_filepath;
 	static const std::string hero_armour_filepath;
 	static const std::string hero_shield_filepath;
 	static const std::string hero_helmet_filepath;
 	static const std::string sword_sprite_filepath;
-	static const std::string block_sprite_filepath;
 
 
 	EntityFactory(GameProjectApp* app);

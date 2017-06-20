@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "GameProjectApp.h"
 //HACK for test
-#include "Hero.h"
 int main() {
 	
 	// allocation

@@ -8,6 +8,7 @@ namespace filepath {
 	//Textures
 	// Background tiles
 	const std::string castle_tiles = "./textures/oppcastle-mod-tiles.png";
+	const std::string castle_background = "./textures/background.png";
 
 	// Hero spritesheets
 	const std::string hero_blue = "./textures/player/player-spritemap-v9.png";

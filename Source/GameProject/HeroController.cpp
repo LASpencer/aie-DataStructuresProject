@@ -39,12 +39,12 @@ const las::Map < HeroController::Stance, std::pair<float, float>>
 	{HeroController::run8, { 0.875f,0.75f }}
 };
 
-const Box HeroController::stand_hitbox = { { -8,-23 },{ 8,23 },BoxType::body };
-const Box HeroController::run_hitbox = { { -8,-23 },{ 14,23 },BoxType::body };
-const Box HeroController::crouch_hitbox = { { -8,-23 },{ 11,8 },BoxType::body };
-const Box HeroController::downed_hitbox = { { -11,-23 },{ 11,-4 },BoxType::body };
+const Box HeroController::stand_hitbox = { { -16,-46 },{ 16,46 },BoxType::body };
+const Box HeroController::run_hitbox = { { -16,-46 },{ 28,46 },BoxType::body };
+const Box HeroController::crouch_hitbox = { { -16,-46 },{ 22,16 },BoxType::body };
+const Box HeroController::downed_hitbox = { { -22,-46 },{ 22,-8 },BoxType::body };
 
-const float HeroController::move_speed = 50.0f;
+const float HeroController::move_speed = 100.0f;
 const float HeroController::move_frame_length = 0.1f;
 
 HeroController::HeroController() : Controller(), m_stateMachine(this)

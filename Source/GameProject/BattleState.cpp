@@ -1,9 +1,9 @@
 #include "stdafx.h"
 #include "BattleState.h"
 #include "GameProjectApp.h"
-#include "Hero.h"
 #include "SceneObject.h"
 #include "Sprite.h"
+#include "Filepaths.h"
 
 const aie::EInputCodes BattleState::pause_key = aie::INPUT_KEY_ESCAPE;
 
@@ -54,11 +54,11 @@ void BattleState::draw(aie::Renderer2D * renderer)
 void BattleState::onEnter()
 {
 	GameState::onEnter();
-	m_battleImage = m_app->getResourceManager()->getTexture("./textures/combatBG.png");
-	m_app->getEntityFactory()->createEntity(EntityFactory::hero, { 1,0,0,0,1,0,300,325,1 });
-	m_app->getEntityFactory()->createEntity(EntityFactory::block, { 1,0,0,0,1,0,600,338,1 });
-	m_app->getEntityFactory()->createEntity(EntityFactory::door, { 1,0,0,0,1,0,800,348,1 });
-	m_app->getEntityFactory()->createEntity(EntityFactory::floor, { 1,0,0,0,1,0,640,300,1 });
+	m_battleImage = m_app->getResourceManager()->getTexture(filepath::castle_background);
+	m_app->getEntityFactory()->createEntity(EntityFactory::hero, { 1,0,0,0,1,0,300,405,1 });
+	m_app->getEntityFactory()->createEntity(EntityFactory::block, { 1,0,0,0,1,0,600,395,1 });
+	m_app->getEntityFactory()->createEntity(EntityFactory::door, { 1,0,0,0,1,0,1152,462,1 });
+	m_app->getEntityFactory()->createEntity(EntityFactory::floor, { 1,0,0,0,1,0,640,360,1 });
 }
 
 void BattleState::onExit()
