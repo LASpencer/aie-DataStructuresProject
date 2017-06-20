@@ -2,6 +2,7 @@
 #include "Input.h"
 #include "GameState.h"
 #include "ResourceManager.h"
+#include "Component.h"
 
 class Hero;
 

@@ -39,12 +39,6 @@ public:
 
 	SceneObjectPtr getPosition();
 
-	virtual void update(float deltaTime);
-
-	virtual void draw(aie::Renderer2D* renderer);
-
-
-
 protected:
 	las::Array<ComponentPtr> m_components; //HACK: A map might be better?
 	int m_componentMask;

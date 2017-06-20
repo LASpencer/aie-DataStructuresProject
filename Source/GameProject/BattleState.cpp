@@ -3,6 +3,7 @@
 #include "GameProjectApp.h"
 #include "SceneObject.h"
 #include "Sprite.h"
+#include "Collider.h"
 #include "Filepaths.h"
 
 const aie::EInputCodes BattleState::pause_key = aie::INPUT_KEY_ESCAPE;
@@ -29,9 +30,14 @@ void BattleState::update(float deltaTime)
 {
 	if (m_focus) {
 		//TODO update components as a group, from all entities with said component
-		for (EntityPtr entity : m_app->getEntityList()) {
-			entity->update(deltaTime);
+		las::Array<EntityPtr>::iterator first = m_app->getEntityList().begin();
+		las::Array<EntityPtr>::iterator last = m_app->getEntityList().end();
+		las::Array<EntityPtr> entitiesWithComponent = getEntitiesWithComponent(Component::controller, first, last);
+		for (EntityPtr entity :entitiesWithComponent) {
+			entity->getComponent(Component::controller)->update(deltaTime);
 		}
+		entitiesWithComponent = getEntitiesWithComponent(Component::collider, first, last);
+		//TODO collision detection
 		if (aie::Input::getInstance()->wasKeyPressed(pause_key)) {
 			m_shouldPush = true;
 			m_target = GameStateMachine::pause_state;
@@ -46,8 +52,17 @@ void BattleState::draw(aie::Renderer2D * renderer)
 	renderer->setUVRect(0, 0, 1, 1);
 	renderer->drawSprite(m_battleImage->get(), 640, 360);
 	//TODO just draw sprite components and (if activated) colliders
-	for (EntityPtr entity : m_app->getEntityList()) {
-		entity->draw(renderer);
+	las::Array<EntityPtr>::iterator first = m_app->getEntityList().begin();
+	las::Array<EntityPtr>::iterator last = m_app->getEntityList().end();
+	las::Array<EntityPtr> entitiesWithComponent = getEntitiesWithComponent(Component::sprite, first, last);
+	for (EntityPtr entity : entitiesWithComponent) {
+		entity->getComponent(Component::sprite)->draw(renderer);
+	}
+	if (Collider::draw_boxes) {
+		entitiesWithComponent = getEntitiesWithComponent(Component::collider, first, last);
+		for (EntityPtr entity : entitiesWithComponent) {
+			entity->getComponent(Component::collider)->draw(renderer);
+		}
 	}
 }
 
@@ -69,9 +84,14 @@ void BattleState::onExit()
 las::Array<EntityPtr> BattleState::getEntitiesWithComponent(Component::Identifier component, las::Array<EntityPtr>::iterator first, las::Array<EntityPtr>::iterator last)
 {
 	//TODO AAAAAAAA use find_if to fill new array with all entities with matching bitmask
-	las::Array<EntityPtr> entitiesWithComponent();
-	las::Array<EntityPtr>::iterator entity = std::find_if(first, last, [=](EntityPtr e) {return component&(e->getComponentMask()); });
+	las::Array<EntityPtr> entitiesWithComponent;
+	auto maskMatches = [=](EntityPtr e) {return bool(component&(e->getComponentMask())); };
+	las::Array<EntityPtr>::iterator entity = std::find_if(first, last, maskMatches);
 	//TODO while entity not last, push entity into entitiesWithComponent and call find_if again
 	//TODO put lambda into a variale, it's going to be reused
-	return las::Array<EntityPtr>();
+	while (entity != last) {
+		entitiesWithComponent.push_back(*entity);
+		entity = std::find_if(++entity, last, maskMatches);
+	}
+	return entitiesWithComponent;
 }
