@@ -1,4 +1,5 @@
 #pragma once
+#include "stdafx.h"
 #include "Renderer2D.h"
 
 class Entity;

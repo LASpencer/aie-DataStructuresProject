@@ -3,6 +3,8 @@
 #include "Entity.h"
 #include "CollisionEvent.h"
 
+bool Collider::draw_boxes = true;
+
 Collider::Collider() : Component(), m_eventManager(this)
 {
 }
@@ -88,13 +90,14 @@ Collider::Identifier Collider::getID()
 void Collider::resolveCollisions(las::Array<std::shared_ptr<Collider>> colliders)
 {
 	las::Array<Collision> collisions{};
-	las::Array < las::Array<Box >> globalBoxes{};
 	size_t numColliders = colliders.size();
+	las::Array < las::Array<Box >> globalBoxes(numColliders, {});
 	// Transform boxes to global reference frame
 	for (size_t i = 0; i < numColliders; ++i) {
 		for (Box b : colliders[i]->m_boxes) {
 			EntityPtr entity(colliders[i]->m_entity);
 			assert(entity);
+			globalBoxes[i] = las::Array<Box>();
 			Box global;
 			global.corner1 = glm::vec2(entity->getPosition()->getGlobalTransform() * glm::vec3(b.corner1.x, b.corner1.y, 1));
 			global.corner2 = glm::vec2(entity->getPosition()->getGlobalTransform() * glm::vec3(b.corner2.x, b.corner2.y, 1));
@@ -162,4 +165,9 @@ std::pair<bool, glm::vec2> Collider::testCollision(Box box1, Box box2)
 		}
 		return std::make_pair(true, penetration);
 	}
+}
+
+void Collider::setDrawBoxes(bool shouldDraw)
+{
+	draw_boxes = shouldDraw;
 }

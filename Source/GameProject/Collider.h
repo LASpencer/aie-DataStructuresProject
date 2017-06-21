@@ -1,4 +1,5 @@
 #pragma once
+#include "Defines.h"
 #include "Component.h"
 #include "Subject.h"
 #include "EventManager.h"
@@ -29,7 +30,8 @@ class Collider :
 	public Component, public Subject
 {
 public:
-	static const bool draw_boxes = true;
+
+	static bool draw_boxes;
 
 	Collider();
 	virtual ~Collider();
@@ -51,6 +53,8 @@ public:
 	static void resolveCollisions(las::Array <std::shared_ptr<Collider>> colliders);
 
 	static std::pair<bool,glm::vec2> testCollision(Box box1, Box box2);
+
+	static void setDrawBoxes(bool shouldDraw);
 
 protected:
 	EventManager m_eventManager;
