@@ -1,6 +1,7 @@
 #pragma once
 #include "HeroState.h"
 
+//TODO should descend from GroundState, which keeps track of whether feet touched ground last frame
 class IdleState : public HeroState {
 
 public:

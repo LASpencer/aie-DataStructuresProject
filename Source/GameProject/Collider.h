@@ -5,6 +5,7 @@
 
 enum BoxType {
 	body,
+	feet,
 	attack,
 	trigger
 };
@@ -16,10 +17,20 @@ struct Box {
 
 };
 
+class Collider;
+
+struct Collision {
+	std::shared_ptr<Collider>	collider[2];
+	BoxType		type[2];
+	glm::vec2	penetration;
+};
+
 class Collider :
 	public Component, public Subject
 {
 public:
+	static const bool draw_boxes = true;
+
 	Collider();
 	virtual ~Collider();
 
@@ -34,9 +45,12 @@ public:
 
 	virtual void update(float deltaTime);
 	virtual void draw(aie::Renderer2D* renderer);
-	static const bool draw_boxes = true;
 
 	virtual Identifier getID();
+
+	static void resolveCollisions(las::Array <std::shared_ptr<Collider>> colliders);
+
+	static std::pair<bool,glm::vec2> testCollision(Box box1, Box box2);
 
 protected:
 	EventManager m_eventManager;

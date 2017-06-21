@@ -27,3 +27,8 @@ void Component::onRemove(EntityPtr entity)
 	m_entity = EntityWeakPtr();
 }
 
+EntityWeakPtr Component::getEntity()
+{
+	return m_entity;
+}
+

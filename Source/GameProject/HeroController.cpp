@@ -78,11 +78,23 @@ void HeroController::draw(aie::Renderer2D * renderer)
 
 bool HeroController::onAdd(EntityPtr entity)
 {
+	//TODO test that entity has correct bitmask (sprites, collider)
 	bool added = Controller::onAdd(entity);
 	if (added) {
 		m_stateMachine.setHero(entity);
+		//Watch hero's collider
+		std::dynamic_pointer_cast<Collider>(entity->getComponent(Component::collider))->addObserver(shared_from_this());
 	}
 	return added;
+}
+
+void HeroController::onRemove(EntityPtr entity)
+{
+	Controller::onRemove(entity);
+	std::shared_ptr<Collider> collider = std::dynamic_pointer_cast<Collider>(entity->getComponent(Component::collider));
+	if (collider) {
+		collider->removeObserver(shared_from_this());
+	}
 }
 
 void HeroController::setStance(Stance stance)
@@ -139,4 +151,19 @@ void HeroController::setStance(Stance stance)
 		break;
 	}
 	std::dynamic_pointer_cast<Collider>(entity->getComponent(Component::collider))->setBoxes(hitbox);
+}
+
+bool HeroController::addSubject(Subject * subject)
+{
+	return true;
+}
+
+void HeroController::removeSubject(Subject * subject)
+{
+}
+
+void HeroController::notify(Subject * subject, EventBase * event)
+{
+	//Pass event on to current state
+	m_stateMachine.getState()->notify(subject, event);
 }

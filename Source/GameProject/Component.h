@@ -26,7 +26,8 @@ public:
 	};
 
 	virtual Identifier getID() = 0;
-	
+	EntityWeakPtr getEntity();
+
 protected:
 	EntityWeakPtr m_entity;
 };

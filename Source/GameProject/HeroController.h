@@ -2,11 +2,12 @@
 #include "Controller.h"
 #include "Map.h"
 #include "HeroStateMachine.h"
+#include "Observer.h"
 
 class Box;
 
 class HeroController :
-	public Controller {
+	public Controller, public Observer {
 public:
 	enum Stance {
 		idle,
@@ -50,6 +51,7 @@ public:
 	static const Box crouch_hitbox;
 	static const Box downed_hitbox;
 	//TODO attack boxes
+	//TODO foot colliders
 
 
 	HeroController();
@@ -60,8 +62,13 @@ public:
 	virtual void draw(aie::Renderer2D* renderer);
 
 	virtual bool onAdd(EntityPtr entity);
+	virtual void onRemove(EntityPtr entity);
 
 	void setStance(Stance stance);
+
+	virtual bool addSubject(Subject* subject);
+	virtual void removeSubject(Subject* subject);
+	virtual void notify(Subject* subject, EventBase* event);
 
 protected:
 	// Map holding UVRect values for each stance

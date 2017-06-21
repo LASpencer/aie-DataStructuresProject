@@ -36,8 +36,16 @@ void BattleState::update(float deltaTime)
 		for (EntityPtr entity :entitiesWithComponent) {
 			entity->getComponent(Component::controller)->update(deltaTime);
 		}
+		// Test collisions
 		entitiesWithComponent = getEntitiesWithComponent(Component::collider, first, last);
-		//TODO collision detection
+		las::Array<std::shared_ptr<Collider>> colliders;
+		for (EntityPtr entity : entitiesWithComponent) {
+			std::shared_ptr<Collider> collider = std::dynamic_pointer_cast<Collider>(entity->getComponent(Component::collider));
+			collider->update(deltaTime);
+			colliders.push_back(collider);
+		}
+		Collider::resolveCollisions(colliders);
+		
 		if (aie::Input::getInstance()->wasKeyPressed(pause_key)) {
 			m_shouldPush = true;
 			m_target = GameStateMachine::pause_state;

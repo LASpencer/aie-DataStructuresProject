@@ -21,7 +21,6 @@ HeroState::~HeroState()
 void HeroState::setHero(EntityPtr hero)
 {
 	m_hero = EntityWeakPtr(hero);
-	std::dynamic_pointer_cast<Collider>(hero->getComponent(Component::collider))->addObserver(shared_from_this());
 }
 
 void HeroState::onEnter()
