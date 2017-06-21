@@ -51,7 +51,6 @@ void BattleState::update(float deltaTime)
 			m_shouldPush = true;
 			m_target = GameStateMachine::pause_state;
 		}
-		//TODO transition win_state if door reached
 		//TODO transition game_over if hero dead
 	}
 }

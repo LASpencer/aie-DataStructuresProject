@@ -172,6 +172,9 @@ TEST_CASE("Array Iterator", "[array][container][iterator]") {
 		las::Array<int>::iterator newEnd = arr.erase(arr.begin() + 3, arr.end());
 		REQUIRE(newEnd == arr.end());
 		REQUIRE(arr == las::Array<int>({ 1,2,5 }));
+		REQUIRE_THROWS(arr.erase(arr.end()));
+		REQUIRE_NOTHROW(arr.erase(arr.end(), arr.end()));
+		//TODO test erase where first == last does nothing
 		REQUIRE_THROWS(arr.erase(arr.end() + 1));
 		REQUIRE_THROWS(arr.erase(arr.begin() - 1));
 		REQUIRE_THROWS(arr.erase(arr.begin(), arr.end() + 1));
@@ -364,6 +367,8 @@ TEST_CASE("Integer List", "[list][container]") {
 		REQUIRE(*(list.erase(pos)) == 5);
 		REQUIRE(list == las::List<int>({ 2,3,5,6 }));
 		REQUIRE_THROWS(list.erase(list.end()));
+		REQUIRE_NOTHROW(list.erase(list.end(), list.end()));
+		//TODO test erase where first == last does nothing
 		// Erase from middle of list
 		list = { 1,2,3,4,5,6,7,8 };
 		pos = list.begin() + 2;
@@ -575,6 +580,10 @@ TEST_CASE("Map", "[map][container]") {
 	SECTION("Erase") {
 		map = las::Map<int, int>({ { 5,1 },{ 0,2 },{ 3,3 },{ 4,4 },{ 2,5 },{ 7,6 },{ 10,7 },{ 6,7 } });
 		las::Map<int, int>::iterator it;
+		// Check exceptions
+		REQUIRE_THROWS(map.erase(map.end()));
+		REQUIRE_NOTHROW(map.erase(map.end(), map.end()));
+		//TODO test erase where first == last does nothing
 		//Erase red leaf
 		it = map.erase(2);
 		REQUIRE(map.isBalanced());

@@ -533,163 +533,188 @@ namespace las {
 		* @param key Key to erase from map
 		* @return iterator following erased element*/
 		iterator erase(const K& key) {
-			return erase(iterator(findNode(key), this));
+			Node* keyNode = findNode(key);
+			if (keyNode != nullptr) {
+				return erase(iterator(keyNode, this));
+			}
+			else {
+				return end();
+			}
 		}
 
 		/** Erase key-value pair from map
 		* @param pos Iterator referencing element to erase from map
 		* @return iterator following erased element*/
 		iterator erase(iterator pos) {
+			if (pos == end()) {
+				throw std::out_of_range("cannot erase end of map");
+			}
 			Node* node = pos.m_node;
 			iterator next;
-			if (node != nullptr) {
-				if (node->m_right != nullptr) {
-					//Copy successor, then delete that node instead
-					Node* successor = node->m_right->getSubtreeMin();
-					*node = *successor;
-					next = iterator(node, this);	//Next iterator points to node, as successor copied there
-					node = successor;
+			if (node->m_right != nullptr) {
+				//Copy successor, then delete that node instead
+				Node* successor = node->m_right->getSubtreeMin();
+				*node = *successor;
+				next = iterator(node, this);	//Next iterator points to node, as successor copied there
+				node = successor;
+			}
+			else {
+				next = iterator(node->getSuccessor(), this);	//Next iterator points to successor's node
+			}
+			// Node now has at most one child
+			Node* child = node->m_right;
+			if (child == nullptr) {
+				child = node->m_left;
+			}
+			// Check if deletion would unbalance tree
+			bool doubleBlack = !(node->m_red) && (child == nullptr || !(child->m_red));
+			Node* parent = node->m_parent;
+			Node* sibling = node->getSibling();
+			// Set child to black and reparent it
+			if (child != nullptr) {
+				child->m_red = false;
+				child->m_parent = parent;
+			}
+			if (parent != nullptr) {
+				if (parent->m_left == node) {
+					node->m_parent->m_left = child;
 				}
 				else {
-					next = iterator(node->getSuccessor(), this);	//Next iterator points to successor's node
+					parent->m_right = child;
 				}
-				// Node now has at most one child
-				Node* child = node->m_right;
-				if (child == nullptr) {
-					child = node->m_left;
+			}
+			else {
+				// If no parent, node must be root so set child as new root
+				assert(node == m_root);
+				m_root = child;
+			}
+			// Remove node's references and delete it
+			node->m_parent = nullptr;
+			node->m_left = nullptr;
+			node->m_right = nullptr;
+			delete node;
+			while (doubleBlack) {
+				// Rebalance until double black resolved
+				assert(child == m_root || sibling != nullptr);
+				if (child == m_root) {
+					// Root double black converts to single black
+					doubleBlack = false;
 				}
-				// Check if deletion would unbalance tree
-				bool doubleBlack = !(node->m_red) && (child == nullptr || !(child->m_red));
-				Node* parent = node->m_parent;
-				Node* sibling = node->getSibling();
-				// Set child to black and reparent it
-				if (child != nullptr) {
-					child->m_red = false;
-					child->m_parent = parent;
-				}
-				if (parent != nullptr) {
-					if (parent->m_left == node) {
-						node->m_parent->m_left = child;
+				else if (!sibling->m_red) {
+					//If sibling is black, check nephew colour
+					Node* nephew = nullptr;
+					if ( sibling->m_left != nullptr && sibling->m_left->m_red) {
+						nephew = sibling->m_left;
 					}
-					else {
-						parent->m_right = child;
+					else if (sibling->m_right != nullptr && sibling->m_right->m_red) {
+						nephew = sibling->m_right;
 					}
-				}
-				else {
-					// If no parent, node must be root so set child as new root
-					assert(node == m_root);
-					m_root = child;
-				}
-				// Remove node's references and delete it
-				node->m_parent = nullptr;
-				node->m_left = nullptr;
-				node->m_right = nullptr;
-				delete node;
-				while (doubleBlack) {
-					// Rebalance until double black resolved
-					assert(child == m_root || sibling != nullptr);
-					if (child == m_root) {
-						// Root double black converts to single black
+					if (nephew != nullptr) {
+						// If red nephew found, rotate and recolour based on left-left or right-left case
+						bool siblingLeft = (parent->m_left == sibling);
+						bool nephewLeft = (sibling->m_left == nephew);
+						bool bothRed = (sibling->m_left != nullptr && sibling->m_right != nullptr && sibling->m_left->m_red && sibling->m_right->m_red);
+						if(siblingLeft == nephewLeft){
+							// Left-left/Right-Right
+							// Rotate sibling up
+							rotate(sibling);
+							// Nephew is now black
+							nephew->m_red = false;
+							//If parent was red, move redness to sibling
+							if (parent->m_red) {
+								sibling->m_red = true;
+								parent->m_red = false;
+							}
+						} else if (bothRed) {
+							// Left-Left/Right-Right, if both red and wrong nephew picked earlier
+							// Set correct nephew to black
+							if (siblingLeft) {
+								sibling->m_left->m_red = false;
+							}
+							else {
+								sibling->m_right->m_red = false;
+							}
+							// Rotate sibling up
+							rotate(sibling);
+							//If parent was red, move redness to sibling
+							if (parent->m_red) {
+								sibling->m_red = true;
+								parent->m_red = false;
+							}
+						} else {
+							// Rotate nephew to create left-left/right-right case
+							// Then rotate again and recolour to resolve double blackness
+							rotate(nephew);
+							rotate(nephew);
+							if (parent->m_red) {
+								// If parent was red, move redness to nephew
+								nephew->m_red = true;
+								parent->m_red = false;
+							}
+							else {
+								//If parent was black, nephew becomes black
+								nephew->m_red = false;
+							}
+						}
+						// Double black resolved
 						doubleBlack = false;
 					}
-					else if (!sibling->m_red) {
-						//If sibling is black, check nephew colour
-						Node* nephew = nullptr;
-						if ( sibling->m_left != nullptr && sibling->m_left->m_red) {
-							nephew = sibling->m_left;
-						}
-						else if (sibling->m_right != nullptr && sibling->m_right->m_red) {
-							nephew = sibling->m_right;
-						}
-						if (nephew != nullptr) {
-							// If red nephew found, rotate and recolour based on left-left or right-left case
-							bool siblingLeft = (parent->m_left == sibling);
-							bool nephewLeft = (sibling->m_left == nephew);
-							bool bothRed = (sibling->m_left != nullptr && sibling->m_right != nullptr && sibling->m_left->m_red && sibling->m_right->m_red);
-							if(siblingLeft == nephewLeft){
-								// Left-left/Right-Right
-								// Rotate sibling up
-								rotate(sibling);
-								// Nephew is now black
-								nephew->m_red = false;
-								//If parent was red, move redness to sibling
-								if (parent->m_red) {
-									sibling->m_red = true;
-									parent->m_red = false;
-								}
-							} else if (bothRed) {
-								// Left-Left/Right-Right, if both red and wrong nephew picked earlier
-								// Set correct nephew to black
-								if (siblingLeft) {
-									sibling->m_left->m_red = false;
-								}
-								else {
-									sibling->m_right->m_red = false;
-								}
-								// Rotate sibling up
-								rotate(sibling);
-								//If parent was red, move redness to sibling
-								if (parent->m_red) {
-									sibling->m_red = true;
-									parent->m_red = false;
-								}
-							} else {
-								// Rotate nephew to create left-left/right-right case
-								// Then rotate again and recolour to resolve double blackness
-								rotate(nephew);
-								rotate(nephew);
-								if (parent->m_red) {
-									// If parent was red, move redness to nephew
-									nephew->m_red = true;
-									parent->m_red = false;
-								}
-								else {
-									//If parent was black, nephew becomes black
-									nephew->m_red = false;
-								}
-							}
-							// Double black resolved
+					else {
+						//If sibling is black and has 2 black children, move black up to parent
+						sibling->m_red = true;
+						if (parent->m_red) {
+							// If parent is red, make it black resolving double black
+							parent->m_red = false;
 							doubleBlack = false;
 						}
 						else {
-							//If sibling is black and has 2 black children, move black up to parent
-							sibling->m_red = true;
-							if (parent->m_red) {
-								// If parent is red, make it black resolving double black
-								parent->m_red = false;
+							// If parent is black, it is now the double black node
+							child = parent;
+							parent = child->m_parent;
+							sibling = child->getSibling();
+							if (parent == nullptr) {
+								// If new parent is nullptr, child is at root and double black is resolved
 								doubleBlack = false;
 							}
-							else {
-								// If parent is black, it is now the double black node
-								child = parent;
-								parent = child->m_parent;
-								sibling = child->getSibling();
-								if (parent == nullptr) {
-									// If new parent is nullptr, child is at root and double black is resolved
-									doubleBlack = false;
-								}
-							}
-						}
-					}
-					else {
-						//Sibling is red
-						//rotate sibling up
-						rotate(sibling);
-						// Sibling is now black and parent is red
-						sibling->m_red = false;
-						parent->m_red = true;
-						// Get pointer to new sibling
-						if (parent->m_left == child) {
-							sibling = parent->m_right;
-						} else {
-							sibling = parent->m_left;
 						}
 					}
 				}
-				return next;
-			} else {
-				return end();
+				else {
+					//Sibling is red
+					//rotate sibling up
+					rotate(sibling);
+					// Sibling is now black and parent is red
+					sibling->m_red = false;
+					parent->m_red = true;
+					// Get pointer to new sibling
+					if (parent->m_left == child) {
+						sibling = parent->m_right;
+					} else {
+						sibling = parent->m_left;
+					}
+				}
 			}
+			return next;
+		}
+
+		/**	Erase all key-value pairs in range
+		* @param first start of range
+		* @param last element past end of range
+		* @return iterator following erased elements*/
+		iterator erase(iterator first, iterator last) {
+			// Check range is valid
+			if (first.m_map != this || last.m_map != this) {
+				throw std::invalid_argument("first and last must both be iterators of this map");
+			}
+			if (last.m_node != nullptr && (*first).first > (*last).first) {
+				throw std::invalid_argument("last could not be reached by incrementing first");
+			}
+			
+			iterator current = first;
+			while (current != last) {
+				current = erase(current);
+			}
+			return current;
 		}
 
 		/**Subscript operator

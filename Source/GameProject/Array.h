@@ -410,19 +410,21 @@ namespace las {
 		* @param last end of range to erase
 		* @return iterator following erased element*/
 		iterator erase(iterator first, iterator last) {
-			if (std::less<iterator>()(first, begin()) || std::greater_equal<iterator>()(first, end())) {
-				throw std::out_of_range("first must be equal to or after Array.begin() and before Array.end()");
+			if (std::less<iterator>()(first, begin()) || std::greater<iterator>()(first, end())) {
+				throw std::out_of_range("first must be equal to or after Array.begin() and equal to or before Array.end()");
 			}
-			if (std::less_equal<iterator>()(last, first) || std::greater<iterator>()(last, end())) {
+			if (std::less<iterator>()(last, first) || std::greater<iterator>()(last, end())) {
 				throw std::out_of_range("last must be after first and before or equal to Array.end()");
 			}
 			size_t distance = std::distance(first, last);
-			// Move elements back, overwriting from first to last
-			for (iterator it = last; it != end(); ++it) {
-				*(it - distance) = *it;
+			if (distance != 0) {
+				// Move elements back, overwriting from first to last
+				for (iterator it = last; it != end(); ++it) {
+					*(it - distance) = *it;
+				}
+				// Remove elements at end
+				m_size -= distance;
 			}
-			// Remove elements at end
-			m_size -= distance;
 			return first;
 		}
 

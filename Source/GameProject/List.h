@@ -510,7 +510,7 @@ namespace las {
 				throw std::invalid_argument("position is not an iterator of this list");
 			}
 			if (position.m_node == nullptr) {
-				throw std::out_of_range("cannot erase past end of list");
+				throw std::out_of_range("cannot erase end of list");
 			}
 			if (position.m_node == m_front) {
 				m_front = m_front->getNext();
@@ -533,31 +533,34 @@ namespace las {
 			if (first.m_list != this || last.m_list != this) {
 				throw std::invalid_argument("first and last must both be iterators of this list");
 			}
-			if (first.m_node == nullptr) {
-				throw std::out_of_range("first cannot be end iterator");
-			}
 			// Check range is valid
 			for (iterator it = first; it != last; ++it) {
 				if (it == end()) {
 					throw std::out_of_range("last could not be reached by incrementing first");
 				}
 			}
-			//Check if erasing front
-			if (first.m_node == m_front) {
-				m_front = last.m_node;
+			if (first.m_node == nullptr) {
+				// If first is end, do nothing
+				return end();
 			}
-			//Check if erasing end
-			if (last == end()) {
+				else {
+				//Check if erasing front
+				if (first.m_node == m_front) {
+					m_front = last.m_node;
+				}
+				//Check if erasing end
+				if (last == end()) {
 					m_back = first.m_node->getPrevious();
+				}
+				// Delete nodes from first until last is reached
+				ListNode<T>* node = first.m_node;
+				while (node != last.m_node) {
+					ListNode<T>* next = node->getNext();
+					delete node;
+					node = next;
+				}
+				return last;
 			}
-			// Delete nodes from first until last is reached
-			ListNode<T>* node = first.m_node;
-			while (node != last.m_node) {
-				ListNode<T>* next = node->getNext();
-				delete node;
-				node = next;
-			}
-			return last;
 		}
 
 		/**remove
