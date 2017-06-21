@@ -97,10 +97,9 @@ void Collider::resolveCollisions(las::Array<std::shared_ptr<Collider>> colliders
 	las::Array < las::Array<Box >> globalBoxes(numColliders, {});
 	// Transform boxes to global reference frame
 	for (size_t i = 0; i < numColliders; ++i) {
+		EntityPtr entity(colliders[i]->m_entity);
+		globalBoxes[i] = las::Array<Box>();
 		for (Box b : colliders[i]->m_boxes) {
-			EntityPtr entity(colliders[i]->m_entity);
-			assert(entity);
-			globalBoxes[i] = las::Array<Box>();
 			Box global;
 			global.corner1 = glm::vec2(entity->getPosition()->getGlobalTransform() * glm::vec3(b.corner1.x, b.corner1.y, 1));
 			global.corner2 = glm::vec2(entity->getPosition()->getGlobalTransform() * glm::vec3(b.corner2.x, b.corner2.y, 1));
