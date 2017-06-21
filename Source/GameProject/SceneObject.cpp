@@ -20,6 +20,10 @@ void SceneObject::update(Entity * entity, float deltaTime)
 bool SceneObject::addChild(SceneObjectPtr child)
 {
 	if (child->m_parent.get() == nullptr && child.get() != this) {
+		// If array would be resized, try removing expired references instead
+		if (m_children.size() == m_children.capacity()) {
+			collectGarbage();
+		}
 		child->m_parent = SceneObjectPtr(shared_from_this());
 		child->setDirty();
 		m_children.push_back(SceneObjectWeakPtr(child));
@@ -88,6 +92,12 @@ void SceneObject::setDirty()
 			SceneObjectPtr(child)->setDirty();
 		}
 	}
+}
+
+void SceneObject::collectGarbage()
+{
+	m_children.erase(std::remove_if(m_children.begin(), m_children.end(), 
+		[](SceneObjectWeakPtr s) {return s.expired(); }), m_children.end());
 }
 
 void SceneObject::calculateGlobalTransform()

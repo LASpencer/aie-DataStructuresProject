@@ -30,6 +30,8 @@ public:
 
 	void setDirty();
 
+	void collectGarbage();
+
 protected:
 	SceneObjectPtr m_parent;
 	las::Array<SceneObjectWeakPtr> m_children;

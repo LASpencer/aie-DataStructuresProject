@@ -40,7 +40,7 @@ public:
 
 
 protected:
-	TextBar* m_pauseText;//TODO convert to uniqueptr
+	std::unique_ptr<TextBar> m_pauseText;//TODO convert to uniqueptr
 	std::shared_ptr<Button> m_quitButton;
 };
 
