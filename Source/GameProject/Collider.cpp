@@ -57,7 +57,6 @@ void Collider::draw(aie::Renderer2D * renderer)
 {
 	if (draw_boxes) {
 		EntityPtr entity(m_entity);
-		assert(entity);
 		for (Box box : m_boxes) {
 			glm::vec2 corner1( entity->getPosition()->getGlobalTransform() * glm::vec3(box.corner1.x, box.corner1.y, 1));
 			glm::vec2 corner2(entity->getPosition()->getGlobalTransform() * glm::vec3(box.corner2.x, box.corner2.y, 1));

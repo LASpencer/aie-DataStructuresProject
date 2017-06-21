@@ -64,7 +64,6 @@ HeroController::~HeroController()
 void HeroController::update(float deltaTime)
 {
 	EntityPtr entity(m_entity);
-	assert(entity);
 	if (!((entity->getComponentMask()&Component::sprite) && (entity->getComponentMask()&Component::collider))) {
 		throw missing_component("HeroController requires Sprite and Collider components");
 	}
@@ -74,7 +73,6 @@ void HeroController::update(float deltaTime)
 void HeroController::draw(aie::Renderer2D * renderer)
 {
 	EntityPtr entity(m_entity);
-	assert(entity);
 	if (!((entity->getComponentMask()&Component::sprite) && (entity->getComponentMask()&Component::collider))) {
 		throw missing_component("HeroController requires Sprite and Collider components");
 	}
@@ -106,7 +104,6 @@ void HeroController::setStance(Stance stance)
 {
 	//TODO check entity bitmask
 	EntityPtr entity(m_entity);
-	assert(entity);
 	std::pair<float, float> UVpos = animation_frames.at(stance);
 	std::dynamic_pointer_cast<SpriteBase>(entity->getComponent(sprite))->setUVRect(UVpos.first, UVpos.second, sprite_uv_width, sprite_uv_height);
 	//Set hitbox
