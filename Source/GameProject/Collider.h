@@ -5,10 +5,10 @@
 #include "EventManager.h"
 
 enum BoxType {
-	body,
-	feet,
-	attack,
-	trigger
+	body,		// Used for physical collisions
+	feet,		// Used to test if entity is supported by a body
+	attack,		// Used for attack hitboxes
+	trigger		// Triggers some event when collided with
 };
 
 struct Box {
@@ -19,6 +19,9 @@ struct Box {
 };
 
 class Collider;
+
+typedef std::shared_ptr<Collider> ColliderPtr;
+typedef std::weak_ptr<Collider>	ColliderWeakPtr;
 
 struct Collision {
 	std::shared_ptr<Collider>	collider[2];

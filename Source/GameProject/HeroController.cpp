@@ -44,6 +44,11 @@ const Box HeroController::run_hitbox = { { -16,-46 },{ 28,46 },BoxType::body };
 const Box HeroController::crouch_hitbox = { { -16,-46 },{ 22,16 },BoxType::body };
 const Box HeroController::downed_hitbox = { { -22,-46 },{ 22,-8 },BoxType::body };
 
+const Box HeroController::stand_feetbox = { {-16,-50},{16,-46},BoxType::feet };
+const Box HeroController::run_feetbox = { { -16,-50 },{ 28,-46 },BoxType::feet };
+const Box HeroController::crouch_feetbox = { { -16,-50 },{ 22,-46 },BoxType::feet };
+const Box HeroController::downed_feetbox = { { -22,-50 },{ 22,-46 },BoxType::feet };
+
 const float HeroController::move_speed = 100.0f;
 const float HeroController::move_frame_length = 0.1f;
 
@@ -123,6 +128,7 @@ void HeroController::setStance(Stance stance)
 	case(hurt):
 	case(falling):
 		hitbox.push_back(stand_hitbox);
+		hitbox.push_back(stand_feetbox);
 		break;
 	case(run1):
 	case(run2):
@@ -133,6 +139,7 @@ void HeroController::setStance(Stance stance)
 	case(run7):
 	case(run8):
 		hitbox.push_back(run_hitbox);
+		hitbox.push_back(run_feetbox);
 		break;
 	case(crouch_strike_1):
 	case(crouch_strike_2):
@@ -143,9 +150,11 @@ void HeroController::setStance(Stance stance)
 	case(crouch_wind_down):
 	case(crouch_hurt):
 		hitbox.push_back(crouch_hitbox);
+		hitbox.push_back(crouch_feetbox);
 		break;
 	case(downed):
 		hitbox.push_back(downed_hitbox);
+		hitbox.push_back(downed_feetbox);
 		break;
 	default:
 		break;

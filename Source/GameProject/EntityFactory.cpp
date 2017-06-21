@@ -114,8 +114,6 @@ EntityPtr EntityFactory::createBlock(glm::mat3 position, SceneObjectPtr parent)
 	std::shared_ptr<Collider> collider = std::make_shared<Collider>();
 	collider->setBoxes({ block_hitbox });
 	block->addComponent(collider);
-	// Set tags
-	block->addTag(Entity::block);
 	return block;
 }
 
@@ -128,6 +126,8 @@ EntityPtr EntityFactory::createDoor(glm::mat3 position, SceneObjectPtr parent)
 	std::shared_ptr<Collider> collider = std::make_shared<Collider>();
 	collider->setBoxes({ door_hitbox });
 	door->addComponent(collider);
+	//Set tags
+	door->addTag(Entity::door);
 	return door;
 }
 

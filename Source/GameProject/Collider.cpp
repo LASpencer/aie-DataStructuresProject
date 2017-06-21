@@ -68,6 +68,9 @@ void Collider::draw(aie::Renderer2D * renderer)
 			case(body):
 				renderer->setRenderColour(0x0000FF80);
 				break;
+			case(feet):
+				renderer->setRenderColour(0xFF00FF80);
+				break;
 			case(attack):
 				renderer->setRenderColour(0xFF000080);
 				break;

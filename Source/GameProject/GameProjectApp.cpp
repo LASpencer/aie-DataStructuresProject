@@ -53,6 +53,7 @@ void GameProjectApp::draw() {
 	m_2dRenderer->begin();
 
 	// draw your stuff here!
+	m_2dRenderer->setUVRect(0, 0, 1, 1);
 	m_stateMachine->draw(m_2dRenderer);
 
 	//fps info

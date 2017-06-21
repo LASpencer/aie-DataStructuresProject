@@ -50,8 +50,12 @@ public:
 	static const Box run_hitbox;
 	static const Box crouch_hitbox;
 	static const Box downed_hitbox;
+	static const Box stand_feetbox;
+	static const Box run_feetbox;
+	static const Box crouch_feetbox;
+	static const Box downed_feetbox;
 	//TODO attack boxes
-	//TODO foot colliders
+
 
 
 	HeroController();

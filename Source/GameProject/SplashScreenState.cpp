@@ -2,6 +2,7 @@
 #include "SplashScreenState.h"
 #include "GameProjectApp.h"
 #include "Event.h"
+#include "Filepaths.h"
 
 const float SplashScreenState::TIMER_DURATION = 1.5f;
 
@@ -46,7 +47,7 @@ void SplashScreenState::draw(aie::Renderer2D* renderer)
 void SplashScreenState::onEnter()
 {
 	GameState::onEnter();
-	m_splashImage = m_app->getResourceManager()->getTexture("./textures/splashScreen.png");
+	m_splashImage = m_app->getResourceManager()->getTexture(filepath::splash_background);
 	m_timer = 0;
 	Event timerStart(EventBase::timer_start);
 	notifyObservers(&timerStart);

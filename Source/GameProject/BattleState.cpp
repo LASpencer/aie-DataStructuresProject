@@ -5,6 +5,7 @@
 #include "Sprite.h"
 #include "Collider.h"
 #include "Filepaths.h"
+#include "CollisionEvent.h"
 
 const aie::EInputCodes BattleState::pause_key = aie::INPUT_KEY_ESCAPE;
 
@@ -50,14 +51,13 @@ void BattleState::update(float deltaTime)
 			m_shouldPush = true;
 			m_target = GameStateMachine::pause_state;
 		}
-		//TODO transition win_screen if door reached
+		//TODO transition win_state if door reached
 		//TODO transition game_over if hero dead
 	}
 }
 
 void BattleState::draw(aie::Renderer2D * renderer)
 {
-	renderer->setUVRect(0, 0, 1, 1);
 	renderer->drawSprite(m_battleImage->get(), 640, 360);
 	//TODO just draw sprite components and (if activated) colliders
 	las::Array<EntityPtr>::iterator first = m_app->getEntityList().begin();
@@ -90,12 +90,32 @@ void BattleState::onEnter()
 
 void BattleState::onExit()
 {
-	//TODO cleanup unused resources
+	//TODO if creation of entities moved, move this too
+	m_app->getEntityList().clear();
 }
 
 void BattleState::notify(Subject * subject, EventBase * event)
 {
 	//TODO if event is collision between hero's collider and door trigger, move to win screen
+	if (event->getEventID() == EventBase::collision) {
+		CollisionEvent* collision = dynamic_cast<CollisionEvent*>(event);
+		assert(collision != nullptr);
+		Collider* collider = dynamic_cast<Collider*>(subject);
+		if (collider != nullptr) {
+			EntityPtr subjectEntity = EntityPtr(collider->getEntity());
+			EntityPtr otherEntity = EntityPtr(collision->getOtherEntity());
+			//Check that collision was trigger to body
+			bool triggerToBody = (collision->getMyType() == BoxType::trigger) && (collision->getOtherType() == BoxType::body);
+			//Check collider is door and other is player
+			bool doorToPlayer = (subjectEntity->getTagMask() & Entity::door) && (otherEntity->getTagMask() & Entity::player);
+			if (triggerToBody && doorToPlayer) {
+				m_shouldTransition = true;
+				m_target = GameStateMachine::win_state;
+			}
+		} else{
+			throw std::invalid_argument("Only Collider subjects should produce collision events");
+		}
+	}
 }
 
 bool BattleState::addSubject(Subject * subject)

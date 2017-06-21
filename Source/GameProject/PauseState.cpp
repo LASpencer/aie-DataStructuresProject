@@ -6,8 +6,8 @@
 #include "Filepaths.h"
 
 const std::string PauseState::pause_message = "Paused";
-const std::string PauseState::pause_font_path = filepath::pause_font_path;
-const std::string PauseState::button_font_path = filepath::button_font_path;
+const std::string PauseState::pause_font_path = filepath::consolas_bold_path;
+const std::string PauseState::button_font_path = filepath::consolas_bold_path;
 const unsigned short PauseState::pause_font_height = 64;
 const unsigned short PauseState::button_font_height = 32;
 const float PauseState::text_pos_x = 640;

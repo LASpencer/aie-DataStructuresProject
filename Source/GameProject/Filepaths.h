@@ -2,13 +2,18 @@
 #include <string>
 
 namespace filepath {
-	const std::string button_font_path = "./font/consolas_bold.ttf";
-	const std::string pause_font_path = "./font/consolas_bold.ttf";
+	//Fonts
+	const std::string consolas_path = "./font/consolas.ttf";
+	const std::string consolas_bold_path = "./font/consolas_bold.ttf";
+	const std::string consolas_italic_path = "./font/consolas_italic.ttf";
 
 	//Textures
 	// Background tiles
 	const std::string castle_tiles = "./textures/oppcastle-mod-tiles.png";
 	const std::string castle_background = "./textures/background.png";
+	const std::string splash_background = "./textures/splashScreen.png";
+	const std::string menu_background = "./textures/mainMenu.png";
+	const std::string win_background = "./textures/combatBG.png";
 
 	// Hero spritesheets
 	const std::string hero_blue = "./textures/player/player-spritemap-v9.png";

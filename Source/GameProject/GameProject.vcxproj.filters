@@ -222,6 +222,9 @@
     <ClCompile Include="CollisionEvent.cpp">
       <Filter>Source Files\Observer\Events</Filter>
     </ClCompile>
+    <ClCompile Include="WinState.cpp">
+      <Filter>Source Files\State Machine\States\Game States</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameProjectApp.h">
@@ -400,6 +403,9 @@
     </ClInclude>
     <ClInclude Include="CollisionEvent.h">
       <Filter>Header Files\Observer\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="WinState.h">
+      <Filter>Header Files\State Machine\States\Game States</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

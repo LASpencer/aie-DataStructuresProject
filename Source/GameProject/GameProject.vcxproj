@@ -134,6 +134,7 @@
     <ClCompile Include="TimerCondition.cpp" />
     <ClCompile Include="Transition.cpp" />
     <ClCompile Include="WalkState.cpp" />
+    <ClCompile Include="WinState.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AndCondition.h" />
@@ -195,6 +196,7 @@
     <ClInclude Include="TimerCondition.h" />
     <ClInclude Include="Transition.h" />
     <ClInclude Include="WalkState.h" />
+    <ClInclude Include="WinState.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

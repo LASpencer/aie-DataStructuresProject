@@ -16,6 +16,7 @@ public:
 		main_menu,
 		battle_state,
 		pause_state,
+		win_state,
 		final_state
 	};
 

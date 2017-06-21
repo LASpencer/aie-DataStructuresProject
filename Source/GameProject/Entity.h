@@ -16,8 +16,8 @@ public:
 
 	enum ETag {
 		player = 0x1,
-		block = 0x2,
-		floor = 0x4
+		floor = 0x2,
+		door = 0x4
 	};
 
 	Entity();

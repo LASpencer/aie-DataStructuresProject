@@ -6,6 +6,7 @@
 #include "TimerCondition.h"
 #include "FinalState.h"
 #include "BattleState.h"
+#include "WinState.h"
 #include "PauseState.h"
 #include "KeyboardInputCondition.h"
 
@@ -25,6 +26,9 @@ GameStateMachine::GameStateMachine(GameProjectApp* app)
 
 	std::shared_ptr<PauseState> pause = std::make_shared<PauseState>(app);
 	addState(pause_state, pause);
+
+	std::shared_ptr<WinState> win = std::make_shared<WinState>(app);
+	addState(win_state, win);
 
 	std::shared_ptr<FinalState> finalState = std::make_shared<FinalState>(app);
 	addState(final_state, finalState);

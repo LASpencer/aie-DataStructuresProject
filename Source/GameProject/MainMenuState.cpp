@@ -13,7 +13,7 @@ const float MainMenuState::play_button_x = 640.0f;
 const float MainMenuState::play_button_y = 400.0f;
 const float MainMenuState::exit_button_x = 640.0f;
 const float MainMenuState::exit_button_y = 200.0f;
-const std::string MainMenuState::button_font_path = filepath::button_font_path;
+const std::string MainMenuState::button_font_path = filepath::consolas_bold_path;
 const unsigned short MainMenuState::button_font_height = 32;
 
 MainMenuState::MainMenuState(GameProjectApp* app) : GameState(app)
@@ -67,7 +67,7 @@ void MainMenuState::draw(aie::Renderer2D* renderer)
 void MainMenuState::onEnter()
 {
 	GameState::onEnter();
-	m_menuImage = m_app->getResourceManager() ->getTexture("./textures/mainMenu.png");
+	m_menuImage = m_app->getResourceManager()->getTexture(filepath::menu_background);
 	m_playButton->reset();
 	m_exitButton->reset();
 }
