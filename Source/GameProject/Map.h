@@ -531,14 +531,15 @@ namespace las {
 
 		/** Erase key-value pair from map
 		* @param key Key to erase from map
-		* @return iterator following erased element*/
-		iterator erase(const K& key) {
+		* @return true if element existed in map*/
+		bool erase(const K& key) {
 			Node* keyNode = findNode(key);
 			if (keyNode != nullptr) {
-				return erase(iterator(keyNode, this));
+				erase(iterator(keyNode, this));
+				return true;
 			}
 			else {
-				return end();
+				return false;
 			}
 		}
 
@@ -546,6 +547,9 @@ namespace las {
 		* @param pos Iterator referencing element to erase from map
 		* @return iterator following erased element*/
 		iterator erase(iterator pos) {
+			if (pos.m_map != this) {
+				throw std::invalid_argument("pos must be iterator of this map");
+			}
 			if (pos == end()) {
 				throw std::out_of_range("cannot erase end of map");
 			}
@@ -706,7 +710,7 @@ namespace las {
 			if (first.m_map != this || last.m_map != this) {
 				throw std::invalid_argument("first and last must both be iterators of this map");
 			}
-			if (last.m_node != nullptr && (*first).first > (*last).first) {
+			if (last.m_node != nullptr && (first.m_node == nullptr||(*first).first > (*last).first)) {
 				throw std::invalid_argument("last could not be reached by incrementing first");
 			}
 			

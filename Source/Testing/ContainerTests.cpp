@@ -172,9 +172,12 @@ TEST_CASE("Array Iterator", "[array][container][iterator]") {
 		las::Array<int>::iterator newEnd = arr.erase(arr.begin() + 3, arr.end());
 		REQUIRE(newEnd == arr.end());
 		REQUIRE(arr == las::Array<int>({ 1,2,5 }));
+		// Erase where first==last does nothing
+		REQUIRE_NOTHROW(arr.erase(arr.begin() + 1, arr.begin() + 1));
+		REQUIRE(arr == las::Array<int>({ 1,2,5 }));
+		// Test exceptions for invalid ranges
 		REQUIRE_THROWS(arr.erase(arr.end()));
-		REQUIRE_NOTHROW(arr.erase(arr.end(), arr.end()));
-		//TODO test erase where first == last does nothing
+		REQUIRE_NOTHROW(arr.erase(arr.end(), arr.end()));	// this is valid range
 		REQUIRE_THROWS(arr.erase(arr.end() + 1));
 		REQUIRE_THROWS(arr.erase(arr.begin() - 1));
 		REQUIRE_THROWS(arr.erase(arr.begin(), arr.end() + 1));
@@ -368,7 +371,6 @@ TEST_CASE("Integer List", "[list][container]") {
 		REQUIRE(list == las::List<int>({ 2,3,5,6 }));
 		REQUIRE_THROWS(list.erase(list.end()));
 		REQUIRE_NOTHROW(list.erase(list.end(), list.end()));
-		//TODO test erase where first == last does nothing
 		// Erase from middle of list
 		list = { 1,2,3,4,5,6,7,8 };
 		pos = list.begin() + 2;
@@ -376,6 +378,9 @@ TEST_CASE("Integer List", "[list][container]") {
 		// Throw if invalid range
 		REQUIRE_THROWS(list.erase(last, pos));
 		list.erase(pos, last);
+		REQUIRE(list == las::List<int>({ 1,2,5,6,7,8 }));
+		// Erase with empty range does nothing
+		REQUIRE_NOTHROW(list.erase(pos, pos));
 		REQUIRE(list == las::List<int>({ 1,2,5,6,7,8 }));
 		// Erase from end of list
 		pos = list.end() - 2;
@@ -579,70 +584,133 @@ TEST_CASE("Map", "[map][container]") {
 	}
 	SECTION("Erase") {
 		map = las::Map<int, int>({ { 5,1 },{ 0,2 },{ 3,3 },{ 4,4 },{ 2,5 },{ 7,6 },{ 10,7 },{ 6,7 } });
-		las::Map<int, int>::iterator it;
-		// Check exceptions
-		REQUIRE_THROWS(map.erase(map.end()));
-		REQUIRE_NOTHROW(map.erase(map.end(), map.end()));
-		//TODO test erase where first == last does nothing
-		//Erase red leaf
-		it = map.erase(2);
-		REQUIRE(map.isBalanced());
-		REQUIRE(it->second == 3);
-		REQUIRE_FALSE(map.exists(2));
-		map.insert(-2);
-		// Erase node with red leaf child on left
-		it = map.erase(0);
-		REQUIRE(map.isBalanced());
-		REQUIRE(it->second == 3);
-		REQUIRE_FALSE(map.exists(0));
-		// Erase node with red leaf child on right
-		map.insert(0,2);
-		it = map.erase(-2);
-		REQUIRE(map.isBalanced());
-		REQUIRE(it->second == 2);
-		REQUIRE_FALSE(map.exists(-2));
-		// Test black sibling
-		las::Map<int, int> mapCopy = map;
-		// Erase node with black sibling, 2 red nephews
-		it = map.erase(4);
-		REQUIRE(map.isBalanced());
-		REQUIRE(it->second == 1);
-		REQUIRE_FALSE(map.exists(4));
-		// Erase node with black sibling, red nephew in left-right case
-		it = map.erase(10);
-		REQUIRE(map.isBalanced());
-		REQUIRE(it == map.end());
-		REQUIRE_FALSE(map.exists(10));
-		map = mapCopy;
-		// Erase node with black sibling, red nephew is in right-right case
-		it = map.erase(6);
-		REQUIRE(it->second == 6);
-		it = map.erase(4);
-		REQUIRE(map.isBalanced());
-		REQUIRE(it->second == 1);
-		REQUIRE_FALSE(map.exists(4));
-		map = mapCopy;
-		// Erase node with red sibling
-		it = map.erase(0);
-		REQUIRE(map.isBalanced());
-		REQUIRE(it->second == 3);
-		REQUIRE_FALSE(map.exists(0));
-		it = map.erase(4);
-		REQUIRE(it->second == 1);
-		it = map.erase(6);
-		REQUIRE(it->second == 6);
-		it = map.erase(10);
-		REQUIRE(it == map.end());
-		// Erase node with black sibling, 2 black nephews
-		it = map.erase(7);
-		REQUIRE(map.isBalanced());
-		REQUIRE(it == map.end());
-		REQUIRE_FALSE(map.exists(7));
-		// Erase root from map with only root, left child
-		it = map.erase(5);
-		REQUIRE(map.isBalanced());
-		REQUIRE(it == map.end());
-		REQUIRE_FALSE(map.exists(5));
+		SECTION("Erase by value") {
+			// Erasing key that doesn't exist returns false
+			REQUIRE_FALSE(map.erase(9));
+
+			//Erase red leaf
+			REQUIRE(map.erase(2));
+			REQUIRE(map.isBalanced());
+			REQUIRE_FALSE(map.exists(2));
+			REQUIRE(map.insert(-2));
+			// Erase node with red leaf child on left
+			REQUIRE(map.erase(0));
+			REQUIRE(map.isBalanced());
+			REQUIRE_FALSE(map.exists(0));
+			// Erase node with red leaf child on right
+			REQUIRE(map.insert(0, 2));
+			REQUIRE(map.erase(-2));
+			REQUIRE(map.isBalanced());
+			REQUIRE_FALSE(map.exists(-2));
+			// Test black sibling
+			SECTION("Black sibling, 2 red or l-r red nephews") {
+				// Erase node with black sibling, 2 red nephews
+				REQUIRE(map.erase(4));
+				REQUIRE(map.isBalanced());
+				REQUIRE_FALSE(map.exists(4));
+				// Erase node with black sibling, red nephew in left-right case
+				REQUIRE(map.erase(10));
+				REQUIRE(map.isBalanced());
+				REQUIRE_FALSE(map.exists(10));
+			}
+			SECTION("Black sibling, r-r red nephew") {
+				// Erase node with black sibling, red nephew is in right-right case
+				REQUIRE(map.erase(6));
+				REQUIRE(map.erase(4));
+				REQUIRE(map.isBalanced());
+				REQUIRE_FALSE(map.exists(4));
+			}
+			SECTION("Other erase cases") {
+				// Erase node with red sibling
+				REQUIRE(map.erase(0));
+				REQUIRE(map.isBalanced());
+				REQUIRE_FALSE(map.exists(0));
+				REQUIRE(map.erase(4));
+				REQUIRE(map.erase(6));
+				REQUIRE(map.erase(10));
+				// Erase node with black sibling, 2 black nephews
+				REQUIRE(map.erase(7));
+				REQUIRE(map.isBalanced());
+				REQUIRE_FALSE(map.exists(7));
+				// Erase root from map with only root, left child
+				REQUIRE(map.erase(5));
+				REQUIRE(map.isBalanced());
+				REQUIRE_FALSE(map.exists(5));
+			}
+		}
+		SECTION("Erase by Iterator") {
+			las::Map<int, int>::iterator it;
+			las::Map<int, int>::iterator afterNext;
+			las::Map<int, int>::iterator previous;
+			las::Map<int, int>::iterator first = map.begin();
+			las::Map<int, int>::iterator last = map.end();
+			SECTION("Exceptions") {
+				las::Map<int, int> map2(map);
+				REQUIRE_THROWS(map.erase(map.end()));
+				REQUIRE_THROWS(map.erase(map2.begin()));
+				REQUIRE_THROWS(map.erase(map2.begin(), map2.end()));
+				REQUIRE_NOTHROW(map.erase(map.end(), map.end()));
+				REQUIRE_NOTHROW(map.erase(map.begin(), map.begin()));
+				REQUIRE_THROWS(map.erase(last, first));
+				--last;
+				--last;
+				REQUIRE_THROWS(map.erase(last, first));
+			}
+			SECTION("Erase single element") {
+				it = first;
+				++it;
+				++it;
+				CHECK(it->first == 3);
+				afterNext = it;
+				++afterNext;
+				++afterNext;
+				CHECK(afterNext->first == 5);
+				previous = it;
+				--previous;
+				CHECK(previous->first == 2);
+				REQUIRE_NOTHROW(it = map.erase(it));
+				REQUIRE(map.isBalanced());
+				REQUIRE_FALSE(map.exists(3));
+				// Check iterators on either side still valid
+				REQUIRE(afterNext->first == 5);
+				REQUIRE(previous->first == 2);
+				REQUIRE(it->first == 4);
+			}
+			SECTION("Erase over range") {
+				++first;
+				++first;
+				++first;
+				CHECK(first->first == 4);
+				previous = first;
+				--previous;
+				CHECK(previous->first == 3);
+				SECTION("Erase in middle") {
+					--last;
+					--last;
+					CHECK(last->first == 7);
+					REQUIRE_NOTHROW(it = map.erase(first, last));
+					REQUIRE_FALSE(map.exists(4));
+					REQUIRE_FALSE(map.exists(5));
+					REQUIRE_FALSE(map.exists(6));
+					REQUIRE(map.exists(7));
+					REQUIRE(it->first == 7);
+					REQUIRE(it == last);
+					REQUIRE(previous->first == 3);
+					REQUIRE(map.isBalanced());
+				}
+				SECTION("Erase to end") {
+					REQUIRE_NOTHROW(it = map.erase(first, last));
+					REQUIRE_FALSE(map.exists(4));
+					REQUIRE_FALSE(map.exists(5));
+					REQUIRE_FALSE(map.exists(6));
+					REQUIRE_FALSE(map.exists(7));
+					REQUIRE_FALSE(map.exists(10));
+					REQUIRE(it == map.end());
+					REQUIRE(previous->first == 3);
+					REQUIRE(map.isBalanced());
+				}
+			}
+		}
 	}
 	SECTION("Flatten") {
 		las::Array<std::pair<int, int>> arr = map.flattenMap();

@@ -51,7 +51,7 @@ void ResourceManager::collectGarbage()
 	las::Map<std::string, TexturePtr>::iterator textureIter = m_textures.begin();
 	while (textureIter != m_textures.end()) {
 		if (textureIter->second.use_count() == 1) {
-			textureIter = m_textures.erase(textureIter->first);
+			textureIter = m_textures.erase(textureIter);
 		}
 		else {
 			++textureIter;
@@ -60,7 +60,7 @@ void ResourceManager::collectGarbage()
 	las::Map<std::string, AudioPtr>::iterator audioIter = m_audio.begin();
 	while (audioIter != m_audio.end()) {
 		if (audioIter->second.use_count() == 1) {
-			audioIter = m_audio.erase(audioIter->first);
+			audioIter = m_audio.erase(audioIter);
 		}
 		else {
 			++audioIter;
@@ -71,7 +71,7 @@ void ResourceManager::collectGarbage()
 		las::Map<unsigned short, FontPtr>::iterator it = fontIter->second.begin();
 		while (it != fontIter->second.end()) {
 			if (it->second.use_count() == 1) {
-				it = fontIter->second.erase(it->first);
+				it = fontIter->second.erase(it);
 			} else {
 				++it;
 			}
