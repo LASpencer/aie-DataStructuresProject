@@ -19,7 +19,7 @@ MainMenuState::MainMenuState(GameProjectApp* app) : GameState(app)
 	FontPtr buttonFont = m_app->getResourceManager()->getFont(button_font_path, button_font_height);
 	m_playButton = std::make_shared<Button>(buttonFont, "Play",play_button_x, play_button_y, button_width,button_height);
 	m_exitButton = std::make_shared<Button>(buttonFont, "Quit",exit_button_x, exit_button_y, button_width, button_height);
-
+	//TODO follow play and exit buttons
 }
 
 
@@ -27,9 +27,19 @@ MainMenuState::~MainMenuState()
 {
 }
 
-MainMenuState::MainMenuState(const MainMenuState & other) : GameState(other), m_menuImage(other.m_menuImage)
+MainMenuState::MainMenuState(const MainMenuState & other) : GameState(other), m_menuImage(other.m_menuImage), m_playButton(other.m_playButton), m_exitButton(other.m_exitButton)
 {
+	//TODO follow play and exit buttons
+}
 
+MainMenuState & MainMenuState::operator=(const MainMenuState & other)
+{
+	GameState::operator=(other);
+	m_menuImage = other.m_menuImage;
+	m_playButton = other.m_playButton;
+	m_exitButton = other.m_exitButton;
+	//TODO follow play and exit buttons
+	return *this;
 }
 
 State * MainMenuState::clone() const

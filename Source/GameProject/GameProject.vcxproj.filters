@@ -326,5 +326,14 @@
     <ClInclude Include="WinState.h">
       <Filter>Header Files\State Machine\States\Game States</Filter>
     </ClInclude>
+    <ClInclude Include="FallState.h">
+      <Filter>Header Files\State Machine\States\Hero States</Filter>
+    </ClInclude>
+    <ClInclude Include="GroundState.h">
+      <Filter>Header Files\State Machine\States\Hero States</Filter>
+    </ClInclude>
+    <ClInclude Include="AirState.h">
+      <Filter>Header Files\State Machine\States\Hero States</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

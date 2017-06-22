@@ -52,7 +52,7 @@ const Box HeroController::downed_feetbox = { { -22,-50 },{ 22,-46 },BoxType::fee
 const float HeroController::move_speed = 100.0f;
 const float HeroController::move_frame_length = 0.1f;
 
-HeroController::HeroController() : Controller(), m_stateMachine(this)
+HeroController::HeroController() : Controller(), m_stateMachine(this), m_verticalSpeed(0.f)
 {
 	m_stateMachine.forceState(HeroStateMachine::idle_state);
 }
@@ -174,6 +174,7 @@ void HeroController::removeSubject(Subject * subject)
 
 void HeroController::notify(Subject * subject, EventBase * event)
 {
+	//TODO if body-body collision, move so not colliding
 	//Pass event on to current state
 	m_stateMachine.getState()->notify(subject, event);
 }

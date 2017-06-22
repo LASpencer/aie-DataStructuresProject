@@ -3,7 +3,7 @@
 
 
 
-EventBase::EventBase(event_id id) : m_id(id)
+EventBase::EventBase(EventID id) : m_id(id)
 {
 }
 
@@ -11,7 +11,7 @@ EventBase::~EventBase()
 {
 }
 
-EventBase::event_id EventBase::getEventID()
+EventBase::EventID EventBase::getEventID()
 {
 	return m_id;
 }

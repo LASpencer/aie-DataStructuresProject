@@ -20,6 +20,12 @@ SplashScreenState::SplashScreenState(const SplashScreenState & other) : GameStat
 {
 }
 
+SplashScreenState & SplashScreenState::operator=(const SplashScreenState & other)
+{
+	GameState::operator=(other);
+	return *this;
+}
+
 State * SplashScreenState::clone() const
 {
 	return new SplashScreenState(*this);
@@ -49,7 +55,5 @@ void SplashScreenState::onEnter()
 	GameState::onEnter();
 	m_splashImage = m_app->getResourceManager()->getTexture(filepath::splash_background);
 	m_timer = 0;
-	Event timerStart(EventBase::timer_start);
-	notifyObservers(&timerStart);
 }
 

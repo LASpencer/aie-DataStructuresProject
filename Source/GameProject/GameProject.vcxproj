@@ -127,6 +127,7 @@
     <ClCompile Include="WinState.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AirState.h" />
     <ClInclude Include="Array.h" />
     <ClInclude Include="AttackState.h" />
     <ClInclude Include="BattleState.h" />
@@ -143,11 +144,13 @@
     <ClInclude Include="Event.h" />
     <ClInclude Include="EventManager.h" />
     <ClInclude Include="EventBase.h" />
+    <ClInclude Include="FallState.h" />
     <ClInclude Include="Filepaths.h" />
     <ClInclude Include="FinalState.h" />
     <ClInclude Include="GameProjectApp.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="GameStateMachine.h" />
+    <ClInclude Include="GroundState.h" />
     <ClInclude Include="HeroController.h" />
     <ClInclude Include="HeroStateMachine.h" />
     <ClInclude Include="InputEvent.h" />

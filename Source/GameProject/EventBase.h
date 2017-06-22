@@ -1,35 +1,30 @@
 #pragma once
 
-
+//  Abstract base class for Event objects.
 class EventBase {
 public:
-	enum event_id {
-		//member_updated,		//Some variable was updated
+	// Types of events that can be created
+	enum EventID {
 		destroyed,			//Subject was destroyed
-		frame_start,		//Subject has started new update
 		state_entered,		//State was entered
 		state_exited,		//State was exited
 		gain_focus,			//State gained focus
 		lose_focus,			//State lost focus
-		timer_start,		//A timer was started
-		timer_finished,		//A timer has finished
 		mouse_over,			//The mouse cursor is over the subject
 		mouse_exit,			//The mouse cursor has left the subject
 		clicked,			//The subject was clicked
 		mouse_release,		//A mouse button was released
-		key_press,			//The subject noticed a key press
-		key_release,		//The subjct noticed a key being released
-		collision
+		collision			//Collision occurred
 
 	};
 
-	EventBase(event_id id);
+	EventBase(EventID id);
 	virtual ~EventBase();
 
-	event_id getEventID();
+	EventID getEventID();
 
 protected:
-	event_id m_id;
+	EventID m_id;
 	// Check if event id is possible for concrete class
-	virtual bool isValidID(event_id id) = 0;
+	virtual bool isValidID(EventID id) = 0;
 };

@@ -4,14 +4,14 @@
 
 class InputEvent : public EventBase {
 public:
-	InputEvent(event_id id, aie::EInputCodes inputCode);
+	InputEvent(EventID id, aie::EInputCodes inputCode);
 	virtual ~InputEvent();
 
 	aie::EInputCodes getInputCode();
 
 
 protected:
-	aie::EInputCodes m_inputCode;
+	aie::EInputCodes m_inputCode;		//Code for key or mouse button causing event
 
-	virtual bool isValidID(event_id id);
+	virtual bool isValidID(EventID id);
 };

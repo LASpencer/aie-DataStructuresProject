@@ -28,6 +28,7 @@ public:
 	PauseState(GameProjectApp* app);
 	virtual ~PauseState();
 	PauseState(const PauseState& other);
+	PauseState& operator=(const PauseState& other);
 
 	State* clone() const;
 

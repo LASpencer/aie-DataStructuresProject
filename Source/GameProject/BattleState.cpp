@@ -23,6 +23,13 @@ BattleState::BattleState(const BattleState & other) : GameState(other), m_battle
 {
 }
 
+BattleState & BattleState::operator=(const BattleState & other)
+{
+	GameState::operator=(other);
+	m_battleImage = other.m_battleImage;
+	return *this;
+}
+
 State * BattleState::clone() const
 {
 	return new BattleState(*this);
@@ -81,7 +88,7 @@ void BattleState::onEnter()
 	GameState::onEnter();
 	//
 	m_battleImage = m_app->getResourceManager()->getTexture(filepath::castle_background);
-	m_app->getEntityFactory()->createEntity(EntityFactory::block, { 1,0,0,0,1,0,600,395,1 });
+	m_app->getEntityFactory()->createEntity(EntityFactory::block, { 1,0,0,0,1,0,200,395,1 });
 	EntityPtr door = m_app->getEntityFactory()->createEntity(EntityFactory::door, { 1,0,0,0,1,0,1152,462,1 });
 	m_app->getEntityFactory()->createEntity(EntityFactory::floor, { 1,0,0,0,1,0,640,360,1 });
 	m_app->getEntityFactory()->createEntity(EntityFactory::hero, { 1,0,0,0,1,0,300,405,1 });

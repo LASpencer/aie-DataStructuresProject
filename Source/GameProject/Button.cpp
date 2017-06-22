@@ -24,6 +24,33 @@ Button::~Button()
 {
 }
 
+Button::Button(const Button & other)
+	: m_font(other.m_font), m_content(other.m_content), m_xPos(other.m_xPos), m_yPos(other.m_yPos),
+	m_xExtent(other.m_xExtent), m_yExtent(other.m_yExtent), m_textColour(other.m_textColour), m_colour(other.m_colour),
+	m_hoverColour(other.m_hoverColour), m_pressedColour(other.m_pressedColour), m_hover(other.m_hover), m_pressed(other.m_pressed), m_eventManager(this)
+{
+}
+
+Button & Button::operator=(const Button & other)
+{
+	Event wasDestoyed(EventBase::destroyed);
+	notifyObservers(&wasDestoyed);
+	m_eventManager = EventManager(this);
+	m_font = other.m_font;
+	m_content=other.m_content;
+	m_xPos=other.m_xPos; 
+	m_yPos=other.m_yPos;
+	m_xExtent=other.m_xExtent; 
+	m_yExtent=other.m_yExtent; 
+	m_textColour=other.m_textColour;
+	m_colour=other.m_colour;
+	m_hoverColour=other.m_hoverColour;
+	m_pressedColour=other.m_pressedColour; 
+	m_hover=other.m_hover; 
+	m_pressed = other.m_pressed;
+	return *this;
+}
+
 void Button::setPosition(float x, float y)
 {
 	m_xPos = x;
@@ -93,8 +120,6 @@ void Button::update(float deltaTime)
 	aie::Input* input = aie::Input::getInstance();
 	int mouseX, mouseY;
 	input->getMouseXY(&mouseX, &mouseY);
-	Event frameStart(EventBase::frame_start);
-	notifyObservers(&frameStart);
 	// Check collision with button
 	if (abs(m_xPos - mouseX) < m_xExtent && abs(m_yPos - mouseY) < m_yExtent) {
 		if (!m_hover) {

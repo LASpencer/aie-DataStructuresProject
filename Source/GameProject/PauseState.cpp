@@ -25,7 +25,7 @@ PauseState::PauseState(GameProjectApp* app) : GameState(app)
 	FontPtr buttonFont = m_app->getResourceManager()->getFont(button_font_path, button_font_height);
 	m_quitButton = std::make_shared<Button>(buttonFont, "Quit", quit_button_x, quit_button_y, button_width, button_height);
 	m_pauseText = std::make_unique<TextBar>(pauseFont, pause_message, text_pos_x, text_pos_y, TextBar::def_text_colour, 0x00000000);
-
+	//TODO follow quit button
 }
 
 
@@ -36,6 +36,15 @@ PauseState::~PauseState()
 PauseState::PauseState(const PauseState & other) : GameState(other), m_quitButton(other.m_quitButton)
 {
 	m_pauseText = std::make_unique<TextBar>(*other.m_pauseText);
+	//TODO follow quit button
+}
+
+PauseState & PauseState::operator=(const PauseState & other)
+{
+	GameState::operator=(other);
+	m_quitButton = other.m_quitButton;
+	m_pauseText = std::make_unique<TextBar>(*other.m_pauseText);
+	return *this;
 }
 
 State * PauseState::clone() const

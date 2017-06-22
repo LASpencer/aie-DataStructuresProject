@@ -124,8 +124,8 @@ void Collider::resolveCollisions(las::Array<std::shared_ptr<Collider>> colliders
 	}
 	// For each collision, involved colliders notify observers
 	for (Collision c : collisions) {
-		CollisionEvent event1(EventBase::collision, c.collider[1]->getEntity(),c.type[0],c.type[1],c.penetration);
-		CollisionEvent event2(EventBase::collision, c.collider[0]->getEntity(), c.type[1], c.type[0], -(c.penetration));
+		CollisionEvent event1(c.collider[1]->getEntity(),c.type[0],c.type[1],c.penetration);
+		CollisionEvent event2(c.collider[0]->getEntity(), c.type[1], c.type[0], -(c.penetration));
 		c.collider[0]->notifyObservers(&event1);
 		c.collider[1]->notifyObservers(&event2);
 	}

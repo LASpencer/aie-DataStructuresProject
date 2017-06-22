@@ -106,6 +106,9 @@ public:
 protected:
 	// Map holding UVRect values for each stance
 	static las::Map<Pose, std::pair<float, float>> m_animationFrames;
+	
+	float m_verticalSpeed;
 	//TODO add sword entity (reference?)
 	HeroStateMachine m_stateMachine;
+
 };

@@ -16,7 +16,10 @@ public:
 
 	MainMenuState(GameProjectApp* app);
 	virtual ~MainMenuState();
+	
 	MainMenuState(const MainMenuState& other);
+
+	MainMenuState& operator=(const MainMenuState& other);
 
 	State* clone() const;
 
@@ -31,6 +34,6 @@ protected:
 	std::shared_ptr<Button> m_playButton;
 	std::shared_ptr<Button> m_exitButton;
 
-	//TODO overload CopyConditionIfSubscribed to also care about buttons
+	//TODO make this an observer, deal with buttons through events
 };
 

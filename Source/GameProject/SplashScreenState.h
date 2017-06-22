@@ -10,6 +10,7 @@ public:
 	SplashScreenState(GameProjectApp* app);
 	virtual ~SplashScreenState();
 	SplashScreenState(const SplashScreenState& other);
+	SplashScreenState& operator=(const SplashScreenState& other);
 
 	virtual State* clone() const;
 

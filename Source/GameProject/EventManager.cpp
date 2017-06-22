@@ -58,6 +58,7 @@ void EventManager::removeObserver(std::shared_ptr<Observer> observer)
 		else {
 			std::shared_ptr<Observer> current(*it);
 			if (observer.get() == current.get()) {
+				// Inform subject it is being removed
 				observer->removeSubject(m_owner);
 				m_observers.erase(it);
 				break;
@@ -69,6 +70,7 @@ void EventManager::removeObserver(std::shared_ptr<Observer> observer)
 
 void EventManager::clearObservers()
 {
+	// Inform subjects they are to be removed
 	for (std::weak_ptr<Observer> observer : m_observers) {
 		if (!observer.expired()) {
 			std::shared_ptr<Observer> subscriber(observer);
@@ -82,13 +84,13 @@ void EventManager::notifyObservers(EventBase* event)
 {
 	las::Array<std::weak_ptr<Observer>>::iterator it = m_observers.begin();
 	while (it != m_observers.end()) {
-		if (it->expired()) {
+		std::shared_ptr<Observer> observer = it->lock();
+		if (!observer) {
 			// Remove expired observers
 			it = m_observers.erase(it);
 		}
 		else {
-			// Notify observers
-			std::shared_ptr<Observer> observer(*it);
+			// Notify observer of event, with owner as its origin
 			observer->notify(m_owner, event);
 			++it;
 		}
@@ -100,13 +102,11 @@ bool EventManager::isSubscribed(const Observer * observer) const
 	// Find observer in list
 	las::Array<std::weak_ptr<Observer>>::const_iterator it = m_observers.begin();
 	while (it != m_observers.end()) {
-		if (!it->expired()) {
-			std::shared_ptr<Observer> current(*it);
-			if (observer == current.get()) {
-				return true;
-			}
-			++it;
+		std::shared_ptr<Observer> current = it->lock();
+		if (observer == current.get()) {
+			return true;
 		}
+		++it;
 	}
 	return false;
 }

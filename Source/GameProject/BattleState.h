@@ -17,6 +17,7 @@ public:
 	BattleState(GameProjectApp* app);
 	virtual ~BattleState();
 	BattleState(const BattleState& other);
+	BattleState& operator=(const BattleState& other);
 
 	State* clone() const;
 

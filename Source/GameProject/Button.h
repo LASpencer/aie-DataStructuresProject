@@ -19,6 +19,10 @@ public:
 		unsigned int hoverColour = def_hover_colour, unsigned int pressedColour = def_pressed_colour);
 	~Button();
 
+	Button(const Button& other);
+
+	Button& operator=(const Button& other);
+
 	void setPosition(float x, float y);
 	void setDimensions(float width, float height);
 	void setColour(unsigned int colour);

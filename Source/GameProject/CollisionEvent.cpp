@@ -1,12 +1,9 @@
 #include "stdafx.h"
 #include "CollisionEvent.h"
 
-CollisionEvent::CollisionEvent(event_id id, EntityWeakPtr other, BoxType myBox, BoxType otherBox, glm::vec2 penetration)
-	: EventBase(id), m_otherEntity(other), m_myType(myBox), m_otherType(otherBox), m_penetration(penetration)
+CollisionEvent::CollisionEvent(EntityWeakPtr other, BoxType myBox, BoxType otherBox, glm::vec2 penetration)
+	: EventBase(EventBase::collision), m_otherEntity(other), m_myType(myBox), m_otherType(otherBox), m_penetration(penetration)
 {
-	if (!isValidID(id)) {
-		throw std::invalid_argument("Invalid event ID");
-	}
 }
 
 CollisionEvent::~CollisionEvent()
@@ -33,7 +30,7 @@ glm::vec2 CollisionEvent::getPenetration()
 	return m_penetration;
 }
 
-bool CollisionEvent::isValidID(event_id id)
+bool CollisionEvent::isValidID(EventID id)
 {
 	return id == collision;
 }
