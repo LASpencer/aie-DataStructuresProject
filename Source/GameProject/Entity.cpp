@@ -17,11 +17,14 @@ bool Entity::addComponent(const ComponentPtr & component)
 	Component::Identifier id = component->getID();
 	bool canAdd = true;
 		if (m_componentMask & id) {
+			// Can't add if already have component with same id
 			canAdd = false;
 		}
 	if (canAdd) {
+		// Try to add component to this
 		canAdd = component->onAdd(shared_from_this());
 		if (canAdd) {
+			// If it worked, add component to container and mask
 			m_components.push_back(component);
 			m_componentMask |= id;
 		}
@@ -35,6 +38,7 @@ bool Entity::removeComponent(Component::Identifier id)
 	bool removed = false;
 	while (component != m_components.end()) {
 		if ((*component)->getID() == id) {
+			// If id matches, remove component from container and mask
 			(*component)->onRemove(shared_from_this());
 			component = m_components.erase(component);
 			m_componentMask &= !id;
@@ -70,11 +74,12 @@ int Entity::getTagMask()
 
 ComponentPtr Entity::getComponent(Component::Identifier id)
 {
-	for (auto component : m_components) {
+	for (ComponentPtr component : m_components) {
 		if (component->getID() == id) {
 			return component;
 		}
 	}
+	// Return empty pointer if not found
 	return ComponentPtr();
 }
 

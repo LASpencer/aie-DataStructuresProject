@@ -1,8 +1,10 @@
 #pragma once
 #include "Component.h"
 
-//TODO extract shared functionality from sprite to this
-//TODO create derived MultiSprite component whichhas an array of textureptrs
+/*	Abstract base class for sprite component
+	Provides methods for setting the dimensions and origin
+	of sprites, as well as setting the uvRect to draw from
+*/
 class SpriteBase :
 	public Component {
 public:
@@ -11,8 +13,13 @@ public:
 				float xOrigin, float yOrigin);
 	virtual ~SpriteBase();
 
+	// Set UVRect coordinates and size for drawing this sprite
 	void setUVRect(float uvx, float uvy, float uvw, float uvh);
+
+	// Set dimensions of sprite
 	void setDimensions(float width, float height);
+
+	// Set sprite origin for transforming sprite, with 0.5 being center
 	void setOrigin(float x, float y);
 
 	virtual void update(float deltaTime) {};
@@ -21,5 +28,7 @@ public:
 	virtual Identifier getID();
 
 protected:
-	float		m_uvx, m_uvy, m_uvw, m_uvh, m_width, m_height, m_xOrigin, m_yOrigin;
+	float m_uvx, m_uvy, m_uvw, m_uvh;	//UV Rect location and size
+	float m_width, m_height;			//Dimensions of sprite
+	float m_xOrigin, m_yOrigin;			//Origin for transforming sprite
 };
