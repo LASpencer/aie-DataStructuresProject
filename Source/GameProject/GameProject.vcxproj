@@ -87,20 +87,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="AndCondition.cpp" />
     <ClCompile Include="BattleState.cpp" />
-    <ClCompile Include="BinaryCondition.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="CollisionEvent.cpp" />
     <ClCompile Include="Component.cpp" />
-    <ClCompile Include="Condition.cpp" />
     <ClCompile Include="Controller.cpp" />
     <ClCompile Include="CrouchState.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="EntityFactory.cpp" />
     <ClCompile Include="Event.cpp" />
-    <ClCompile Include="EventCondition.cpp" />
     <ClCompile Include="EventManager.cpp" />
     <ClCompile Include="EventBase.cpp" />
     <ClCompile Include="FinalState.cpp" />
@@ -112,13 +108,9 @@
     <ClCompile Include="HeroStateMachine.cpp" />
     <ClCompile Include="IdleState.cpp" />
     <ClCompile Include="InputEvent.cpp" />
-    <ClCompile Include="KeyboardInputCondition.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainMenuState.cpp" />
     <ClCompile Include="MultiSprite.cpp" />
-    <ClCompile Include="NotCondition.cpp" />
-    <ClCompile Include="OnClickCondition.cpp" />
-    <ClCompile Include="OrCondition.cpp" />
     <ClCompile Include="PauseState.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="SceneObject.cpp" />
@@ -131,23 +123,17 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="TextBar.cpp" />
-    <ClCompile Include="TimerCondition.cpp" />
-    <ClCompile Include="Transition.cpp" />
     <ClCompile Include="WalkState.cpp" />
     <ClCompile Include="WinState.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AndCondition.h" />
     <ClInclude Include="Array.h" />
     <ClInclude Include="AttackState.h" />
     <ClInclude Include="BattleState.h" />
-    <ClInclude Include="BinaryCondition.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="Collider.h" />
     <ClInclude Include="CollisionEvent.h" />
-    <ClInclude Include="ComplexCondition.h" />
     <ClInclude Include="Component.h" />
-    <ClInclude Include="Condition.h" />
     <ClInclude Include="Controller.h" />
     <ClInclude Include="CrouchState.h" />
     <ClInclude Include="DeadState.h" />
@@ -155,7 +141,6 @@
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EntityFactory.h" />
     <ClInclude Include="Event.h" />
-    <ClInclude Include="EventCondition.h" />
     <ClInclude Include="EventManager.h" />
     <ClInclude Include="EventBase.h" />
     <ClInclude Include="Filepaths.h" />
@@ -171,14 +156,10 @@
     <ClInclude Include="HurtState.h" />
     <ClInclude Include="IdleState.h" />
     <ClInclude Include="JumpState.h" />
-    <ClInclude Include="KeyboardInputCondition.h" />
     <ClInclude Include="List.h" />
     <ClInclude Include="MainMenuState.h" />
     <ClInclude Include="MultiSprite.h" />
-    <ClInclude Include="NotCondition.h" />
     <ClInclude Include="Observer.h" />
-    <ClInclude Include="OnClickCondition.h" />
-    <ClInclude Include="OrCondition.h" />
     <ClInclude Include="PauseState.h" />
     <ClInclude Include="Queue.h" />
     <ClInclude Include="ResourceManager.h" />
@@ -193,8 +174,6 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Subject.h" />
     <ClInclude Include="TextBar.h" />
-    <ClInclude Include="TimerCondition.h" />
-    <ClInclude Include="Transition.h" />
     <ClInclude Include="WalkState.h" />
     <ClInclude Include="WinState.h" />
   </ItemGroup>

@@ -25,15 +25,6 @@
     <Filter Include="Source Files\Test Classes\States">
       <UniqueIdentifier>{63b94a1c-b6ea-4891-a5ec-551616620de9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Test Classes\Conditions">
-      <UniqueIdentifier>{ffa80313-932a-45a0-95eb-332fd2660321}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Test Classes\Transitions">
-      <UniqueIdentifier>{a40c038e-0a11-433f-8bd3-063348911372}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Test Classes\Conditions">
-      <UniqueIdentifier>{37b7df15-ecb6-4185-b0f8-e90c6235d628}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Test Classes\Components">
       <UniqueIdentifier>{91314277-3789-4bfc-aadf-e70dc4f83ffb}</UniqueIdentifier>
     </Filter>
@@ -60,9 +51,6 @@
     <ClInclude Include="BarState.h">
       <Filter>Header Files\Test Classes\States</Filter>
     </ClInclude>
-    <ClInclude Include="fooValueEqualsCondition.h">
-      <Filter>Header Files\Test Classes\Conditions</Filter>
-    </ClInclude>
     <ClInclude Include="BazState.h">
       <Filter>Header Files\Test Classes\States</Filter>
     </ClInclude>
@@ -86,12 +74,6 @@
     <ClCompile Include="..\GameProject\State.cpp">
       <Filter>Source Files\Test Classes\States</Filter>
     </ClCompile>
-    <ClCompile Include="..\GameProject\Condition.cpp">
-      <Filter>Source Files\Test Classes\Conditions</Filter>
-    </ClCompile>
-    <ClCompile Include="..\GameProject\Transition.cpp">
-      <Filter>Source Files\Test Classes\Transitions</Filter>
-    </ClCompile>
     <ClCompile Include="ContainerTests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -100,9 +82,6 @@
     </ClCompile>
     <ClCompile Include="BarState.cpp">
       <Filter>Source Files\Test Classes\States</Filter>
-    </ClCompile>
-    <ClCompile Include="fooValueEqualsCondition.cpp">
-      <Filter>Source Files\Test Classes\Conditions</Filter>
     </ClCompile>
     <ClCompile Include="BazState.cpp">
       <Filter>Source Files\Test Classes\States</Filter>

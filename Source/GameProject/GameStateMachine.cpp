@@ -3,12 +3,10 @@
 #include "GameState.h"
 #include "SplashScreenState.h"
 #include "MainMenuState.h"
-#include "TimerCondition.h"
 #include "FinalState.h"
 #include "BattleState.h"
 #include "WinState.h"
 #include "PauseState.h"
-#include "KeyboardInputCondition.h"
 
 
 GameStateMachine::GameStateMachine(GameProjectApp* app)

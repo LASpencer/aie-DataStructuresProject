@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "State.h"
-#include "Condition.h"
-#include "Transition.h"
+
 
 State::State()
 {

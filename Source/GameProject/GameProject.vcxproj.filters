@@ -22,23 +22,11 @@
     <Filter Include="Header Files\State Machine\States">
       <UniqueIdentifier>{1e817453-923a-42d0-8a34-a133bbcd5196}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\State Machine\Transitions">
-      <UniqueIdentifier>{7dfa71d7-cf1d-4bb8-8f84-659977867cac}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\State Machine\Conditions">
-      <UniqueIdentifier>{750d6e14-c72f-4e0a-8e36-ce4b1ca8a897}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\State Machine">
       <UniqueIdentifier>{1d0beb82-3c57-4b40-9e98-5883b719a45e}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\State Machine\States">
       <UniqueIdentifier>{dd692547-6b7a-41ff-9d23-a73383f6bf4a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\State Machine\Conditions">
-      <UniqueIdentifier>{dcd5a268-c991-4133-99fa-b822df88998a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\State Machine\Transitions">
-      <UniqueIdentifier>{bdfe6410-bc40-4fe7-813c-7b721053aa46}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\Entities">
       <UniqueIdentifier>{266e5b18-3719-40cd-943c-cd9e5821bf2f}</UniqueIdentifier>
@@ -64,12 +52,6 @@
     <Filter Include="Source Files\Observer">
       <UniqueIdentifier>{97dc202c-ec90-45f7-82cb-936e19e5c99d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\State Machine\Conditions\Complex Conditions">
-      <UniqueIdentifier>{e8750ae3-b6a2-4394-a59b-8e38efc33754}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\State Machine\Conditions\Complex Conditions">
-      <UniqueIdentifier>{900271db-66cd-4bdd-84af-b8b2acb79a94}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Observer\Events">
       <UniqueIdentifier>{47383c6e-aaa0-483d-9a71-1da8f96b0c4b}</UniqueIdentifier>
     </Filter>
@@ -92,12 +74,6 @@
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Condition.cpp">
-      <Filter>Source Files\State Machine\Conditions</Filter>
-    </ClCompile>
-    <ClCompile Include="Transition.cpp">
-      <Filter>Source Files\State Machine\Transitions</Filter>
     </ClCompile>
     <ClCompile Include="State.cpp">
       <Filter>Source Files\State Machine\States</Filter>
@@ -132,12 +108,6 @@
     <ClCompile Include="MainMenuState.cpp">
       <Filter>Source Files\State Machine\States\Game States</Filter>
     </ClCompile>
-    <ClCompile Include="EventCondition.cpp">
-      <Filter>Source Files\State Machine\Conditions</Filter>
-    </ClCompile>
-    <ClCompile Include="TimerCondition.cpp">
-      <Filter>Source Files\State Machine\Conditions</Filter>
-    </ClCompile>
     <ClCompile Include="ResourceManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -147,32 +117,14 @@
     <ClCompile Include="Button.cpp">
       <Filter>Source Files\UI Elements</Filter>
     </ClCompile>
-    <ClCompile Include="KeyboardInputCondition.cpp">
-      <Filter>Source Files\State Machine\Conditions</Filter>
-    </ClCompile>
     <ClCompile Include="FinalState.cpp">
       <Filter>Source Files\State Machine\States\Game States</Filter>
     </ClCompile>
     <ClCompile Include="PauseState.cpp">
       <Filter>Source Files\State Machine\States\Game States</Filter>
     </ClCompile>
-    <ClCompile Include="OnClickCondition.cpp">
-      <Filter>Source Files\State Machine\Conditions</Filter>
-    </ClCompile>
     <ClCompile Include="BattleState.cpp">
       <Filter>Source Files\State Machine\States\Game States</Filter>
-    </ClCompile>
-    <ClCompile Include="AndCondition.cpp">
-      <Filter>Source Files\State Machine\Conditions\Complex Conditions</Filter>
-    </ClCompile>
-    <ClCompile Include="BinaryCondition.cpp">
-      <Filter>Source Files\State Machine\Conditions\Complex Conditions</Filter>
-    </ClCompile>
-    <ClCompile Include="NotCondition.cpp">
-      <Filter>Source Files\State Machine\Conditions\Complex Conditions</Filter>
-    </ClCompile>
-    <ClCompile Include="OrCondition.cpp">
-      <Filter>Source Files\State Machine\Conditions\Complex Conditions</Filter>
     </ClCompile>
     <ClCompile Include="EventBase.cpp">
       <Filter>Source Files\Observer\Events</Filter>
@@ -251,12 +203,6 @@
     <ClInclude Include="StateMachine.h">
       <Filter>Header Files\State Machine</Filter>
     </ClInclude>
-    <ClInclude Include="Condition.h">
-      <Filter>Header Files\State Machine\Conditions</Filter>
-    </ClInclude>
-    <ClInclude Include="Transition.h">
-      <Filter>Header Files\State Machine\Transitions</Filter>
-    </ClInclude>
     <ClInclude Include="State.h">
       <Filter>Header Files\State Machine\States</Filter>
     </ClInclude>
@@ -293,14 +239,8 @@
     <ClInclude Include="MainMenuState.h">
       <Filter>Header Files\State Machine\States\Game States</Filter>
     </ClInclude>
-    <ClInclude Include="EventCondition.h">
-      <Filter>Header Files\State Machine\Conditions</Filter>
-    </ClInclude>
     <ClInclude Include="EventManager.h">
       <Filter>Header Files\Observer</Filter>
-    </ClInclude>
-    <ClInclude Include="TimerCondition.h">
-      <Filter>Header Files\State Machine\Conditions</Filter>
     </ClInclude>
     <ClInclude Include="TextBar.h">
       <Filter>Header Files\UI Elements</Filter>
@@ -308,35 +248,14 @@
     <ClInclude Include="Button.h">
       <Filter>Header Files\UI Elements</Filter>
     </ClInclude>
-    <ClInclude Include="KeyboardInputCondition.h">
-      <Filter>Header Files\State Machine\Conditions</Filter>
-    </ClInclude>
     <ClInclude Include="FinalState.h">
       <Filter>Header Files\State Machine\States\Game States</Filter>
     </ClInclude>
     <ClInclude Include="PauseState.h">
       <Filter>Header Files\State Machine\States\Game States</Filter>
     </ClInclude>
-    <ClInclude Include="OnClickCondition.h">
-      <Filter>Header Files\State Machine\Conditions</Filter>
-    </ClInclude>
     <ClInclude Include="BattleState.h">
       <Filter>Header Files\State Machine\States\Game States</Filter>
-    </ClInclude>
-    <ClInclude Include="AndCondition.h">
-      <Filter>Header Files\State Machine\Conditions\Complex Conditions</Filter>
-    </ClInclude>
-    <ClInclude Include="BinaryCondition.h">
-      <Filter>Header Files\State Machine\Conditions\Complex Conditions</Filter>
-    </ClInclude>
-    <ClInclude Include="ComplexCondition.h">
-      <Filter>Header Files\State Machine\Conditions\Complex Conditions</Filter>
-    </ClInclude>
-    <ClInclude Include="NotCondition.h">
-      <Filter>Header Files\State Machine\Conditions\Complex Conditions</Filter>
-    </ClInclude>
-    <ClInclude Include="OrCondition.h">
-      <Filter>Header Files\State Machine\Conditions\Complex Conditions</Filter>
     </ClInclude>
     <ClInclude Include="EventBase.h">
       <Filter>Header Files\Observer\Events</Filter>

@@ -2,8 +2,6 @@
 #include "MainMenuState.h"
 #include "GameProjectApp.h"
 #include "GameStateMachine.h"
-#include "Transition.h"
-#include "OnClickCondition.h"
 #include "InputEvent.h"
 #include "Filepaths.h"
 
