@@ -13,7 +13,9 @@ Component::~Component()
 
 bool Component::onAdd(EntityPtr entity)
 {
+	// Check if already owned
 	if (m_entity.expired()) {
+		// Get weak reference to owning entity
 		m_entity = EntityWeakPtr(entity);
 		return true;
 	}
@@ -24,7 +26,10 @@ bool Component::onAdd(EntityPtr entity)
 
 void Component::onRemove(EntityPtr entity)
 {
-	m_entity = EntityWeakPtr();
+	// Checking entity is owner
+	if (entity == m_entity.lock()) {
+		m_entity.reset();
+	}
 }
 
 EntityWeakPtr Component::getEntity()

@@ -17,8 +17,6 @@ namespace las {
 
 		}
 
-		//TODO copy,move, assignment, destroy
-
 		/** Gets element at front of queue
 		* @return reference to front element*/
 		T& front() {

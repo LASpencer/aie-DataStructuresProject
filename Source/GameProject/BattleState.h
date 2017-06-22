@@ -12,6 +12,7 @@ class BattleState :
 {
 public:
 	static const aie::EInputCodes pause_key;
+	static const aie::EInputCodes toggle_hitboxes_key;
 
 	BattleState(GameProjectApp* app);
 	virtual ~BattleState();

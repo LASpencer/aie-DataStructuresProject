@@ -8,6 +8,7 @@
 #include "CollisionEvent.h"
 
 const aie::EInputCodes BattleState::pause_key = aie::INPUT_KEY_ESCAPE;
+const aie::EInputCodes BattleState::toggle_hitboxes_key = aie::INPUT_KEY_GRAVE_ACCENT;
 
 BattleState::BattleState(GameProjectApp* app) : GameState(app)
 {
@@ -51,6 +52,9 @@ void BattleState::update(float deltaTime)
 			m_shouldPush = true;
 			m_target = GameStateMachine::pause_state;
 		}
+		if (aie::Input::getInstance()->wasKeyPressed(toggle_hitboxes_key)) {
+			Collider::setDrawBoxes(!Collider::draw_boxes);
+		}
 		//TODO transition game_over if hero dead
 	}
 }
@@ -58,7 +62,6 @@ void BattleState::update(float deltaTime)
 void BattleState::draw(aie::Renderer2D * renderer)
 {
 	renderer->drawSprite(m_battleImage->get(), 640, 360);
-	//TODO just draw sprite components and (if activated) colliders
 	las::Array<EntityPtr>::iterator first = m_app->getEntityList().begin();
 	las::Array<EntityPtr>::iterator last = m_app->getEntityList().end();
 	las::Array<EntityPtr> entitiesWithComponent = getEntitiesWithComponent(Component::sprite, first, last);

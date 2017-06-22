@@ -5,7 +5,7 @@
 
 bool Collider::draw_boxes = true;
 
-Collider::Collider() : Component(), m_eventManager(this)
+Collider::Collider() : Component(), m_eventManager(this), m_localBoxes({}), m_globalBoxes({})
 {
 }
 
@@ -16,12 +16,12 @@ Collider::~Collider()
 
 void Collider::setBoxes(las::Array<Box> boxes)
 {
-	m_boxes = boxes;
+	m_localBoxes = boxes;
 }
 
 las::Array<Box> Collider::getBoxes()
 {
-	return m_boxes;
+	return m_localBoxes;
 }
 
 void Collider::addObserver(std::shared_ptr<Observer> observer)
@@ -51,29 +51,39 @@ bool Collider::isSubscribed(const Observer * observer) const
 
 void Collider::update(float deltaTime)
 {
+	//EntityPtr entity(m_entity);
+	//m_globalBoxes.clear();
+	//for (Box local : m_localBoxes) {
+	//	Box global = local;
+	//	global.corner1 = glm::vec2(entity->getPosition()->getGlobalTransform() * glm::vec3(local.corner1.x, local.corner1.y, 1));
+	//	global.corner2 = glm::vec2(entity->getPosition()->getGlobalTransform() * glm::vec3(local.corner2.x, local.corner2.y, 1));
+	//	m_globalBoxes.push_back(global);
+	//}
 }
 
 void Collider::draw(aie::Renderer2D * renderer)
 {
 	if (draw_boxes) {
 		EntityPtr entity(m_entity);
-		for (Box box : m_boxes) {
+		for (Box box : m_localBoxes) {
+			// Calculate box's global position
 			glm::vec2 corner1( entity->getPosition()->getGlobalTransform() * glm::vec3(box.corner1.x, box.corner1.y, 1));
 			glm::vec2 corner2(entity->getPosition()->getGlobalTransform() * glm::vec3(box.corner2.x, box.corner2.y, 1));
 			glm::vec2 center = 0.5f * (corner1 + corner2);
 			float width = std::abs(corner1.x - corner2.x);
 			float height = std::abs(corner1.y - corner2.y);
+			// Set colour based on box type
 			switch (box.type) {
-			case(body):
+			case(body):		//body is blue
 				renderer->setRenderColour(0x0000FF80);
 				break;
-			case(feet):
+			case(feet):		//feet is purple
 				renderer->setRenderColour(0xFF00FF80);
 				break;
-			case(attack):
+			case(attack):	//attack is red
 				renderer->setRenderColour(0xFF000080);
 				break;
-			case(trigger):
+			case(trigger):	//trigger is green
 				renderer->setRenderColour(0x00FF0080);
 				break;
 			default:
@@ -91,19 +101,19 @@ Collider::Identifier Collider::getID()
 
 void Collider::resolveCollisions(las::Array<std::shared_ptr<Collider>> colliders)
 {
-	las::Array<Collision> collisions{};
+	las::Array<Collision> collisions{};		// Contains detected collisions
 	size_t numColliders = colliders.size();
-	las::Array < las::Array<Box >> globalBoxes(numColliders, {});
+	las::Array < las::Array<Box >> globalBoxes(numColliders, {});	// Contains copies of boxes contained in collider at same index, moved to global position
 	// Transform boxes to global reference frame
+	//TODO move this to update , collider instead calculates globalBoxes every update
 	for (size_t i = 0; i < numColliders; ++i) {
 		EntityPtr entity(colliders[i]->m_entity);
 		globalBoxes[i] = las::Array<Box>();
-		for (Box b : colliders[i]->m_boxes) {
+		for (Box b : colliders[i]->m_localBoxes) {
 			Box global;
 			global.corner1 = glm::vec2(entity->getPosition()->getGlobalTransform() * glm::vec3(b.corner1.x, b.corner1.y, 1));
 			global.corner2 = glm::vec2(entity->getPosition()->getGlobalTransform() * glm::vec3(b.corner2.x, b.corner2.y, 1));
 			global.type = b.type;
-			//TODO AAAAAAA URGENT fix my 2d array
 			globalBoxes[i].push_back(global);
 		}
 	}
@@ -121,7 +131,7 @@ void Collider::resolveCollisions(las::Array<std::shared_ptr<Collider>> colliders
 			}
 		}
 	}
-	// Each collider generate collision events
+	// For each collision, involved colliders notify observers
 	for (Collision c : collisions) {
 		CollisionEvent event1(EventBase::collision, c.collider[1]->getEntity(),c.type[0],c.type[1],c.penetration);
 		CollisionEvent event2(EventBase::collision, c.collider[0]->getEntity(), c.type[1], c.type[0], -(c.penetration));
@@ -136,13 +146,14 @@ std::pair<bool, glm::vec2> Collider::testCollision(Box box1, Box box2)
 	float maxX[2] = { std::max(box1.corner1.x, box1.corner2.x), std::max(box2.corner1.x, box2.corner2.x) };
 	float minY[2] = { std::min(box1.corner1.y, box1.corner2.y), std::min(box2.corner1.y, box2.corner2.y) };
 	float maxY[2] = { std::max(box1.corner1.y, box1.corner2.y), std::max(box2.corner1.y, box2.corner2.y) };
-	//Check fo overlap
+	//Check for overlap
 	if (minX[0] >= maxX[1] ||
 		minX[1] >= maxX[0] ||
 		minY[0] >= maxY[1] ||
 		minY[1] >= maxY[0]) {
 		return std::make_pair(false, glm::vec2(0));
 	} else {
+		// Calculate penetration
 		glm::vec2 penetration;
 		float x, y;
 		if (abs(maxX[1] - minX[0]) < abs(maxX[0] - minX[1])) {

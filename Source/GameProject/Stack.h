@@ -5,8 +5,6 @@
 
 namespace las {
 
-	//TODO define cont_iterator, reverse_const_iterator
-
 	template<typename T>
 	class Stack {
 	public:

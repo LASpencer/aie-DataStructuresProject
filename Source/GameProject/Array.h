@@ -330,8 +330,6 @@ namespace las {
 			if (std::less<iterator>()(pos, begin()) || std::greater<iterator>()(pos, end())) {
 				throw std::out_of_range("pos must be within Array.begin() and Array.end()");
 			}
-			/*TODO check if inserting from self, and if so throw an exception for using invalid iterators
-			*/
 			//if pos == end() or greater, push back each in range
 			if (pos==end()) {
 				for (Iter it = first; it != last; ++it) {

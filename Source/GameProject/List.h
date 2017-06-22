@@ -249,20 +249,14 @@ namespace las {
 		/**begin
 		* @return constant iterator to first element of list*/
 		const_iterator begin() const {
-			//HACK
 			const_iterator begin(m_front, this);
-			//begin.m_node = m_front;
-			//begin.m_list = this;
 			return begin;
 		}
 		
 		/**end
 		* @return constant iterator past end of list*/
 		const_iterator end() const {
-			//return const_iterator(nullptr, this);
-			//HACK 
-			const_iterator end;
-			end.m_list = this;
+			const_iterator end(nullptr, this);
 			return end;
 		}
 
@@ -498,8 +492,6 @@ namespace las {
 				}
 			}
 		}
-
-		//TODO sort list
 
 		/**erase
 		* Remove element from list and destroys it
