@@ -48,7 +48,8 @@ public:
 
 	void setBoxes(las::Array<Box> boxes);
 
-	las::Array<Box> getBoxes();
+	las::Array<Box> getLocalBoxes();
+	las::Array<Box> getGlobalBoxes();
 
 	//TODO comment these after Observer done
 	virtual void addObserver(std::shared_ptr<Observer> observer);

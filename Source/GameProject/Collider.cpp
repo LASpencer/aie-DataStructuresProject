@@ -19,9 +19,14 @@ void Collider::setBoxes(las::Array<Box> boxes)
 	m_localBoxes = boxes;
 }
 
-las::Array<Box> Collider::getBoxes()
+las::Array<Box> Collider::getLocalBoxes()
 {
 	return m_localBoxes;
+}
+
+las::Array<Box> Collider::getGlobalBoxes()
+{
+	return m_globalBoxes;
 }
 
 void Collider::addObserver(std::shared_ptr<Observer> observer)
@@ -51,27 +56,25 @@ bool Collider::isSubscribed(const Observer * observer) const
 
 void Collider::update(float deltaTime)
 {
-	//EntityPtr entity(m_entity);
-	//m_globalBoxes.clear();
-	//for (Box local : m_localBoxes) {
-	//	Box global = local;
-	//	global.corner1 = glm::vec2(entity->getPosition()->getGlobalTransform() * glm::vec3(local.corner1.x, local.corner1.y, 1));
-	//	global.corner2 = glm::vec2(entity->getPosition()->getGlobalTransform() * glm::vec3(local.corner2.x, local.corner2.y, 1));
-	//	m_globalBoxes.push_back(global);
-	//}
+	EntityPtr entity(m_entity);
+	m_globalBoxes.clear();
+	for (Box local : m_localBoxes) {
+		Box global = local;
+		global.corner1 = glm::vec2(entity->getPosition()->getGlobalTransform() * glm::vec3(local.corner1.x, local.corner1.y, 1));
+		global.corner2 = glm::vec2(entity->getPosition()->getGlobalTransform() * glm::vec3(local.corner2.x, local.corner2.y, 1));
+		m_globalBoxes.push_back(global);
+	}
 }
 
 void Collider::draw(aie::Renderer2D * renderer)
 {
 	if (draw_boxes) {
 		EntityPtr entity(m_entity);
-		for (Box box : m_localBoxes) {
-			// Calculate box's global position
-			glm::vec2 corner1( entity->getPosition()->getGlobalTransform() * glm::vec3(box.corner1.x, box.corner1.y, 1));
-			glm::vec2 corner2(entity->getPosition()->getGlobalTransform() * glm::vec3(box.corner2.x, box.corner2.y, 1));
-			glm::vec2 center = 0.5f * (corner1 + corner2);
-			float width = std::abs(corner1.x - corner2.x);
-			float height = std::abs(corner1.y - corner2.y);
+		for (Box box : m_globalBoxes) {
+			// Calculate box's center and dimensions
+			glm::vec2 center = 0.5f * (box.corner1 + box.corner2);
+			float width = std::abs(box.corner1.x - box.corner2.x);
+			float height = std::abs(box.corner1.y - box.corner2.y);
 			// Set colour based on box type
 			switch (box.type) {
 			case(body):		//body is blue
@@ -103,26 +106,12 @@ void Collider::resolveCollisions(las::Array<std::shared_ptr<Collider>> colliders
 {
 	las::Array<Collision> collisions{};		// Contains detected collisions
 	size_t numColliders = colliders.size();
-	las::Array < las::Array<Box >> globalBoxes(numColliders, {});	// Contains copies of boxes contained in collider at same index, moved to global position
-	// Transform boxes to global reference frame
-	//TODO move this to update , collider instead calculates globalBoxes every update
-	for (size_t i = 0; i < numColliders; ++i) {
-		EntityPtr entity(colliders[i]->m_entity);
-		globalBoxes[i] = las::Array<Box>();
-		for (Box b : colliders[i]->m_localBoxes) {
-			Box global;
-			global.corner1 = glm::vec2(entity->getPosition()->getGlobalTransform() * glm::vec3(b.corner1.x, b.corner1.y, 1));
-			global.corner2 = glm::vec2(entity->getPosition()->getGlobalTransform() * glm::vec3(b.corner2.x, b.corner2.y, 1));
-			global.type = b.type;
-			globalBoxes[i].push_back(global);
-		}
-	}
 	// Get collisions between each pair
 	for (size_t i = 0; i < numColliders; ++i) {
 		for (size_t j = i+1; j < numColliders; ++j) {
 			//Test collision between boxes
-			for (Box box1 : globalBoxes[i]) {
-				for (Box box2 : globalBoxes[j]) {
+			for (Box box1 : colliders[i]->m_globalBoxes) {
+				for (Box box2 : colliders[j]->m_globalBoxes) {
 					std::pair<bool, glm::vec2> didCollide = testCollision(box1, box2);
 					if (didCollide.first) {
 						collisions.push_back({ {colliders[i],colliders[j]},{box1.type,box2.type},didCollide.second });
