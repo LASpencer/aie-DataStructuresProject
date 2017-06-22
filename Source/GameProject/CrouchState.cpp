@@ -34,7 +34,7 @@ void CrouchState::update(float deltaTime)
 	*		Moves to JumpState on pressing jump button
 	*		Moves to CrouchHurtState on taking damage
 	*/
-	m_controller->setStance(HeroController::crouch);
+	m_controller->setPose(HeroController::crouch);
 	aie::Input* input = aie::Input::getInstance();
 	if (input->isKeyUp(crouch_button)) {
 		m_shouldTransition = true;

@@ -37,7 +37,7 @@ void IdleState::update(float deltaTime)
 	*/
 	EntityPtr hero(m_hero);
 	assert(hero);
-	m_controller->setStance(HeroController::idle);
+	m_controller->setPose(HeroController::idle);
 	aie::Input* input = aie::Input::getInstance();
 	if (input->isKeyDown(left_move_button) || input->isKeyDown(right_move_button)) {
 		m_shouldTransition = true;

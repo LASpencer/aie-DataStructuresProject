@@ -40,7 +40,7 @@ void WalkState::update(float deltaTime)
 	if (m_frame > 7) {
 		m_frame = 0;
 	}
-	m_controller->setStance(HeroController::Stance(HeroController::run1 + m_frame));
+	m_controller->setPose(HeroController::Pose(HeroController::run1 + m_frame));
 	//TODO make hero walk
 	//TODO hero turns around based on direction
 	/*TODO

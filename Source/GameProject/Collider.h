@@ -58,7 +58,8 @@ public:
 	virtual void notifyObservers(EventBase* event);
 	virtual bool isSubscribed(const Observer* observer) const;
 
-	virtual void update(float deltaTime);	// does nothing
+	// Updates global position of hitboxes
+	virtual void update(float deltaTime);
 
 	/** If draw_boxes set to true, draw hitboxes
 	*	@param renderer Renderer2D to draw boxes to*/

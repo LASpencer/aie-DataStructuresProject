@@ -7,7 +7,7 @@
 const float HeroController::sprite_uv_width = 0.125f;
 const float HeroController::sprite_uv_height = 0.25f;
 
-const las::Map < HeroController::Stance, std::pair<float, float>> 
+const las::Map < HeroController::Pose, std::pair<float, float>> 
 	HeroController::animation_frames = {
 	{ HeroController::idle, {0,0}},
 	{HeroController::crouch, { 0.125f,0 }},
@@ -100,7 +100,7 @@ void HeroController::onRemove(EntityPtr entity)
 	}
 }
 
-void HeroController::setStance(Stance stance)
+void HeroController::setPose(Pose stance)
 {
 	//TODO check entity bitmask
 	EntityPtr entity(m_entity);

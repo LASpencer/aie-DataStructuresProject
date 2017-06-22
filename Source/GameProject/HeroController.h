@@ -6,10 +6,18 @@
 
 class Box;
 
+/*	Component to control the entity for the player's character
+	Contains a HeroStateMachine to determine behaviour based on
+	current state, and methods to set the animation frames and hitboxes
+	to different poses.
+	Requires Sprite and Collider components
+	*/
 class HeroController :
 	public Controller, public Observer {
 public:
-	enum Stance {
+
+	// Enumeration of every pose the hero can make
+	enum Pose {
 		idle,
 		crouch,
 		jump,
@@ -40,35 +48,37 @@ public:
 		run8
 	};
 
-	static const float move_speed;
-	static const float move_frame_length;
-	static const float sprite_uv_width;
+	static const float move_speed;				// Distance per second moved when running
+	static const float move_frame_length;		// Time in seconds to show each run pose
+	static const float sprite_uv_width;	
 	static const float sprite_uv_height;
 
-	static const las::Map<Stance, std::pair<float, float>> animation_frames;
+	// uvRect positions for each pose
+	static const las::Map<Pose, std::pair<float, float>> animation_frames;
+	
+	// Body box for various poses
 	static const Box stand_hitbox;
 	static const Box run_hitbox;
 	static const Box crouch_hitbox;
 	static const Box downed_hitbox;
+
+	// Feet box for various poses
 	static const Box stand_feetbox;
 	static const Box run_feetbox;
 	static const Box crouch_feetbox;
 	static const Box downed_feetbox;
 	//TODO attack boxes
 
-
-
 	HeroController();
 	virtual ~HeroController();
 
 	virtual void update(float deltaTime);
-
 	virtual void draw(aie::Renderer2D* renderer);
 
 	virtual bool onAdd(EntityPtr entity);
 	virtual void onRemove(EntityPtr entity);
 
-	void setStance(Stance stance);
+	void setPose(Pose stance);
 
 	virtual bool addSubject(Subject* subject);
 	virtual void removeSubject(Subject* subject);
@@ -76,7 +86,7 @@ public:
 
 protected:
 	// Map holding UVRect values for each stance
-	static las::Map<Stance, std::pair<float, float>> m_animationFrames;
+	static las::Map<Pose, std::pair<float, float>> m_animationFrames;
 	//TODO add sword entity (reference?)
 	HeroStateMachine m_stateMachine;
 };

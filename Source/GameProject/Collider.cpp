@@ -57,9 +57,11 @@ bool Collider::isSubscribed(const Observer * observer) const
 void Collider::update(float deltaTime)
 {
 	EntityPtr entity(m_entity);
+	// Fill globalBoxes with copies of localBoxes
 	m_globalBoxes.clear();
 	for (Box local : m_localBoxes) {
 		Box global = local;
+		// Transform each corner by entity's position
 		global.corner1 = glm::vec2(entity->getPosition()->getGlobalTransform() * glm::vec3(local.corner1.x, local.corner1.y, 1));
 		global.corner2 = glm::vec2(entity->getPosition()->getGlobalTransform() * glm::vec3(local.corner2.x, local.corner2.y, 1));
 		m_globalBoxes.push_back(global);
