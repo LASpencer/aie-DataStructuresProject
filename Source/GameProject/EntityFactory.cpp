@@ -84,6 +84,8 @@ EntityPtr EntityFactory::createHero(glm::mat3 position, SceneObjectPtr parent)
 	EntityPtr hero = std::make_shared<Entity>();
 	// Set position and place in scene graph
 	setEntityPosition(hero, position, parent);
+	//Set tags
+	hero->addTag(Entity::player);
 	// Add components
 	std::pair<float, float> startFrame = HeroController::animation_frames.at(HeroController::idle);
 	las::Array<TexturePtr> textures({
@@ -97,8 +99,6 @@ EntityPtr EntityFactory::createHero(glm::mat3 position, SceneObjectPtr parent)
 		HeroController::sprite_uv_width, HeroController::sprite_uv_height));
 	hero->addComponent(std::make_shared<Collider>());
 	hero->addComponent(std::make_shared<HeroController>());
-	//Set tags
-	hero->addTag(Entity::player);
 	//TODO add a sword entity, child of the hero, to entity list after hero
 	// hero has weakptr to it
 	return hero;
@@ -121,13 +121,14 @@ EntityPtr EntityFactory::createDoor(glm::mat3 position, SceneObjectPtr parent)
 {
 	EntityPtr door = std::make_shared<Entity>();
 	setEntityPosition(door, position, parent);
+	//Set tags
+	door->addTag(Entity::door);
+	//Add components
 	door->addComponent(std::make_shared<Sprite>(m_app->getResourceManager()->getTexture(filepath::castle_tiles),
 		door_sprite_width, door_sprite_height, door_uvx, door_uvy, door_uvw, door_uvh));
 	std::shared_ptr<Collider> collider = std::make_shared<Collider>();
 	collider->setBoxes({ door_hitbox });
 	door->addComponent(collider);
-	//Set tags
-	door->addTag(Entity::door);
 	return door;
 }
 
@@ -135,6 +136,7 @@ EntityPtr EntityFactory::createFloor(glm::mat3 position, SceneObjectPtr parent)
 {
 	EntityPtr floor = std::make_shared<Entity>();
 	setEntityPosition(floor, position, parent);
+	floor->addTag(Entity::floor);
 	std::shared_ptr<Collider> collider = std::make_shared<Collider>();
 	collider->setBoxes({ floor_hitbox });
 	floor->addComponent(collider);

@@ -10,7 +10,16 @@ class Box;
 	Contains a HeroStateMachine to determine behaviour based on
 	current state, and methods to set the animation frames and hitboxes
 	to different poses.
-	Requires Sprite and Collider components
+
+	HeroController acts as a proxy observer for the current state. Rather
+	than having all states be notified of an event, whether or not they're 
+	active, this subscribes to the subject instead and passes on events to
+	the current state. This both avoids unintentional behaviour from inactive
+	states, and reduces the number of observers the subject needs to store and
+	notify.
+
+	Requires Collider and Sprite components, and for the entity
+	to be tagged as player
 	*/
 class HeroController :
 	public Controller, public Observer {
@@ -78,11 +87,21 @@ public:
 	virtual bool onAdd(EntityPtr entity);
 	virtual void onRemove(EntityPtr entity);
 
-	void setPose(Pose stance);
+	/** Sets sprite uvRect and collider hitboxes to match new pose
+	*	@param pose new pose for hero entity*/
+	void setPose(Pose pose);
 
+	// Returns true unconditionally
 	virtual bool addSubject(Subject* subject);
+	// Does nothing
 	virtual void removeSubject(Subject* subject);
+	// Passes notification on to current state
 	virtual void notify(Subject* subject, EventBase* event);
+
+	/** Tests whether entity is valid for this component
+	*	@param entity Entity being checked
+	*	@return true if entity is valid*/
+	virtual bool isValidEntity(EntityPtr entity);
 
 protected:
 	// Map holding UVRect values for each stance

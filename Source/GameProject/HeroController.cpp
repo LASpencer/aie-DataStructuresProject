@@ -64,7 +64,7 @@ HeroController::~HeroController()
 void HeroController::update(float deltaTime)
 {
 	EntityPtr entity(m_entity);
-	if (!((entity->getComponentMask()&Component::sprite) && (entity->getComponentMask()&Component::collider))) {
+	if (!isValidEntity(entity)) {
 		throw missing_component("HeroController requires Sprite and Collider components");
 	}
 	m_stateMachine.update(deltaTime);
@@ -73,7 +73,7 @@ void HeroController::update(float deltaTime)
 void HeroController::draw(aie::Renderer2D * renderer)
 {
 	EntityPtr entity(m_entity);
-	if (!((entity->getComponentMask()&Component::sprite) && (entity->getComponentMask()&Component::collider))) {
+	if (!isValidEntity(entity)) {
 		throw missing_component("HeroController requires Sprite and Collider components");
 	}
 	m_stateMachine.draw(renderer);
@@ -81,8 +81,10 @@ void HeroController::draw(aie::Renderer2D * renderer)
 
 bool HeroController::onAdd(EntityPtr entity)
 {
-	//TODO test that entity has correct bitmask (sprites, collider)
-	bool added = Controller::onAdd(entity);
+	//Test entity is valid and is tagged player
+	bool added = isValidEntity(entity) && 
+					(entity->getTagMask() & Entity::player) && 
+					Controller::onAdd(entity);
 	if (added) {
 		m_stateMachine.setHero(entity);
 		//Watch hero's collider
@@ -100,15 +102,17 @@ void HeroController::onRemove(EntityPtr entity)
 	}
 }
 
-void HeroController::setPose(Pose stance)
+void HeroController::setPose(Pose pose)
 {
-	//TODO check entity bitmask
 	EntityPtr entity(m_entity);
-	std::pair<float, float> UVpos = animation_frames.at(stance);
+	if (!isValidEntity(entity)) {
+		throw missing_component("HeroController requires Sprite and Collider components");
+	}
+	std::pair<float, float> UVpos = animation_frames.at(pose);
 	std::dynamic_pointer_cast<SpriteBase>(entity->getComponent(sprite))->setUVRect(UVpos.first, UVpos.second, sprite_uv_width, sprite_uv_height);
 	//Set hitbox
 	las::Array<Box> hitbox;
-	switch (stance) {
+	switch (pose) {
 	case(strike_1):
 	case(strike_2):
 	case(jump_strike_1):
@@ -172,4 +176,11 @@ void HeroController::notify(Subject * subject, EventBase * event)
 {
 	//Pass event on to current state
 	m_stateMachine.getState()->notify(subject, event);
+}
+
+bool HeroController::isValidEntity(EntityPtr entity)
+{
+	return ((entity->getComponentMask() & (Component::sprite | Component::collider))
+		== (Component::sprite | Component::collider));	// Check entity has sprite and collider
+
 }

@@ -11,4 +11,7 @@ public:
 
 	// Returns Controller identifier
 	virtual Identifier getID();
+
+	// Tests whether entity is valid owner of this controller
+	virtual bool isValidEntity(EntityPtr entity) = 0;
 };
