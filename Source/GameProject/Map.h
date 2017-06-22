@@ -554,16 +554,68 @@ namespace las {
 				throw std::out_of_range("cannot erase end of map");
 			}
 			Node* node = pos.m_node;
-			iterator next;
+			iterator next = iterator(node->getSuccessor(), this); //Next iterator points to successor's node
 			if (node->m_right != nullptr) {
-				//Copy successor, then delete that node instead
-				Node* successor = node->m_right->getSubtreeMin();
-				*node = *successor;
-				next = iterator(node, this);	//Next iterator points to node, as successor copied there
-				node = successor;
-			}
-			else {
-				next = iterator(node->getSuccessor(), this);	//Next iterator points to successor's node
+				//Swap positions with successor if this has right children
+				Node* successor = next.m_node;
+				Node* tempParent = node->m_parent;
+				Node* tempLeft = node->m_left;
+				Node* tempRight = node->m_right;
+				bool tempRed = node->m_red;
+				// Swap colour
+				node->m_red = successor->m_red;
+				successor->m_red = tempRed;
+				node->m_left = successor->m_left;
+				// Swap left children
+				if (node->m_left != nullptr) {
+					node->m_left->m_parent = node;
+				}
+				successor->m_left = tempLeft;
+				if (successor->m_left != nullptr) {
+					successor->m_left->m_parent = successor;
+				}
+				// Node's right is now successor's right
+				node->m_right = successor->m_right;
+				if (node->m_right != nullptr) {
+					node->m_right->m_parent = node;
+				}
+				// Set successor's right and node's parent appropriately
+				if (tempRight == successor) {
+					successor->m_right = node;
+					node->m_parent = successor;
+				}
+				else {
+					successor->m_right = tempRight;
+					if (successor->m_right != nullptr) {
+						successor->m_right->m_parent = successor;
+					}
+					node->m_parent = successor->m_parent;
+					if (node->m_parent->m_right == successor) {
+						node->m_parent->m_right = node;
+					}
+					else {
+						node->m_parent->m_left = node;
+					}
+				// Remove temp's references before it's deleted
+				}
+				// Successor's parent is now node's parent
+				successor->m_parent = tempParent;
+				if (successor->m_parent != nullptr) {
+					if (successor->m_parent->m_right == node) {
+						successor->m_parent->m_right = successor;
+					}
+					else {
+						successor->m_parent->m_left = successor;
+					}
+				}
+				else {
+					// If node's parent wass null, successor is now root
+					m_root = successor;
+				}
+				
+				//*node = *successor;
+				//next = iterator(node, this);	//Next iterator points to node, as successor copied there
+				//node = successor;
 			}
 			// Node now has at most one child
 			Node* child = node->m_right;
