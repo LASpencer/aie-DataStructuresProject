@@ -6,20 +6,33 @@ SceneObject::SceneObject() : m_parent(), m_children(), m_localTransform(1),m_glo
 {
 }
 
+SceneObject::SceneObject(glm::mat3 localTransform, SceneObjectPtr parent)
+{
+}
+
+SceneObject::SceneObject(const SceneObject & other) : m_parent(), m_children(), m_localTransform(other.m_localTransform), m_globalTransform(1),dirtyGlobal(true)
+{
+	other.m_parent->addChild(shared_from_this());
+}
+
+SceneObject & SceneObject::operator=(const SceneObject & other)
+{
+	// Copy other object's transformation
+	m_localTransform = other.m_localTransform;
+	// Remove from parent
+	m_parent->removeChild(shared_from_this());
+	other.m_parent->addChild(shared_from_this());
+	return *this;
+}
+
 
 SceneObject::~SceneObject()
 {
-	//TODO fix sceneObject memory bug
 }
-
-void SceneObject::update(Entity * entity, float deltaTime)
-{
-}
-
 
 bool SceneObject::addChild(SceneObjectPtr child)
 {
-	if (child->m_parent.get() == nullptr && child.get() != this) {
+	if (!(child->m_parent) && child.get() != this) {
 		// If array would be resized, try removing expired references instead
 		if (m_children.size() == m_children.capacity()) {
 			collectGarbage();
@@ -32,10 +45,28 @@ bool SceneObject::addChild(SceneObjectPtr child)
 	return false;
 }
 
+bool SceneObject::removeChild(SceneObjectPtr child)
+{
+	bool found = false;
+	for (las::Array<SceneObjectWeakPtr>::iterator it = m_children.begin(); it != m_children.end(); ++it) {
+		// Check if child found
+		if ((*it).lock() == child) {
+			// Remove child's parent
+			child->m_parent.reset();
+			child->setDirty();
+			// Erase child from m_children
+			m_children.erase(it);
+			found = true;
+			break;
+		}
+	}
+	return found;
+}
+
 void SceneObject::setLocalTransform(glm::mat3 local)
 {
 	m_localTransform = local;
-	setDirty();
+	setDirty();			// Change in transform invalidates subtree's global transform
 }
 
 void SceneObject::applyTransform(glm::mat3 transform, bool post)
@@ -45,7 +76,7 @@ void SceneObject::applyTransform(glm::mat3 transform, bool post)
 	} else {
 		m_localTransform = transform * m_localTransform;
 	}
-	setDirty();
+	setDirty();			// Change in transform invalidates subtree's global transform
 }
 
 void SceneObject::translate(glm::vec2 displacement, bool post)
@@ -56,7 +87,7 @@ void SceneObject::translate(glm::vec2 displacement, bool post)
 		glm::mat3 translate = glm::translate(glm::mat3(1), displacement);
 		m_localTransform = translate * m_localTransform;
 	}
-	setDirty();
+	setDirty();		// Change in transform invalidates subtree's global transform
 }
 
 void SceneObject::rotate(float angle, bool post)
@@ -66,7 +97,7 @@ void SceneObject::rotate(float angle, bool post)
 	} else{
 		glm::mat3 rotation = glm::rotate(glm::mat3(1), angle);
 	}
-	setDirty();
+	setDirty();		// Change in transform invalidates subtree's global transform
 }
 
 
@@ -77,10 +108,10 @@ glm::mat3 SceneObject::getLocalTransform()
 
 glm::mat3 SceneObject::getGlobalTransform()
 {
+	// Recalculate if current global is invalid
 	if (dirtyGlobal) {
 		calculateGlobalTransform();
 	}
-	assert(!dirtyGlobal);
 	return m_globalTransform;
 }
 
@@ -88,8 +119,9 @@ void SceneObject::setDirty()
 {
 	dirtyGlobal = true;
 	for (SceneObjectWeakPtr child : m_children) {
-		if (!child.expired()) {
-			SceneObjectPtr(child)->setDirty();
+		SceneObjectPtr strongChild = child.lock();
+		if (strongChild) {
+			strongChild->setDirty();
 		}
 	}
 }

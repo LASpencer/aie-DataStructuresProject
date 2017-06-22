@@ -14,8 +14,11 @@ typedef std::weak_ptr<Entity>	EntityWeakPtr;
 	An Entity is a collection of Components and a position. Each 
 	component uses the entity's position, and may interact with other
 	components used by it. 
-	The entity may also have several tags providing further informaiton
+	The entity may also have several tags providing further information
 	about it, to allow other objects to treat it appropriately.
+
+	Entities hold shared_ptrs to their components and SceneObject,
+	and a shared_ptr to each entity is held by the GameProjectApp
 */
 class Entity : public std::enable_shared_from_this<Entity>
 {
