@@ -9,10 +9,8 @@
 #include "PauseState.h"
 
 
-GameStateMachine::GameStateMachine(GameProjectApp* app)
+GameStateMachine::GameStateMachine(GameProjectApp* app) : m_app(app)
 {
-	m_app = app;
-
 	std::shared_ptr<SplashScreenState> splashScreen = std::make_shared<SplashScreenState>(app);
 	addState(splash_screen, splashScreen);
 
