@@ -3,7 +3,7 @@
 #include "Entity.h"
 #include "CollisionEvent.h"
 
-bool Collider::draw_boxes = true;
+bool Collider::draw_boxes = false;
 
 Collider::Collider() : Component(), m_eventManager(this), m_localBoxes({}), m_globalBoxes({})
 {
