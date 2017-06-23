@@ -35,7 +35,7 @@ const float EntityFactory::block_uvw = 1.f / 15.f;
 const float EntityFactory::block_uvh = 1.f / 11.f;
 
 
-const Box EntityFactory::block_hitbox = { { -22,-32 },{ 22,28 },BoxType::body };
+const Box EntityFactory::block_hitbox = { { -22,-32 },{ 22,16 },BoxType::body };
 const Box EntityFactory::platform_hitbox = { {-32,-5},{32,15},BoxType::body };
 const Box EntityFactory::door_hitbox = { { -16,-96 },{ 16,0 },BoxType::trigger };
 const Box EntityFactory::floor_hitbox = { { -650,-50 },{ 650, 0},BoxType::body };
