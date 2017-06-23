@@ -58,6 +58,10 @@ public:
 	};
 
 	static const float move_speed;				// Distance per second moved when running
+	static const float air_lateral_speed;		// Lateral distance speed when in air
+	static const float fall_rate;				// Downward acceleration when in air
+	static const float jump_speed;				// Vertical speed at start of jump
+
 	static const float move_frame_length;		// Time in seconds to show each run pose
 	static const float sprite_uv_width;	
 	static const float sprite_uv_height;
@@ -102,6 +106,10 @@ public:
 	*	@param entity Entity being checked
 	*	@return true if entity is valid*/
 	virtual bool isValidEntity(EntityPtr entity);
+	
+	void setVerticalSpeed(float speed);
+
+	float getVerticalSpeed();
 
 protected:
 	// Map holding UVRect values for each stance

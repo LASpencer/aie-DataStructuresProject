@@ -51,6 +51,10 @@ const Box HeroController::crouch_feetbox = { { -16,-50 },{ 22,-46 },BoxType::fee
 const Box HeroController::downed_feetbox = { { -22,-50 },{ 22,-46 },BoxType::feet };
 
 const float HeroController::move_speed = 100.0f;
+const float HeroController::air_lateral_speed = 80.0f;
+const float HeroController::fall_rate = 100.0f;
+const float HeroController::jump_speed = 200.0f;
+
 const float HeroController::move_frame_length = 0.1f;
 
 HeroController::HeroController() : Controller(), m_stateMachine(this), m_verticalSpeed(0.f)
@@ -202,4 +206,14 @@ bool HeroController::isValidEntity(EntityPtr entity)
 	return ((entity->getComponentMask() & (Component::sprite | Component::collider))
 		== (Component::sprite | Component::collider));	// Check entity has sprite and collider
 
+}
+
+void HeroController::setVerticalSpeed(float speed)
+{
+	m_verticalSpeed = speed;
+}
+
+float HeroController::getVerticalSpeed()
+{
+	return m_verticalSpeed;
 }

@@ -13,5 +13,6 @@ class AirState :
 	virtual void onExit();
 
 	virtual void update(float deltaTime);
+
 	virtual void notify(Subject* subject, EventBase* event);
 };
