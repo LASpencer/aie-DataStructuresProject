@@ -2,6 +2,7 @@
 #include "HeroController.h"
 #include "Collider.h"
 #include "SpriteBase.h"
+#include "CollisionEvent.h"
 #include "Entity.h"
 
 const float HeroController::sprite_uv_width = 0.125f;
@@ -174,7 +175,24 @@ void HeroController::removeSubject(Subject * subject)
 
 void HeroController::notify(Subject * subject, EventBase * event)
 {
-	//TODO if body-body collision, move so not colliding
+	//If body-body collision, move so not colliding
+	EntityPtr entity = m_entity.lock();
+	if (event->getEventID() == EventBase::collision) {
+		CollisionEvent* collision = dynamic_cast<CollisionEvent*>(event);
+		assert(collision != nullptr);
+		Collider* collider = dynamic_cast<Collider*>(subject);
+		if (collider != nullptr) {
+			if ((collision->getMyType() == BoxType::body) && 
+				(collision->getOtherType() == BoxType::body) &&
+				(entity) &&
+				(collider == entity.get()->getComponent(Component::collider).get())) {
+				entity->getPosition()->translate(collision->getPenetration(), false);
+			}
+		}
+		else {
+			throw std::invalid_argument("Only Collider subjects should produce collision events");
+		}
+	}
 	//Pass event on to current state
 	m_stateMachine.getState()->notify(subject, event);
 }
