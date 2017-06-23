@@ -30,7 +30,7 @@ const float EntityFactory::block_uvh = 1.f / 11.f;
 
 const Box EntityFactory::block_hitbox = { { -22,-32 },{ 22,28 },BoxType::body };
 const Box EntityFactory::door_hitbox = { { -16,-96 },{ 16,0 },BoxType::trigger };
-const Box EntityFactory::floor_hitbox = { { -650,-10 },{ 650, 0},BoxType::body };
+const Box EntityFactory::floor_hitbox = { { -650,-50 },{ 650, 0},BoxType::body };
 
 
 const std::string EntityFactory::hero_sprite_filepath = filepath::hero_blue;

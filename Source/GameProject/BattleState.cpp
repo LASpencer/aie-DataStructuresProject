@@ -91,8 +91,8 @@ void BattleState::onEnter()
 	m_app->getEntityFactory()->createEntity(EntityFactory::block, { 1,0,0,0,1,0,200,395,1 });
 	EntityPtr door = m_app->getEntityFactory()->createEntity(EntityFactory::door, { 1,0,0,0,1,0,1152,462,1 });
 	m_app->getEntityFactory()->createEntity(EntityFactory::floor, { 1,0,0,0,1,0,640,360,1 });
-	m_app->getEntityFactory()->createEntity(EntityFactory::hero, { 1,0,0,0,1,0,300,405,1 });
-
+	//m_app->getEntityFactory()->createEntity(EntityFactory::hero, { 1,0,0,0,1,0,300,405,1 });
+	m_app->getEntityFactory()->createEntity(EntityFactory::hero, { 1,0,0,0,1,0,300,600,1 });
 	// Observe door collider to check for hero leaving
 	std::dynamic_pointer_cast<Collider>(door->getComponent(Component::collider))->addObserver(shared_from_this());
 }

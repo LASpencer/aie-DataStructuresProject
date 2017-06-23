@@ -26,9 +26,9 @@ void AirState::update(float deltaTime)
 {
 	EntityPtr hero(m_hero);
 	// Move vertical speed, with constant acceleration down
-	float adjustedSpeed = m_controller->getVerticalSpeed() - 0.5f*HeroController::fall_rate;
-	hero->getPosition()->translate({ 0,adjustedSpeed }, false);
-	m_controller->setVerticalSpeed(m_controller->getVerticalSpeed() - HeroController::fall_rate);
+	float adjustedSpeed = m_controller->getVerticalSpeed() - 0.5f*HeroController::fall_rate*deltaTime;
+	hero->getPosition()->translate({ 0,adjustedSpeed * deltaTime }, false);
+	m_controller->setVerticalSpeed(m_controller->getVerticalSpeed() - HeroController::fall_rate*deltaTime);
 
 	// Lateral movement
 	bool lateralMove = false;
