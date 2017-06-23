@@ -56,7 +56,10 @@ void WalkState::update(float deltaTime)
 	}
 	else {
 		aie::Input* input = aie::Input::getInstance();
-		if (input->isKeyDown(HeroState::right_move_button)) {
+		if (input->isKeyDown(jump_button)) {
+			m_shouldTransition = true;
+			m_target = HeroStateMachine::jump_state;
+		} else if (input->isKeyDown(HeroState::right_move_button)) {
 			//TODO hero turns around based on direction
 			if (hero->getPosition()->getGlobalTransform()[0][0] < 0.0f) {
 				hero->getPosition()->applyTransform({ -1,0,0,0, 1,0,0,0,1 });
@@ -67,8 +70,7 @@ void WalkState::update(float deltaTime)
 			if (hero->getPosition()->getGlobalTransform()[0][0] > 0.0f) {
 				hero->getPosition()->applyTransform({ -1,0,0,0, 1,0,0,0,1 });
 			}
-		}
-		else {
+		} else {
 			m_shouldTransition = true;
 			m_target = HeroStateMachine::idle_state;
 		}

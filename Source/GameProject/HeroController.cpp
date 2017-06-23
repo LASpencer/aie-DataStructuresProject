@@ -52,7 +52,7 @@ const Box HeroController::downed_feetbox = { { -22,-50 },{ 22,-46 },BoxType::fee
 
 const float HeroController::move_speed = 100.0f;
 const float HeroController::air_lateral_speed = 80.0f;
-const float HeroController::fall_rate = 100.0f;
+const float HeroController::fall_rate = 200.0f;
 const float HeroController::jump_speed = 200.0f;
 
 const float HeroController::move_frame_length = 0.1f;
