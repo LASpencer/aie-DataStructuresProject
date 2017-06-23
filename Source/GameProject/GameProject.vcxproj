@@ -133,7 +133,6 @@
   <ItemGroup>
     <ClInclude Include="AirState.h" />
     <ClInclude Include="Array.h" />
-    <ClInclude Include="AttackState.h" />
     <ClInclude Include="BattleState.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="Collider.h" />
@@ -141,7 +140,6 @@
     <ClInclude Include="Component.h" />
     <ClInclude Include="Controller.h" />
     <ClInclude Include="CrouchState.h" />
-    <ClInclude Include="DeadState.h" />
     <ClInclude Include="Defines.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EntityFactory.h" />
@@ -158,9 +156,7 @@
     <ClInclude Include="HeroController.h" />
     <ClInclude Include="HeroStateMachine.h" />
     <ClInclude Include="InputEvent.h" />
-    <ClInclude Include="GetUpState.h" />
     <ClInclude Include="HeroState.h" />
-    <ClInclude Include="HurtState.h" />
     <ClInclude Include="IdleState.h" />
     <ClInclude Include="JumpState.h" />
     <ClInclude Include="List.h" />

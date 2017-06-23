@@ -7,6 +7,7 @@
 
 class GameProjectApp;
 
+// Abstract class for game states
 class GameState :
 	public StackState, public Subject
 {
@@ -19,7 +20,7 @@ public:
 	GameState& operator=(const GameState& other);
 
 	virtual void update(float deltaTime) = 0;
-	virtual void draw(aie::Renderer2D* renderer) = 0; //TODO pass in renderer2d?
+	virtual void draw(aie::Renderer2D* renderer) = 0; 
 
 	virtual void onEnter();
 	virtual void onExit();

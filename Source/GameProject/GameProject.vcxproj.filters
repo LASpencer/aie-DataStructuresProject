@@ -278,16 +278,7 @@
     <ClInclude Include="InputEvent.h">
       <Filter>Header Files\Observer\Events</Filter>
     </ClInclude>
-    <ClInclude Include="AttackState.h">
-      <Filter>Header Files\State Machine\States\Hero States</Filter>
-    </ClInclude>
     <ClInclude Include="CrouchState.h">
-      <Filter>Header Files\State Machine\States\Hero States</Filter>
-    </ClInclude>
-    <ClInclude Include="DeadState.h">
-      <Filter>Header Files\State Machine\States\Hero States</Filter>
-    </ClInclude>
-    <ClInclude Include="GetUpState.h">
       <Filter>Header Files\State Machine\States\Hero States</Filter>
     </ClInclude>
     <ClInclude Include="HeroState.h">
@@ -300,9 +291,6 @@
       <Filter>Header Files\State Machine\States\Hero States</Filter>
     </ClInclude>
     <ClInclude Include="WalkState.h">
-      <Filter>Header Files\State Machine\States\Hero States</Filter>
-    </ClInclude>
-    <ClInclude Include="HurtState.h">
       <Filter>Header Files\State Machine\States\Hero States</Filter>
     </ClInclude>
     <ClInclude Include="SpriteBase.h">

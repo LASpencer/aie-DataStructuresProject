@@ -68,6 +68,7 @@ void WinState::draw(aie::Renderer2D * renderer)
 void WinState::onEnter()
 {
 	GameState::onEnter();
+
 	m_winImage = m_app->getResourceManager()->getTexture(filepath::win_background);
 	m_menuButton->reset();
 	m_quitButton->reset();

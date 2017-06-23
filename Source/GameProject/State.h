@@ -3,13 +3,14 @@
 #include "Array.h"
 #include "Renderer2d.h"
 
-//TODO comment State
+//Abstract base class for states
 class State {
 public:
 	State();
 
 	virtual ~State();
 
+	//TODO remove clone from states
 	virtual State* clone() const = 0;
 
 	// Called when transitioning to the state

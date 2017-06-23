@@ -2,6 +2,10 @@
 #include "GameState.h"
 #include "Button.h"
 #include "Observer.h"
+
+/*	State for displaying the main menu
+	Exits to
+*/
 class MainMenuState :
 	public GameState{
 public:
