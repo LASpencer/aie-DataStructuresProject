@@ -1,7 +1,7 @@
 #pragma once
-#include "HeroState.h"
+#include "GroundState.h"
 
-class CrouchState : public HeroState {
+class CrouchState : public GroundState {
 public:
 	/*TODO	Moves to IdleState on release crouch button
 	*		Moves to CrouchAttackState on pressing attack button

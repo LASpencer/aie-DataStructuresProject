@@ -1,7 +1,7 @@
 #pragma once
-#include "HeroState.h"
+#include "GroundState.h"
 
-class WalkState : public HeroState {
+class WalkState : public GroundState {
 	/*TODO
 	*		Move to JumpState on jump button pressed
 	*		Move to AttackState on attack button pressed

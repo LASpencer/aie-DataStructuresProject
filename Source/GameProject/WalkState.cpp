@@ -3,7 +3,7 @@
 #include "HeroController.h"
 #include "Entity.h"
 
-WalkState::WalkState(HeroController* controller) : HeroState(controller)
+WalkState::WalkState(HeroController* controller) : GroundState(controller)
 {
 }
 
@@ -18,14 +18,14 @@ State * WalkState::clone() const
 
 void WalkState::onEnter()
 {
-	HeroState::onEnter();
+	GroundState::onEnter();
 	m_timer = 0.0f;
 	m_frame = 0;
 }
 
 void WalkState::onExit()
 {
-	HeroState::onExit();
+	GroundState::onExit();
 }
 
 void WalkState::update(float deltaTime)
@@ -66,7 +66,13 @@ void WalkState::update(float deltaTime)
 		m_shouldTransition = true;
 		m_target = HeroStateMachine::idle_state;
 	}
-	hero->getPosition()->translate({ HeroController::move_speed * deltaTime,0 });
+	if (!m_onFloor) {
+		//TODO transition to fall state
+	}
+	else {
+		hero->getPosition()->translate({ HeroController::move_speed * deltaTime,0 });
+	}
+	GroundState::update(deltaTime);
 }
 
 void WalkState::draw(aie::Renderer2D * renderer)
@@ -75,5 +81,5 @@ void WalkState::draw(aie::Renderer2D * renderer)
 
 void WalkState::notify(Subject * subject, EventBase * event)
 {
-	//TODO if walked into another body, move back (after jumping is written)
+	GroundState::notify(subject, event);
 }

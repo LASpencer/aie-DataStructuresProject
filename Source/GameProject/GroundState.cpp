@@ -13,19 +13,18 @@ GroundState::~GroundState()
 
 void GroundState::onEnter()
 {
+	HeroState::onEnter();
 	// Assume entry means hero touched floor
 	m_onFloor = true;
 }
 
 void GroundState::onExit()
 {
+	HeroState::onExit();
 }
 
 void GroundState::update(float deltaTime)
 {
-	if (!m_onFloor) {
-		//TODO transition to fall state
-	}
 	// If feet collide with floor, this will be set back to true
 	m_onFloor = false;
 }

@@ -4,7 +4,7 @@
 #include "HeroStateMachine.h"
 #include "Entity.h"
 
-IdleState::IdleState(HeroController * controller) : HeroState(controller)
+IdleState::IdleState(HeroController * controller) : GroundState(controller)
 {
 }
 
@@ -19,12 +19,12 @@ State * IdleState::clone() const
 
 void IdleState::onEnter()
 {
-	HeroState::onEnter();
+	GroundState::onEnter();
 }
 
 void IdleState::onExit()
 {
-	HeroState::onExit();
+	GroundState::onExit();
 }
 
 void IdleState::update(float deltaTime)
@@ -39,13 +39,16 @@ void IdleState::update(float deltaTime)
 	assert(hero);
 	m_controller->setPose(HeroController::idle);
 	aie::Input* input = aie::Input::getInstance();
-	if (input->isKeyDown(left_move_button) || input->isKeyDown(right_move_button)) {
+	if (!m_onFloor) {
+		//TODO transition to fall state
+	} else if (input->isKeyDown(left_move_button) || input->isKeyDown(right_move_button)) {
 		m_shouldTransition = true;
 		m_target = HeroStateMachine::walk_state;
 	} else if (input->isKeyDown(crouch_button)){
 		m_shouldTransition = true;
 		m_target = HeroStateMachine::crouch_state;
 	}
+	GroundState::update(deltaTime);
 }
 
 void IdleState::draw(aie::Renderer2D * renderer)

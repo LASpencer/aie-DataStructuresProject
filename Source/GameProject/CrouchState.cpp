@@ -4,7 +4,7 @@
 #include "HeroController.h"
 #include "Entity.h"
 
-CrouchState::CrouchState(HeroController* controller) : HeroState(controller)
+CrouchState::CrouchState(HeroController* controller) : GroundState(controller)
 {
 }
 
@@ -19,12 +19,12 @@ State * CrouchState::clone() const
 
 void CrouchState::onEnter()
 {
-	HeroState::onEnter();
+	GroundState::onEnter();
 }
 
 void CrouchState::onExit()
 {
-	HeroState::onExit();
+	GroundState::onExit();
 }
 
 void CrouchState::update(float deltaTime)
@@ -40,6 +40,11 @@ void CrouchState::update(float deltaTime)
 		m_shouldTransition = true;
 		m_target = HeroStateMachine::idle_state;
 	}
+	if (!m_onFloor) {
+		//TODO transition to fall state
+	}
+	// Check for falling
+	GroundState::update(deltaTime);
 }
 
 void CrouchState::draw(aie::Renderer2D * renderer)
@@ -48,4 +53,5 @@ void CrouchState::draw(aie::Renderer2D * renderer)
 
 void CrouchState::notify(Subject * subject, EventBase * event)
 {
+	GroundState::notify(subject, event);
 }

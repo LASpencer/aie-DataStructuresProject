@@ -87,6 +87,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AirState.cpp" />
     <ClCompile Include="BattleState.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="Collider.cpp" />

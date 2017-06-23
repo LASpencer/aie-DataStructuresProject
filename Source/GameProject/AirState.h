@@ -6,7 +6,7 @@ class AirState :
 	//TODO Every frame reduce verticalSpeed by some rate, and move up by vertical speed
 	//If body collides from above, verticalSpeed instead set to 0
 	//other states derive from this, so can be partly abstract
-	AirState();
+	AirState(HeroController* controller);
 	~AirState();
 
 	virtual void onEnter();
