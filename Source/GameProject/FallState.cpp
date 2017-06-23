@@ -32,7 +32,7 @@ void FallState::update(float deltaTime)
 {
 	AirState::update(deltaTime);
 	EntityPtr hero(m_hero);
-	m_controller->setPose(HeroController::falling);
+	m_controller->setPose(HeroController::land);
 }
 
 void FallState::draw(aie::Renderer2D * renderer)

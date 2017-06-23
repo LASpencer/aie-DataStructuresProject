@@ -41,6 +41,9 @@ void IdleState::update(float deltaTime)
 	if (!m_onFloor) {
 		m_shouldTransition = true;
 		m_target = HeroStateMachine::fall_state;
+	} else if (input->isKeyDown(jump_button)) {
+		m_shouldTransition = true;
+		m_target = HeroStateMachine::jump_state;
 	} else if (input->isKeyDown(left_move_button) || input->isKeyDown(right_move_button)) {
 		m_shouldTransition = true;
 		m_target = HeroStateMachine::walk_state;

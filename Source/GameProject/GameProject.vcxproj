@@ -111,6 +111,7 @@
     <ClCompile Include="HeroStateMachine.cpp" />
     <ClCompile Include="IdleState.cpp" />
     <ClCompile Include="InputEvent.cpp" />
+    <ClCompile Include="JumpState.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainMenuState.cpp" />
     <ClCompile Include="MultiSprite.cpp" />

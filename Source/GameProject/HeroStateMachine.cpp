@@ -4,20 +4,16 @@
 #include "CrouchState.h"
 #include "WalkState.h"
 #include "FallState.h"
+#include "JumpState.h"
 
 HeroStateMachine::HeroStateMachine(HeroController* controller) : m_controller(controller)
 {
 	//TODO add each state
-	std::shared_ptr<IdleState> idle = std::make_shared<IdleState>(controller);
-	addState(idle_state, idle);
-
-	std::shared_ptr<CrouchState> crouch = std::make_shared<CrouchState>(controller);
-	addState(crouch_state, crouch);
-
-	std::shared_ptr<WalkState> walk = std::make_shared<WalkState>(controller);
-	addState(walk_state, walk);
-
+	addState(idle_state, std::make_shared<IdleState>(controller));
+	addState(crouch_state, std::make_shared<CrouchState>(controller));
+	addState(walk_state, std::make_shared<WalkState>(controller));
 	addState(fall_state, std::make_shared<FallState>(controller));
+	addState(jump_state, std::make_shared<JumpState>(controller));
 }
 
 
