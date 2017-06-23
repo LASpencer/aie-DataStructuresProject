@@ -177,6 +177,9 @@
     <ClCompile Include="WinState.cpp">
       <Filter>Source Files\State Machine\States\Game States</Filter>
     </ClCompile>
+    <ClCompile Include="GroundState.cpp">
+      <Filter>Source Files\State Machine\States\Hero States</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameProjectApp.h">
