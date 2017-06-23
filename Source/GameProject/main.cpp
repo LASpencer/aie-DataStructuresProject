@@ -6,7 +6,7 @@ int main() {
 	// allocation
 	auto app = new GameProjectApp();
 	// initialise and loop
-	app->run("AIE", 1280, 720, false);
+	app->run("Code Design and Data Structures Project - Leonard Andrew Spencer", 1280, 720, false);
 
 	// deallocation
 	delete app;

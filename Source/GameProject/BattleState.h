@@ -6,7 +6,13 @@
 #include "Observer.h"
 
 class Hero;
+/*	This state is used for playing the game. 
+	The components for each entity are updated and drawn, until
+	the player reaches the door or quits the game.
 
+	PauseState pushed if pause key (Esc) pressed
+	Transition to WinState on player collision with door
+	*/
 class BattleState :
 	public GameState, public Observer
 {
@@ -21,19 +27,26 @@ public:
 
 	State* clone() const;
 
+	// Update all components and perform collision detection
 	virtual void update(float deltaTime);
+
+	// Draw the background and all sprites
 	virtual void draw(aie::Renderer2D* renderer);
 
+	// Create all entities in the game
 	virtual void onEnter();
+
+	// Remove all entities from the list 
 	virtual void onExit();
 
 	virtual void notify(Subject* subject, EventBase* event) ;
+
 	virtual bool addSubject(Subject* subject);
 	virtual void removeSubject(Subject* subject);
 
 protected:
-	TexturePtr m_battleImage;
+	TexturePtr m_battleImage;		// Background image for game
 
-	las::Array<EntityPtr> getEntitiesWithComponent(Component::Identifier component, las::Array<EntityPtr>::iterator first, las::Array<EntityPtr>::iterator last);
+	
 };
 

@@ -4,6 +4,7 @@
 #include "Texture.h"
 #include "Font.h"
 #include "Input.h"
+#include "Filepaths.h"
 
 
 GameProjectApp::GameProjectApp() : m_entityList()
@@ -29,11 +30,13 @@ bool GameProjectApp::startup() {
 
 void GameProjectApp::shutdown() {
 
+	// Release any surviving shared pointers, instead of waiting for destruction
+	m_entityList.clear();
+	m_sceneRoot.reset();
 	delete m_entityFactory;
 	delete m_stateMachine;
 	delete m_resourceManager;
 	delete m_2dRenderer;
-	//TODO fix sceneObject memory bug
 }
 
 void GameProjectApp::update(float deltaTime) {
@@ -52,7 +55,7 @@ void GameProjectApp::draw() {
 	// begin drawing sprites
 	m_2dRenderer->begin();
 
-	// draw your stuff here!
+	// Reset UVRect to full texture
 	m_2dRenderer->setUVRect(0, 0, 1, 1);
 	m_stateMachine->draw(m_2dRenderer);
 
@@ -60,7 +63,7 @@ void GameProjectApp::draw() {
 	m_2dRenderer->setRenderColour(1, 1, 0, 1);
 	char fps[32];
 	sprintf_s(fps, 32, "FPS: %i", getFPS());
-	m_2dRenderer->drawText((m_resourceManager->getFont("./font/consolas.ttf", 32))->get(), fps, 0, 720 - 32);
+	m_2dRenderer->drawText((m_resourceManager->getFont(filepath::consolas_path, 32))->get(), fps, 0, 720 - 32);
 	// done drawing sprites
 	m_2dRenderer->end();
 }

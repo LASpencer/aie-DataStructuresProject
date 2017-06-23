@@ -87,3 +87,17 @@ SceneObjectPtr Entity::getPosition()
 {
 	return m_position;
 }
+
+las::Array<EntityPtr> Entity::getEntitiesWithComponent(Component::Identifier component, las::Array<EntityPtr>&entities)
+{
+	// use find_if to fill new array with all entities with matching bitmask
+	las::Array<EntityPtr> entitiesWithComponent;
+	auto maskMatches = [=](EntityPtr e) {return bool(component&(e->getComponentMask())); };
+	// Until end reached, push back next entity with matching component bitset
+	las::Array<EntityPtr>::iterator entity = std::find_if(entities.begin(), entities.end(), maskMatches);
+	while (entity != entities.end()) {
+		entitiesWithComponent.push_back(*entity);
+		entity = std::find_if(++entity, entities.end(), maskMatches);
+	}
+	return entitiesWithComponent;
+}

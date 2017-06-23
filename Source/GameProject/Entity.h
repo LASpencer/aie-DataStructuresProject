@@ -59,6 +59,13 @@ public:
 
 	SceneObjectPtr getPosition();
 
+	/** Returns array of entities with a particular type of component
+	*	@param component Identifier for component class to search for
+	*	@param entities Array containing entities to check
+	*	@return Array of references to entities with that component
+	*/
+	static las::Array<EntityPtr> getEntitiesWithComponent(Component::Identifier component, las::Array<EntityPtr>& entities);
+
 protected:
 	las::Array<ComponentPtr> m_components; //HACK: A map might be better?
 	int m_componentMask;

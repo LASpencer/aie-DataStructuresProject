@@ -1,5 +1,8 @@
 #pragma once
 #include "GameState.h"
+
+/*	Final state shuts down application
+ */
 class FinalState :
 	public GameState
 {

@@ -38,15 +38,13 @@ State * BattleState::clone() const
 void BattleState::update(float deltaTime)
 {
 	if (m_focus) {
-		//TODO update components as a group, from all entities with said component
-		las::Array<EntityPtr>::iterator first = m_app->getEntityList().begin();
-		las::Array<EntityPtr>::iterator last = m_app->getEntityList().end();
-		las::Array<EntityPtr> entitiesWithComponent = getEntitiesWithComponent(Component::controller, first, last);
+		// Update controller components
+		las::Array<EntityPtr> entitiesWithComponent = Entity::getEntitiesWithComponent(Component::controller, m_app->getEntityList());
 		for (EntityPtr entity :entitiesWithComponent) {
 			entity->getComponent(Component::controller)->update(deltaTime);
 		}
-		// Test collisions
-		entitiesWithComponent = getEntitiesWithComponent(Component::collider, first, last);
+		// Update colliders and test collision
+		entitiesWithComponent = Entity::getEntitiesWithComponent(Component::collider, m_app->getEntityList());
 		las::Array<std::shared_ptr<Collider>> colliders;
 		for (EntityPtr entity : entitiesWithComponent) {
 			std::shared_ptr<Collider> collider = std::dynamic_pointer_cast<Collider>(entity->getComponent(Component::collider));
@@ -55,6 +53,7 @@ void BattleState::update(float deltaTime)
 		}
 		Collider::resolveCollisions(colliders);
 		
+		// Check for pause or turning on debug mode
 		if (aie::Input::getInstance()->wasKeyPressed(pause_key)) {
 			m_shouldPush = true;
 			m_target = GameStateMachine::pause_state;
@@ -62,21 +61,21 @@ void BattleState::update(float deltaTime)
 		if (aie::Input::getInstance()->wasKeyPressed(toggle_hitboxes_key)) {
 			Collider::setDrawBoxes(!Collider::draw_boxes);
 		}
-		//TODO transition game_over if hero dead
 	}
 }
 
 void BattleState::draw(aie::Renderer2D * renderer)
 {
+	// Draw background
 	renderer->drawSprite(m_battleImage->get(), 640, 360);
-	las::Array<EntityPtr>::iterator first = m_app->getEntityList().begin();
-	las::Array<EntityPtr>::iterator last = m_app->getEntityList().end();
-	las::Array<EntityPtr> entitiesWithComponent = getEntitiesWithComponent(Component::sprite, first, last);
+	// Draw sprites
+	las::Array<EntityPtr> entitiesWithComponent = Entity::getEntitiesWithComponent(Component::sprite, m_app->getEntityList());
 	for (EntityPtr entity : entitiesWithComponent) {
 		entity->getComponent(Component::sprite)->draw(renderer);
 	}
+	// If enabled, draw hitboxes
 	if (Collider::draw_boxes) {
-		entitiesWithComponent = getEntitiesWithComponent(Component::collider, first, last);
+		entitiesWithComponent = Entity::getEntitiesWithComponent(Component::collider, m_app->getEntityList());
 		for (EntityPtr entity : entitiesWithComponent) {
 			entity->getComponent(Component::collider)->draw(renderer);
 		}
@@ -86,8 +85,9 @@ void BattleState::draw(aie::Renderer2D * renderer)
 void BattleState::onEnter()
 {
 	GameState::onEnter();
-	//
+	// Load background from resource manager
 	m_battleImage = m_app->getResourceManager()->getTexture(filepath::castle_background);
+	// Create all entities needed for game
 	m_app->getEntityFactory()->createEntity(EntityFactory::block, { 1,0,0,0,1,0,200,395,1 });
 	m_app->getEntityFactory()->createEntity(EntityFactory::block, { 1,0,0,0,1,0,600,395,1 });
 	m_app->getEntityFactory()->createEntity(EntityFactory::block, { 1,0,0,0,1,0,900,395,1 });
@@ -96,7 +96,7 @@ void BattleState::onEnter()
 	m_app->getEntityFactory()->createEntity(EntityFactory::platform, {1,0,0,0,1,0,720,480,1});
 	EntityPtr door = m_app->getEntityFactory()->createEntity(EntityFactory::door, { 1,0,0,0,1,0,1152,462,1 });
 	m_app->getEntityFactory()->createEntity(EntityFactory::floor, { 1,0,0,0,1,0,640,360,1 });
-	//m_app->getEntityFactory()->createEntity(EntityFactory::hero, { 1,0,0,0,1,0,300,405,1 });
+	//Place hero last so they appear over other sprites
 	m_app->getEntityFactory()->createEntity(EntityFactory::hero, { 1,0,0,0,1,0,300,800,1 });
 	// Observe door collider to check for hero leaving
 	std::dynamic_pointer_cast<Collider>(door->getComponent(Component::collider))->addObserver(shared_from_this());
@@ -104,13 +104,13 @@ void BattleState::onEnter()
 
 void BattleState::onExit()
 {
-	//TODO if creation of entities moved, move this too
+	// Destroy entities
 	m_app->getEntityList().clear();
 }
 
 void BattleState::notify(Subject * subject, EventBase * event)
 {
-	//TODO if event is collision between hero's collider and door trigger, move to win screen
+	// If collision between player and door, transition to win state
 	if (event->getEventID() == EventBase::collision) {
 		CollisionEvent* collision = dynamic_cast<CollisionEvent*>(event);
 		assert(collision != nullptr);
@@ -139,19 +139,4 @@ bool BattleState::addSubject(Subject * subject)
 
 void BattleState::removeSubject(Subject * subject)
 {
-}
-
-las::Array<EntityPtr> BattleState::getEntitiesWithComponent(Component::Identifier component, las::Array<EntityPtr>::iterator first, las::Array<EntityPtr>::iterator last)
-{
-	//TODO AAAAAAAA use find_if to fill new array with all entities with matching bitmask
-	las::Array<EntityPtr> entitiesWithComponent;
-	auto maskMatches = [=](EntityPtr e) {return bool(component&(e->getComponentMask())); };
-	las::Array<EntityPtr>::iterator entity = std::find_if(first, last, maskMatches);
-	//TODO while entity not last, push entity into entitiesWithComponent and call find_if again
-	//TODO put lambda into a variale, it's going to be reused
-	while (entity != last) {
-		entitiesWithComponent.push_back(*entity);
-		entity = std::find_if(++entity, last, maskMatches);
-	}
-	return entitiesWithComponent;
 }
