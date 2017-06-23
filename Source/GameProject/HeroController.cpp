@@ -46,8 +46,8 @@ const Box HeroController::crouch_hitbox = { { -16,-46 },{ 22,16 },BoxType::body 
 const Box HeroController::downed_hitbox = { { -22,-46 },{ 22,-8 },BoxType::body };
 
 const Box HeroController::stand_feetbox = { {-16,-50},{16,-46},BoxType::feet };
-const Box HeroController::run_feetbox = { { -16,-50 },{ 28,-46 },BoxType::feet };
-const Box HeroController::crouch_feetbox = { { -16,-50 },{ 22,-46 },BoxType::feet };
+const Box HeroController::run_feetbox = { { -16,-50 },{ 22,-46 },BoxType::feet };
+const Box HeroController::crouch_feetbox = { { -16,-50 },{ 20,-46 },BoxType::feet };
 const Box HeroController::downed_feetbox = { { -22,-50 },{ 22,-46 },BoxType::feet };
 
 const float HeroController::move_speed = 100.0f;

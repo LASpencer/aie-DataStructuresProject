@@ -13,6 +13,8 @@ const float EntityFactory::hero_sprite_height = 100.0f;
 const float EntityFactory::block_sprite_width = 64.f;
 const float EntityFactory::block_sprite_height = 64.f;
 
+const float EntityFactory::platform_sprite_width = 64.f;
+const float EntityFactory::platform_sprite_height = 64.f;
 
 const float EntityFactory::door_sprite_width = 128.f;
 const float EntityFactory::door_sprite_height = 184.f;
@@ -22,6 +24,11 @@ const float EntityFactory::door_uvy = 6.f/11.f;
 const float EntityFactory::door_uvw = 2.f/15.f;
 const float EntityFactory::door_uvh = 3.f/11.f;
 
+const float EntityFactory::platform_uvx = 11.f / 15.f;
+const float EntityFactory::platform_uvy = 2.75f / 11.f;
+const float EntityFactory::platform_uvw = 1.f / 15.f; // TODO try this, or width three and sprite is 192 wide
+const float EntityFactory::platform_uvh = 1.f / 11.f;
+
 const float EntityFactory::block_uvx = 1.f / 15.f;
 const float EntityFactory::block_uvy = 2.f / 11.f;
 const float EntityFactory::block_uvw = 1.f / 15.f;
@@ -29,9 +36,11 @@ const float EntityFactory::block_uvh = 1.f / 11.f;
 
 
 const Box EntityFactory::block_hitbox = { { -22,-32 },{ 22,28 },BoxType::body };
+const Box EntityFactory::platform_hitbox = { {-32,-5},{32,15},BoxType::body };
 const Box EntityFactory::door_hitbox = { { -16,-96 },{ 16,0 },BoxType::trigger };
 const Box EntityFactory::floor_hitbox = { { -650,-50 },{ 650, 0},BoxType::body };
 
+//TODO define platform sprite position, hitbox
 
 const std::string EntityFactory::hero_sprite_filepath = filepath::hero_blue;
 const std::string EntityFactory::hero_robe_filepath = filepath::robe_brown;
@@ -65,6 +74,9 @@ EntityPtr EntityFactory::createEntity(EntityType type, glm::mat3 position, Scene
 		break;
 	case(block):
 		entity = createBlock(position, parent);
+		break;
+	case(platform):
+		entity = createPlatform(position, parent);
 		break;
 	case(door):
 		entity = createDoor(position, parent);
@@ -121,6 +133,23 @@ EntityPtr EntityFactory::createBlock(glm::mat3 position, SceneObjectPtr parent)
 	collider->setBoxes({ block_hitbox });
 	block->addComponent(collider);
 	return block;
+}
+
+EntityPtr EntityFactory::createPlatform(glm::mat3 position, SceneObjectPtr parent)
+{
+	EntityPtr platform = std::make_shared<Entity>();
+	setEntityPosition(platform, position, parent);
+	// Tag as floor, so it can be walked on
+	platform->addTag(Entity::floor);
+	// Add sprite
+	platform->addComponent(std::make_shared<Sprite>(m_app->getResourceManager()->getTexture(filepath::castle_tiles),
+		platform_sprite_width, platform_sprite_height, platform_uvx, platform_uvy, platform_uvw, platform_uvh));
+	// Add collider with body hitbox
+	std::shared_ptr<Collider> collider = std::make_shared<Collider>();
+	collider->setBoxes({ platform_hitbox });
+	platform->addComponent(collider);
+	return platform;
+
 }
 
 EntityPtr EntityFactory::createDoor(glm::mat3 position, SceneObjectPtr parent)

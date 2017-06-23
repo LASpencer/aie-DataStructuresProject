@@ -68,9 +68,9 @@ void AirState::notify(Subject * subject, EventBase * event)
 				(collision->getOtherType() == BoxType::body)) { 	// Other hitbox was body
 				glm::vec2 penetration = collision->getPenetration();
 				if (penetration.y > 0) {	//Hero on top of something
-					m_controller->setVerticalSpeed(std::min(0.f, m_controller->getVerticalSpeed()));
-				} else if (penetration.y < 0) { //Hero below something
 					m_controller->setVerticalSpeed(std::max(0.f, m_controller->getVerticalSpeed()));
+				} else if (penetration.y < 0) { //Hero below something
+					m_controller->setVerticalSpeed(std::min(0.f, m_controller->getVerticalSpeed()));
 				}
 			}
 		}

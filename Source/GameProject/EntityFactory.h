@@ -26,10 +26,11 @@ public:
 
 	// Different entities which can be created
 	enum EntityType {
-		hero,	// The player's character
-		block,	// A square block
-		floor,	// Long thin collider defining the floor
-		door	// Door with a trigger collider
+		hero,		// The player's character
+		block,		// A square block
+		platform,	// Long thin platform 
+		floor,		// Long collider defining the floor
+		door		// Door with a trigger collider
 	};
 
 	static const float hero_sprite_width;
@@ -38,10 +39,14 @@ public:
 	static const float block_sprite_width;
 	static const float block_sprite_height;
 
+	static const float platform_sprite_width;
+	static const float platform_sprite_height;
+
 	static const float door_sprite_width;
 	static const float door_sprite_height;
 	
 	static const Box	block_hitbox;
+	static const Box	platform_hitbox;
 	static const Box	door_hitbox;
 	static const Box	floor_hitbox;
 
@@ -56,6 +61,12 @@ public:
 	static const float block_uvy;
 	static const float block_uvw;
 	static const float block_uvh;
+
+	// Platform position in background texture
+	static const float platform_uvx;
+	static const float platform_uvy;
+	static const float platform_uvw;
+	static const float platform_uvh;
 
 	// Filepaths for hero texture sheets
 	static const std::string hero_sprite_filepath;
@@ -90,6 +101,8 @@ private:
 	EntityPtr createHero(glm::mat3 position, SceneObjectPtr parent);
 	// Creates a Block entity
 	EntityPtr createBlock(glm::mat3 position, SceneObjectPtr parent);
+	// Creates a Platform entity
+	EntityPtr createPlatform(glm::mat3 position, SceneObjectPtr parent);
 	// Creates a Door entity
 	EntityPtr createDoor(glm::mat3 position, SceneObjectPtr parent);
 	// Creates a Floor entity

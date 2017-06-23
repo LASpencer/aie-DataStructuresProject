@@ -90,6 +90,9 @@ void BattleState::onEnter()
 	m_battleImage = m_app->getResourceManager()->getTexture(filepath::castle_background);
 	m_app->getEntityFactory()->createEntity(EntityFactory::block, { 1,0,0,0,1,0,200,395,1 });
 	m_app->getEntityFactory()->createEntity(EntityFactory::block, { 1,0,0,0,1,0,600,395,1 });
+	m_app->getEntityFactory()->createEntity(EntityFactory::block, { 1,0,0,0,1,0,900,395,1 });
+	m_app->getEntityFactory()->createEntity(EntityFactory::block, { 1,0,0,0,1,0,900,450,1 });
+	m_app->getEntityFactory()->createEntity(EntityFactory::platform, {1,0,0,0,1,0,750,500,1});
 	EntityPtr door = m_app->getEntityFactory()->createEntity(EntityFactory::door, { 1,0,0,0,1,0,1152,462,1 });
 	m_app->getEntityFactory()->createEntity(EntityFactory::floor, { 1,0,0,0,1,0,640,360,1 });
 	//m_app->getEntityFactory()->createEntity(EntityFactory::hero, { 1,0,0,0,1,0,300,405,1 });
