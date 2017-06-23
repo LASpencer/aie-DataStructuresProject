@@ -35,13 +35,16 @@ void CrouchState::update(float deltaTime)
 	*		Moves to CrouchHurtState on taking damage
 	*/
 	m_controller->setPose(HeroController::crouch);
-	aie::Input* input = aie::Input::getInstance();
-	if (input->isKeyUp(crouch_button)) {
-		m_shouldTransition = true;
-		m_target = HeroStateMachine::idle_state;
-	}
 	if (!m_onFloor) {
-		//TODO transition to fall state
+		m_shouldTransition = true;
+		m_target = HeroStateMachine::fall_state;
+	}
+	else {
+		aie::Input* input = aie::Input::getInstance();
+		if (input->isKeyUp(crouch_button)) {
+			m_shouldTransition = true;
+			m_target = HeroStateMachine::idle_state;
+		}
 	}
 	// Check for falling
 	GroundState::update(deltaTime);

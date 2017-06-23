@@ -50,26 +50,28 @@ void WalkState::update(float deltaTime)
 	*		Maybe move to CrouchState on crouch press (possibly with slide?)
 	*		Move to IdleState on release left/right buttons
 	*/
-	aie::Input* input = aie::Input::getInstance();
-	if (input->isKeyDown(HeroState::right_move_button)) {
-		//TODO hero turns around based on direction
-		if (hero->getPosition()->getGlobalTransform()[0][0] < 0.0f) {
-			hero->getPosition()->applyTransform({  -1,0,0,0, 1,0,0,0,1 });
-		}
-	} else if (input->isKeyDown(HeroState::left_move_button)) {
-		//TODO hero turns around based on direction
-		if (hero->getPosition()->getGlobalTransform()[0][0] > 0.0f) {
-			hero->getPosition()->applyTransform({ -1,0,0,0, 1,0,0,0,1 });
-		}
-	}
-	else {
-		m_shouldTransition = true;
-		m_target = HeroStateMachine::idle_state;
-	}
 	if (!m_onFloor) {
-		//TODO transition to fall state
+		m_shouldTransition = true;
+		m_target = HeroStateMachine::fall_state;
 	}
 	else {
+		aie::Input* input = aie::Input::getInstance();
+		if (input->isKeyDown(HeroState::right_move_button)) {
+			//TODO hero turns around based on direction
+			if (hero->getPosition()->getGlobalTransform()[0][0] < 0.0f) {
+				hero->getPosition()->applyTransform({ -1,0,0,0, 1,0,0,0,1 });
+			}
+		}
+		else if (input->isKeyDown(HeroState::left_move_button)) {
+			//TODO hero turns around based on direction
+			if (hero->getPosition()->getGlobalTransform()[0][0] > 0.0f) {
+				hero->getPosition()->applyTransform({ -1,0,0,0, 1,0,0,0,1 });
+			}
+		}
+		else {
+			m_shouldTransition = true;
+			m_target = HeroStateMachine::idle_state;
+		}
 		hero->getPosition()->translate({ HeroController::move_speed * deltaTime,0 });
 	}
 	GroundState::update(deltaTime);

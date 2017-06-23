@@ -36,11 +36,11 @@ void IdleState::update(float deltaTime)
 	*		Moves to HurtState when damage taken
 	*/
 	EntityPtr hero(m_hero);
-	assert(hero);
 	m_controller->setPose(HeroController::idle);
 	aie::Input* input = aie::Input::getInstance();
 	if (!m_onFloor) {
-		//TODO transition to fall state
+		m_shouldTransition = true;
+		m_target = HeroStateMachine::fall_state;
 	} else if (input->isKeyDown(left_move_button) || input->isKeyDown(right_move_button)) {
 		m_shouldTransition = true;
 		m_target = HeroStateMachine::walk_state;
@@ -57,5 +57,6 @@ void IdleState::draw(aie::Renderer2D * renderer)
 
 void IdleState::notify(Subject * subject, EventBase * event)
 {
+	GroundState::notify(subject, event);
 }
 

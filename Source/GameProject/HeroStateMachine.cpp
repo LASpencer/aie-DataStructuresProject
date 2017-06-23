@@ -3,6 +3,7 @@
 #include "IdleState.h"
 #include "CrouchState.h"
 #include "WalkState.h"
+#include "FallState.h"
 
 HeroStateMachine::HeroStateMachine(HeroController* controller) : m_controller(controller)
 {
@@ -15,6 +16,8 @@ HeroStateMachine::HeroStateMachine(HeroController* controller) : m_controller(co
 
 	std::shared_ptr<WalkState> walk = std::make_shared<WalkState>(controller);
 	addState(walk_state, walk);
+
+	addState(fall_state, std::make_shared<FallState>(controller));
 }
 
 

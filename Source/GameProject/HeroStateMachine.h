@@ -21,7 +21,9 @@ public:
 	enum states {
 		idle_state,
 		walk_state,
-		crouch_state
+		crouch_state,
+		fall_state,
+		jump_state
 	};
 
 protected:
