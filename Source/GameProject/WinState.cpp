@@ -2,6 +2,7 @@
 #include "WinState.h"
 #include "GameProjectApp.h"
 #include "Input.h"
+#include "InputEvent.h"
 #include "Filepaths.h"
 
 const std::string WinState::win_message = "You win!";
@@ -48,13 +49,6 @@ void WinState::update(float deltaTime)
 	if (m_focus) {
 		m_quitButton->update(deltaTime);
 		m_menuButton->update(deltaTime);
-		if (m_quitButton->isPressed()) {
-			m_shouldTransition = true;
-			m_target = GameStateMachine::final_state;
-		} else if (m_menuButton->isPressed()){
-			m_shouldTransition = true;
-			m_target = GameStateMachine::main_menu;
-		}
 	}
 }
 
@@ -79,11 +73,41 @@ void WinState::onEnter()
 
 	m_winImage = m_app->getResourceManager()->getTexture(filepath::win_background);
 	m_menuButton->reset();
+	m_menuButton->addObserver(shared_from_this());
 	m_quitButton->reset();
+	m_quitButton->addObserver(shared_from_this());
 }
 
 void WinState::onExit()
 {
 	GameState::onExit();
 	m_music->get()->stop();
+}
+
+void WinState::notify(Subject * subject, EventBase * event)
+{
+	// If button clicked, transition to indicated state
+	if (event->getEventID() == EventBase::clicked) {
+		InputEvent* click = dynamic_cast<InputEvent*>(event);
+		assert(click != nullptr);
+		if (click->getInputCode() == aie::INPUT_MOUSE_BUTTON_LEFT) {
+			if (subject == m_menuButton.get()) {
+				m_shouldTransition = true;
+				m_target = GameStateMachine::main_menu;
+			}
+			else if (subject == m_quitButton.get()) {
+				m_shouldTransition = true;
+				m_target = GameStateMachine::final_state;
+			}
+		}
+	}
+}
+
+bool WinState::addSubject(Subject * subject)
+{
+	return true;
+}
+
+void WinState::removeSubject(Subject * subject)
+{
 }

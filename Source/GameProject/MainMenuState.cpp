@@ -72,15 +72,6 @@ void MainMenuState::update(float deltaTime)
 		}
 		m_playButton->update(deltaTime);
 		m_exitButton->update(deltaTime);
-		// Check for button clicks
-		/*if (m_playButton->isPressed()) {
-			m_shouldTransition = true;
-			m_target = GameStateMachine::battle_state;
-		}
-		else if (m_exitButton->isPressed()) {
-			m_shouldTransition = true;
-			m_target = GameStateMachine::final_state;
-		}*/
 	}
 }
 
@@ -123,6 +114,7 @@ void MainMenuState::onExit()
 
 void MainMenuState::notify(Subject * subject, EventBase * event)
 {
+	// If button clicked, transition to indicated state
 	if (event->getEventID() == EventBase::clicked) {
 		InputEvent* click = dynamic_cast<InputEvent*>(event);
 		assert(click != nullptr);

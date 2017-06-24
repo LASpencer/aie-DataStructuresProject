@@ -13,7 +13,7 @@ class TextBar;
 	Transitions to FinalState if quit button clicked
 */
 class PauseState :
-	public GameState
+	public GameState, public Observer
 {
 public:
 	static const std::string pause_message;
@@ -40,7 +40,9 @@ public:
 
 	virtual void onEnter();
 
-	
+	virtual void notify(Subject* subject, EventBase* event);
+	virtual bool addSubject(Subject* subject);
+	virtual void removeSubject(Subject* subject);
 
 
 protected:

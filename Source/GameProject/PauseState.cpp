@@ -3,6 +3,8 @@
 #include "TextBar.h"
 #include "GameProjectApp.h"
 #include "Event.h"
+#include "Input.h"
+#include "InputEvent.h"
 #include "Filepaths.h"
 
 const std::string PauseState::pause_message = "Paused";
@@ -53,11 +55,7 @@ void PauseState::update(float deltaTime)
 
 	if (m_focus) {
 		m_quitButton->update(deltaTime);
-		if (m_quitButton->isPressed()) {
-			// Quit if button clicked
-			m_shouldTransition = true;
-			m_target = GameStateMachine::final_state;
-		} else if(aie::Input::getInstance()->wasKeyPressed(unpause_key)){
+	if(aie::Input::getInstance()->wasKeyPressed(unpause_key)){
 			// Unpause on key press
 			m_shouldPop = true;
 		}
@@ -79,4 +77,29 @@ void PauseState::onEnter()
 {
 	GameState::onEnter();
 	m_quitButton->reset();
+	m_quitButton->addObserver(shared_from_this());
+}
+
+void PauseState::notify(Subject * subject, EventBase * event)
+{
+	// If quit button clicked, transition to final state
+	if (event->getEventID() == EventBase::clicked) {
+		InputEvent* click = dynamic_cast<InputEvent*>(event);
+		assert(click != nullptr);
+		if (click->getInputCode() == aie::INPUT_MOUSE_BUTTON_LEFT) {
+			if (subject == m_quitButton.get()) {
+				m_shouldTransition = true;
+				m_target = GameStateMachine::final_state;
+			}
+		}
+	}
+}
+
+bool PauseState::addSubject(Subject * subject)
+{
+	return true;
+}
+
+void PauseState::removeSubject(Subject * subject)
+{
 }

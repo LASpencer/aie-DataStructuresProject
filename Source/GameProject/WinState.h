@@ -2,6 +2,7 @@
 #include "GameState.h"
 #include "TextBar.h"
 #include "Button.h"
+#include "Observer.h"
 #include <string>
 
 /*	Displays victory message and prompts player to replay the game
@@ -10,7 +11,7 @@
 	Transitions to FinalState on clicking quit button
 */
 class WinState :
-	public GameState {
+	public GameState, public Observer {
 public:
 	static const std::string win_message;
 	static const std::string win_font_path;
@@ -43,6 +44,10 @@ public:
 
 	virtual void onEnter();
 	virtual void onExit();
+
+	virtual void notify(Subject* subject, EventBase* event);
+	virtual bool addSubject(Subject* subject);
+	virtual void removeSubject(Subject* subject);
 protected:
 	TexturePtr	m_winImage;
 	AudioPtr	m_music;
