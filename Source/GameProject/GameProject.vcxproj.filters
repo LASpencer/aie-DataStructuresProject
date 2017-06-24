@@ -194,9 +194,6 @@
     <ClInclude Include="GameProjectApp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Defines.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Array.h">
       <Filter>Header Files\Containers</Filter>
     </ClInclude>

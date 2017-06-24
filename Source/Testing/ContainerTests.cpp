@@ -6,7 +6,6 @@
 #include "Queue.h"
 #include "Map.h"
 
-
 TEST_CASE("Integer Array", "[array][container]") {
 	las::Array<int> arr;
 

@@ -13,7 +13,6 @@ GameProjectApp::GameProjectApp() : m_entityList()
 }
 
 GameProjectApp::~GameProjectApp() {
-	//TODO fix sceneObject memory bug
 }
 
 bool GameProjectApp::startup() {
@@ -31,11 +30,12 @@ bool GameProjectApp::startup() {
 
 void GameProjectApp::shutdown() {
 
-	// Release any surviving shared pointers, instead of waiting for destruction
+	// Release any surviving shared pointers
 	m_entityList.clear();
 	m_sceneRoot.reset();
 	delete m_entityFactory;
 	delete m_stateMachine;
+	m_resourceManager->collectGarbage();
 	delete m_resourceManager;
 	delete m_2dRenderer;
 }
@@ -48,6 +48,7 @@ void GameProjectApp::update(float deltaTime) {
 		m_showFPS = !m_showFPS;
 	}
 
+	// Update game
 	m_stateMachine->update(deltaTime);
 }
 
@@ -61,6 +62,8 @@ void GameProjectApp::draw() {
 
 	// Reset UVRect to full texture
 	m_2dRenderer->setUVRect(0, 0, 1, 1);
+
+	// Draw game
 	m_stateMachine->draw(m_2dRenderer);
 
 	//fps info

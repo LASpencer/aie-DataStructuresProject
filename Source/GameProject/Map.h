@@ -1,6 +1,5 @@
 #pragma once
 #include "stdafx.h"
-#include "Defines.h"
 #include "Array.h"
 
 namespace las {

@@ -1,5 +1,4 @@
 #pragma once
-#include "Defines.h"
 #include "Component.h"
 #include "Subject.h"
 #include "EventManager.h"

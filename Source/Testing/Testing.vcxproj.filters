@@ -89,9 +89,6 @@
     <ClCompile Include="FooStackState.cpp">
       <Filter>Source Files\Test Classes\States</Filter>
     </ClCompile>
-    <ClCompile Include="ObserverTests.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ResourceManagerTests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

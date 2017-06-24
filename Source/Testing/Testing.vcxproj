@@ -187,7 +187,6 @@
     <ClCompile Include="ContainerTests.cpp" />
     <ClCompile Include="FooStackState.cpp" />
     <ClCompile Include="FooState.cpp" />
-    <ClCompile Include="ObserverTests.cpp" />
     <ClCompile Include="ResourceManagerTests.cpp" />
     <ClCompile Include="StateMachineTests.cpp" />
     <ClCompile Include="stdafx.cpp">
