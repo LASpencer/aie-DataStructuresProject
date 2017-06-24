@@ -35,6 +35,7 @@ public:
 
 	virtual void onEnter();
 
+	virtual void onExit();
 
 protected:
 	TexturePtr m_menuImage;

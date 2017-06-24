@@ -87,3 +87,13 @@ las::Array<EntityPtr>& GameProjectApp::getEntityList()
 {
 	return m_entityList;
 }
+
+void GameProjectApp::setMusic(AudioPtr music)
+{
+	m_backgroundMusic = music;
+}
+
+AudioPtr GameProjectApp::getMusic()
+{
+	return m_backgroundMusic;
+}

@@ -7,6 +7,10 @@ namespace filepath {
 	const std::string consolas_bold_path = "./font/consolas_bold.ttf";
 	const std::string consolas_italic_path = "./font/consolas_italic.ttf";
 
+	//Audio
+	const std::string menu_music = "./audio/Harp.ogg";
+	const std::string win_music = "./audio/prepare_your_swords.ogg";
+
 	//Textures
 	// Background tiles
 	const std::string castle_tiles = "./textures/oppcastle-mod-tiles.png";
@@ -40,14 +44,7 @@ namespace filepath {
 	const std::string helmet_steel = "./textures/accessories/helm02-spritemap-v9.png";
 	const std::string helmet_mail = "./textures/accessories/helm03-spritemap-v9.png";
 	const std::string helmet_gold = "./textures/accessories/helm04-spritemap-v9.png";
-	const std::string sword_rapier = "./textures/weapons/sword-slash-01-60x30.png";
-	const std::string sword_green = "./textures/weapons/sword-slash-02-60x30.png";
-	const std::string sword_white = "./textures/weapons/sword-slash-03-60x30.png";
-	const std::string sword_blue = "./textures/weapons/sword-slash-04-60x30.png";
-	const std::string sword_broad = "./textures/weapons/sword-slash-05-60x30.png";
-	const std::string sword_red = "./textures/weapons/sword-slash-06-60x30.png";
-	const std::string sword_sabre = "./textures/weapons/sword-slash-07-60x30.png";
-	const std::string sword_black = "./textures/weapons/sword-slash-08-60x30.png";
+
 	// may be unusable?
 	const std::string robe_white = "./textures/armor/robe05-spritemap.png";
 	const std::string robe_tan = "./textures/armor/robe06-spritemap.png";

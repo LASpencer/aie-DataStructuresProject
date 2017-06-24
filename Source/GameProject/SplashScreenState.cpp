@@ -2,6 +2,7 @@
 #include "SplashScreenState.h"
 #include "GameProjectApp.h"
 #include "Event.h"
+#include "Audio.h"
 #include "Filepaths.h"
 
 const float SplashScreenState::TIMER_DURATION = 1.5f;
@@ -53,6 +54,12 @@ void SplashScreenState::draw(aie::Renderer2D* renderer)
 void SplashScreenState::onEnter()
 {
 	GameState::onEnter();
+	AudioPtr bgm = m_app->getResourceManager()->getAudio(filepath::menu_music);
+	m_app->setMusic(bgm);
+	bgm->get()->setLooping(true);
+	if (!bgm->get()->getIsPlaying()) {
+		bgm->get()->play();
+	}
 	m_splashImage = m_app->getResourceManager()->getTexture(filepath::splash_background);
 	m_timer = 0;
 }

@@ -24,6 +24,10 @@ public:
 	EntityFactory* getEntityFactory();
 	SceneObjectPtr getSceneRoot();
 	las::Array<EntityPtr>& getEntityList();
+
+	void setMusic(AudioPtr music);
+
+	AudioPtr getMusic();
 protected:
 
 	aie::Renderer2D*	m_2dRenderer;
@@ -32,4 +36,6 @@ protected:
 	las::Array<EntityPtr>	m_entityList;
 	EntityFactory*		m_entityFactory;
 	SceneObjectPtr		m_sceneRoot;
+
+	AudioPtr			m_backgroundMusic;
 };

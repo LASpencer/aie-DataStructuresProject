@@ -43,11 +43,10 @@ const Box EntityFactory::floor_hitbox = { { -650,-50 },{ 650, 0},BoxType::body }
 //TODO define platform sprite position, hitbox
 
 const std::string EntityFactory::hero_sprite_filepath = filepath::hero_blue;
-const std::string EntityFactory::hero_robe_filepath = filepath::robe_brown;
+const std::string EntityFactory::hero_robe_filepath = filepath::robe_red;
 const std::string EntityFactory::hero_armour_filepath = filepath::armour_samurai;
-const std::string EntityFactory::hero_shield_filepath = filepath::shield_steel;
+const std::string EntityFactory::hero_shield_filepath = filepath::shield_wooden;
 const std::string EntityFactory::hero_helmet_filepath = filepath::helmet_gold;
-const std::string EntityFactory::sword_sprite_filepath = filepath::sword_rapier;
 
 
 EntityFactory::EntityFactory(GameProjectApp* app) : m_app(app)

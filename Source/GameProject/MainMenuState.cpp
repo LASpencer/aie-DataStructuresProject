@@ -8,9 +8,9 @@
 const std::string MainMenuState::title_message = "Dark Castle";
 const float MainMenuState::button_width = 200.0f;
 const float MainMenuState::button_height = 50.0f;
-const float MainMenuState::play_button_x = 1120.0f;
+const float MainMenuState::play_button_x = 1150.0f;
 const float MainMenuState::play_button_y = 200.0f;
-const float MainMenuState::exit_button_x = 1120.0f;
+const float MainMenuState::exit_button_x = 1150.0f;
 const float MainMenuState::exit_button_y = 100.0f;
 const float MainMenuState::title_pos_x = 640.f;
 const float MainMenuState::title_pos_y = 680.f;
@@ -97,9 +97,24 @@ void MainMenuState::draw(aie::Renderer2D* renderer)
 void MainMenuState::onEnter()
 {
 	GameState::onEnter();
+	AudioPtr bgm = m_app->getResourceManager()->getAudio(filepath::menu_music);
+	m_app->setMusic(bgm);
+	bgm->get()->setLooping(true);
+	if (!bgm->get()->getIsPlaying()) {
+		bgm->get()->play();
+	}
+
 	m_menuImage = m_app->getResourceManager()->getTexture(filepath::menu_background);
 	m_uvCol = m_uvRow = 0;
 	m_timer = 0.f;
 	m_playButton->reset();
 	m_exitButton->reset();
+}
+
+void MainMenuState::onExit()
+{
+	AudioPtr bgm = m_app->getMusic();
+	bgm->get()->stop();
+	m_app->setMusic(AudioPtr());
+
 }

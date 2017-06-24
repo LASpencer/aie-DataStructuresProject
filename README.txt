@@ -17,3 +17,14 @@ menu.png uses images from "Castle in the Dark" by tamashihoshi
 Available at https://opengameart.org/content/castle-in-the-dark
 under CC BY 3.0 license https://creativecommons.org/licenses/by/3.0/
 The work was originally in the form of an animated gif, and the frames were moved into tiles of the png image
+
+"Prepare Your Swords" by Bojidar Marinov
+Available at https://opengameart.org/content/prepare-your-swords
+
+"Breves Dies Hominis" by Magdalen Kadel
+Available at https://opengameart.org/content/breves-dies-hominis
+
+"Soft Mysterious Harp Loop" by Jordan Hake
+Avaialbe at https://opengameart.org/content/soft-mysterious-harp-loop
+under CC BY 3.0 license https://creativecommons.org/licenses/by/3.0/
+
