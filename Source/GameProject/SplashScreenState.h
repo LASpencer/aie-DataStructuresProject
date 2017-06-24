@@ -29,7 +29,6 @@ public:
 	SplashScreenState(const SplashScreenState& other);
 	SplashScreenState& operator=(const SplashScreenState& other);
 
-	virtual State* clone() const;
 
 	virtual void update(float deltaTime);
 	virtual void draw(aie::Renderer2D* renderer);

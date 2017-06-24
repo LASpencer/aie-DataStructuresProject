@@ -46,12 +46,17 @@ void TextBar::setTextColour(unsigned int colour)
 
 void TextBar::setFont(FontPtr font)
 {
-	assert((*font).get() != nullptr);
+	if (!font) {
+		throw std::invalid_argument("Font shared_ptr expired.");
+	}
 	m_font = font;
 }
 
 void TextBar::draw(aie::Renderer2D * renderer)
 {
+	if (!m_font) {
+		throw std::logic_error("Cannot draw text without valid font");
+	}
 	// If no text, don't draw anything
 	if (!m_content.empty()) {
 		float width, height;

@@ -1,6 +1,7 @@
 #pragma once
 #include "ResourceManager.h"
 
+// Class for displaying a line of text on the screen
 class TextBar
 {
 public:
@@ -32,7 +33,7 @@ public:
 	void setFont(FontPtr font);
 	virtual void update(float deltaTime) {};
 	virtual void draw(aie::Renderer2D* renderer);
-	//TODO const default values
+
 protected:
 	std::string m_content;
 	float m_xPos;			// Centre of box

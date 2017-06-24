@@ -12,8 +12,6 @@ public:
 
 	virtual ~JumpState();
 
-	virtual State* clone() const;
-
 	virtual void onEnter();
 
 	virtual void onExit();

@@ -46,11 +46,6 @@ SplashScreenState & SplashScreenState::operator=(const SplashScreenState & other
 	return *this;
 }
 
-State * SplashScreenState::clone() const
-{
-	return new SplashScreenState(*this);
-}
-
 void SplashScreenState::update(float deltaTime)
 {
 	if (m_focus) {

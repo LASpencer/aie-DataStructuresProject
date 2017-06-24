@@ -11,11 +11,6 @@ FinalState::~FinalState()
 {
 }
 
-State * FinalState::clone() const
-{
-	return new FinalState(*this);
-}
-
 void FinalState::update(float deltaTime)
 {
 	// Quit the application

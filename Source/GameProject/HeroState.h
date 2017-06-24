@@ -20,6 +20,8 @@ public:
 	HeroState(HeroController* controller);
 	virtual ~HeroState();
 
+	/** Sets entity controlled by this state
+	*	@param hero Entity with sprite and collider components, tagged as player*/
 	void setHero(EntityPtr hero);
 
 	virtual void onEnter();

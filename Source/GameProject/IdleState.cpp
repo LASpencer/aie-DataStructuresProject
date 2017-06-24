@@ -12,11 +12,6 @@ IdleState::~IdleState()
 {
 }
 
-State * IdleState::clone() const
-{
-	return new IdleState(*this);
-}
-
 void IdleState::onEnter()
 {
 	GroundState::onEnter();

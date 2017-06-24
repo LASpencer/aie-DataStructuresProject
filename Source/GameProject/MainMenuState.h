@@ -31,8 +31,6 @@ public:
 
 	MainMenuState& operator=(const MainMenuState& other);
 
-	State* clone() const;
-
 	virtual void update(float deltaTime);
 	virtual void draw(aie::Renderer2D* renderer);
 

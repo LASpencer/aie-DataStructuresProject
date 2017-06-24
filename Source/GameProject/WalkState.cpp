@@ -11,11 +11,6 @@ WalkState::~WalkState()
 {
 }
 
-State * WalkState::clone() const
-{
-	return new WalkState(*this);
-}
-
 void WalkState::onEnter()
 {
 	GroundState::onEnter();

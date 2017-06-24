@@ -12,11 +12,6 @@ FallState::~FallState()
 {
 }
 
-State * FallState::clone() const
-{
-	return new FallState(*this);
-}
-
 void FallState::onEnter()
 {
 	AirState::onEnter();

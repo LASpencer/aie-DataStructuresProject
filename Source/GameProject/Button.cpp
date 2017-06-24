@@ -95,7 +95,9 @@ void Button::setContent(const std::string & content)
 
 void Button::setFont(FontPtr font)
 {
-	assert((*font).get() != nullptr);
+	if (!font) {
+		throw std::invalid_argument("Font shared_ptr expired");
+	}
 	m_font = font;
 }
 
@@ -144,6 +146,9 @@ void Button::update(float deltaTime)
 
 void Button::draw(aie::Renderer2D * renderer)
 {
+	if (!m_font) {
+		throw std::logic_error("Cannot draw button without valid font");
+	}
 	if (m_pressed) {
 		renderer->setRenderColour(m_pressedColour);
 	} else if (m_hover){

@@ -10,11 +10,6 @@ JumpState::~JumpState()
 {
 }
 
-State * JumpState::clone() const
-{
-	return new JumpState(*this);
-}
-
 void JumpState::onEnter()
 {
 	AirState::onEnter();

@@ -10,9 +10,6 @@ public:
 
 	virtual ~State();
 
-	//TODO remove clone from states
-	virtual State* clone() const = 0;
-
 	// Called when transitioning to the state
 	virtual void onEnter();
 

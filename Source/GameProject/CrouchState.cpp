@@ -12,11 +12,6 @@ CrouchState::~CrouchState()
 {
 }
 
-State * CrouchState::clone() const
-{
-	return new CrouchState(*this);
-}
-
 void CrouchState::onEnter()
 {
 	GroundState::onEnter();

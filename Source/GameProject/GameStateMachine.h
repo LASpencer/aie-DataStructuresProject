@@ -4,6 +4,8 @@
 
 class GameProjectApp;
 
+/*	State Machine defining the game state
+*/
 class GameStateMachine :
 	public StateStackMachine<GameState>
 {

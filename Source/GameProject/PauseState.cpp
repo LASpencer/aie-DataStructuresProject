@@ -45,11 +45,6 @@ PauseState & PauseState::operator=(const PauseState & other)
 	return *this;
 }
 
-State * PauseState::clone() const
-{
-	return new PauseState(*this);
-}
-
 void PauseState::update(float deltaTime)
 {
 

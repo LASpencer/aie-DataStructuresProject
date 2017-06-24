@@ -49,11 +49,6 @@ MainMenuState & MainMenuState::operator=(const MainMenuState & other)
 	return *this;
 }
 
-State * MainMenuState::clone() const
-{
-	return new MainMenuState(*this);
-}
-
 void MainMenuState::update(float deltaTime)
 {
 	if (m_focus) {

@@ -39,11 +39,6 @@ WinState::WinState(const WinState & other) : GameState(other), m_menuButton(othe
 	m_winText = std::make_unique<TextBar>(*(other.m_winText));
 }
 
-State * WinState::clone() const
-{
-	return new WinState(*this);
-}
-
 void WinState::update(float deltaTime)
 {
 	if (m_focus) {

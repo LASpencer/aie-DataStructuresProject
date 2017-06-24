@@ -37,8 +37,6 @@ public:
 
 	WinState(const WinState& other);
 
-	State* clone() const;
-
 	virtual void update(float deltaTime);
 	virtual void draw(aie::Renderer2D* renderer);
 

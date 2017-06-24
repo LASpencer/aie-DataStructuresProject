@@ -30,10 +30,6 @@ BattleState & BattleState::operator=(const BattleState & other)
 	return *this;
 }
 
-State * BattleState::clone() const
-{
-	return new BattleState(*this);
-}
 
 void BattleState::update(float deltaTime)
 {

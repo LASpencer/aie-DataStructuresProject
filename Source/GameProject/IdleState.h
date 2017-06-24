@@ -13,8 +13,6 @@ public:
 
 	virtual ~IdleState();
 
-	virtual State* clone() const;
-
 	virtual void onEnter();
 
 	virtual void onExit();

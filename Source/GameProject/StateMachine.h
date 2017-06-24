@@ -5,7 +5,7 @@
 #include "Array.h"
 #include "Stack.h"
 
-//TODO comment state machine
+// Templated State Machine class, allowing state machines which only accept specified class of states
 template <typename S, typename = std::enable_if<std::is_base_of<State,S>::value>>	//S is class derived from State abstract class
 class StateMachine {
 public:
@@ -13,11 +13,10 @@ public:
 
 	};
 
-	//TODO deep copy based on clone
-	//StateMachine(const StateMachine& other) : m_currentID(other.m_currentID) {
-	//	
-	//}
-
+	/*	Registers state with state machine
+	*	@param id unique value to identify registered state
+	*	@param newState State to be registered
+	*	@return true if successfully added, false if id already in use*/
 	bool addState(int id, std::shared_ptr<S> newState) {
 		bool success = m_states.insert(id, newState);
 		//If no current state, this is now current state
@@ -27,6 +26,9 @@ public:
 		return success;
 	}
 
+	/*  Transitions to indicated state
+	*	Throws exception if id not registered in state machine
+	*@param id value identifying state registered in state machine*/
 	void forceState(int id) {
 		// If going to same state, no transition
 		if (!m_currentState || m_currentID != id) {
@@ -47,17 +49,22 @@ public:
 		}
 	}
 
+	// Updates current state and transition if required
 	virtual void update(float deltaTime) {
-		//TODO exception instead?
-		assert(m_currentState);	//Assert current state not null
+		if (!m_currentState) {
+			throw std::logic_error("State machine must have current state to be updated");
+		}
 		m_currentState->update(deltaTime);
 		if (m_currentState->shouldTransition()) {
 			forceState(m_currentState->getTarget());
 		}
 	}
 
+	// Draws current state
 	virtual void draw(aie::Renderer2D* renderer) {
-		assert(m_currentState);
+		if (!m_currentState) {
+			throw std::logic_error("State machine must have current state to draw");
+		}
 		m_currentState->draw(renderer);
 	}
 
@@ -71,6 +78,8 @@ protected:
 	las::Map<int, std::shared_ptr<S>> m_states;
 };
 
+/*	State Machine using a stack, allowing new states to be pushed onto current state
+*/
 template <typename S, typename = std::enable_if<std::is_base_of<StackState, S>::value>>	//S is class derived from StackState abstract class
 class StateStackMachine{
 public:
@@ -78,8 +87,10 @@ public:
 
 	}
 
-	//TODO deep copy
-
+	/*	Registers state with state machine
+	*	@param id unique value to identify registered state
+	*	@param newState State to be registered
+	*	@return true if successfully added, false if id already in use*/
 	bool addState(int id, std::shared_ptr<S> newState) {
 		bool success = m_states.insert(id, newState);
 		//If no current state, this is now current state
@@ -89,6 +100,9 @@ public:
 		return success;
 	}
 
+	/*  Transitions to indicated state
+	*	Throws exception if id not registered in state machine
+	*@param id value identifying state registered in state machine*/
 	virtual void forceState(int id) {
 		// If going to same state, no transition
 		// Otherwise, pop until state wanted reached. If stack emptied, push state
@@ -118,6 +132,9 @@ public:
 		}
 	}
 
+	/*  Pushes indicated state onto stack
+	*	Throws exception if id not registered in state machine
+	*	@param id value identifying state registered in state machine*/
 	void forcePushState(int id) {
 		// If state already in stack, don't push it on again
 			bool stateInStack = false;
@@ -144,6 +161,7 @@ public:
 			}
 	}
 
+	// Pops state on top of stack
 	void forcePopState() {
 		if (m_stateStack.size() > 1) {		//Cannot pop last state in stack
 			m_states.at(m_stateStack.pop())->onExit();
@@ -151,9 +169,11 @@ public:
 		}
 	}
 
+	// Updates all states in stack from top to bottom, and transition based on top state
 	virtual void update(float deltaTime) {
-		//TODO exception instead?
-		assert(!m_stateStack.empty());	//Assert stack not empty
+		if (m_stateStack.empty()) {
+			throw std::logic_error("State stack must contain states to update state machine");
+		}
 		for (size_t i = 0; i < m_stateStack.size(); ++i) {
 			m_states.at(m_stateStack.peek(i))->update(deltaTime);
 		}
@@ -167,8 +187,11 @@ public:
 		}
 	}
 
+	// Draws all states in stack, from bottom to top
 	virtual void draw(aie::Renderer2D* renderer) {
-		assert(!m_stateStack.empty());
+		if (m_stateStack.empty()) {
+			throw std::logic_error("State stack must contain states to draw state machine");
+		}
 		for (size_t i = m_stateStack.size(); i > 0; --i) {
 			m_states.at(m_stateStack.peek(i - 1))->draw(renderer);
 		}
@@ -182,6 +205,7 @@ public:
 		return m_states.at(id);
 	}
 
+	// Gets stack of state IDs
 	const las::Stack<int>* getStateStack() {
 		return &m_stateStack;
 	}

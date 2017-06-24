@@ -25,7 +25,6 @@ public:
 	BattleState(const BattleState& other);
 	BattleState& operator=(const BattleState& other);
 
-	State* clone() const;
 
 	// Update all components and perform collision detection
 	virtual void update(float deltaTime);

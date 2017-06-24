@@ -14,8 +14,6 @@ public:
 
 	virtual ~WalkState();
 
-	virtual State* clone() const;
-
 	virtual void onEnter();
 
 	virtual void onExit();
