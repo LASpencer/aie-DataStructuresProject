@@ -319,8 +319,7 @@ TEST_CASE("Integer List", "[list][container]") {
 		REQUIRE(list2.pop_front() == 19);
 		REQUIRE_THROWS(list2.pop_front());
 	}
-	//TODO test move, move assignment
-	//TODO test copy, copy assignment
+
 	SECTION("List Equality") {
 		las::List<int> list2;
 		REQUIRE(list == list2);
@@ -760,7 +759,7 @@ TEST_CASE("Map Iterators", "[map][container][iterator]") {
 			REQUIRE(it->second == 3);
 		}
 	}
-	//TODO test const iterator
+
 	SECTION("MapConstIter") {
 		las::Map<int, int>::const_iterator it = map.begin();
 		SECTION("End iterator") {

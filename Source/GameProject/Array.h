@@ -208,7 +208,7 @@ namespace las {
 					m_capacity *= 2;
 				}
 				// Create new array
-				T* resizedArr = new T[m_capacity];	//HACK deal with bad_alloc
+				T* resizedArr = new T[m_capacity];
 				// Copy elements to new array
 				for (size_t i = 0; i < m_size; ++i) {
 					resizedArr[i] = m_array[i];

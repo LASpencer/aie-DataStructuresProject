@@ -576,8 +576,6 @@ namespace las {
 			}
 		}
 
-		//TODO maybe: remove_if(predicate)
-
 		/** clear
 		* Destroy all elements of list*/
 		void clear() {
@@ -695,7 +693,6 @@ namespace las {
 			return !(*this == other);
 		}
 
-		//TODO fix this conversion
 		operator ListConstIter<T>() {
 			return ListConstIter<T>(m_node, m_list);
 		}
@@ -837,7 +834,6 @@ namespace las {
 			return m_node->value;
 		}
 
-		//TODO check this is right const usage
 		const T* operator->() const {
 			return &(m_node->value);
 		}

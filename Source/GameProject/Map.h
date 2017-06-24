@@ -111,10 +111,6 @@ namespace las {
 			return m_value;
 		}
 
-		//const V& getValue()const {
-		//	return m_value;
-		//}
-
 		void setValue(const V& value) {
 			m_value = value;
 		}
@@ -142,25 +138,15 @@ namespace las {
 				return nullptr;
 			}
 		}
-		//const TreeNode<K, V>* getParent() const {
-		//	return m_parent;
-		//}
 
 		TreeNode<K, V>* getLeft() {
 			return m_left;
 		}
 
-		//const TreeNode<K, V> getLeft() const {
-		//	return m_left;
-		//}
 
 		TreeNode<K, V>* getRight() {
 			return m_right;
 		}
-
-		//const TreeNode<K, V>* getRight() const {
-		//	return m_right;
-		//}
 
 		/** Finds the root node of this node's tree
 		* @return pointer to root node*/
@@ -350,7 +336,6 @@ namespace las {
 		friend class MapConstIter<K,V>;
 		typedef MapIter<K, V> iterator;
 		typedef MapConstIter<K, V> const_iterator;
-		//TODO document mapiter,begin,end
 
 		Map() : m_root(nullptr)
 		{
@@ -565,9 +550,6 @@ namespace las {
 					m_root = successor;
 				}
 				
-				//*node = *successor;
-				//next = iterator(node, this);	//Next iterator points to node, as successor copied there
-				//node = successor;
 			}
 			// Node now has at most one child
 			Node* child = node->m_right;
