@@ -1,14 +1,14 @@
 #pragma once
 #include "GroundState.h"
 
-class WalkState : public GroundState {
-	/*TODO
-	*		Move to JumpState on jump button pressed
-	*		Move to AttackState on attack button pressed
-	*		Move to HurtState on taking damage
-	*		Maybe move to CrouchState on crouch press (possibly with slide?)
-	*		Move to IdleState on release left/right buttons
+/*	Hero is walking
+	Hero moves forwards with walking animation
+	
+	Transition to Idle when no walking key pressed, Jump on pressing jump key,
+	or Fall if not supported by floor
 	*/
+class WalkState : public GroundState {
+
 public:
 	WalkState(HeroController* controller);
 
@@ -20,6 +20,7 @@ public:
 
 	virtual void onExit();
 
+	// Turn in direction pressed, and move forward
 	virtual void update(float deltaTime);
 
 	virtual void draw(aie::Renderer2D* renderer);

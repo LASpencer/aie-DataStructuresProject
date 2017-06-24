@@ -30,9 +30,10 @@ void JumpState::onExit()
 void JumpState::update(float deltaTime)
 {
 	AirState::update(deltaTime);
-	EntityPtr hero(m_hero);
+	// Set jumping pose
 	m_controller->setPose(HeroController::jump);
 	if (m_controller->getVerticalSpeed() <= 0.f) {
+		// Fall if not moving upwards
 		m_shouldTransition = true;
 		m_target = HeroStateMachine::fall_state;
 	}

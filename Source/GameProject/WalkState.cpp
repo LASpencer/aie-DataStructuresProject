@@ -19,6 +19,7 @@ State * WalkState::clone() const
 void WalkState::onEnter()
 {
 	GroundState::onEnter();
+	// Reset walk cycle
 	m_timer = 0.0f;
 	m_frame = 0;
 }
@@ -33,6 +34,7 @@ void WalkState::update(float deltaTime)
 	EntityPtr hero(m_hero);
 	assert(hero);
 	m_timer += deltaTime;
+	// Advance walk cycle
 	if (m_timer > HeroController::move_frame_length) {
 		m_timer -= HeroController::move_frame_length;
 		++m_frame;
@@ -40,40 +42,38 @@ void WalkState::update(float deltaTime)
 	if (m_frame > 7) {
 		m_frame = 0;
 	}
+	// Set pose as appropriate frame of walk cycle
 	m_controller->setPose(HeroController::Pose(HeroController::run1 + m_frame));
-	//TODO make hero walk
-	//TODO hero turns around based on direction
-	/*TODO
-	*		Move to JumpState on jump button pressed
-	*		Move to AttackState on attack button pressed
-	*		Move to HurtState on taking damage
-	*		Maybe move to CrouchState on crouch press (possibly with slide?)
-	*		Move to IdleState on release left/right buttons
-	*/
 	if (!m_onFloor) {
+		// Fall if floor not touched last frame
 		m_shouldTransition = true;
 		m_target = HeroStateMachine::fall_state;
 	}
 	else {
 		aie::Input* input = aie::Input::getInstance();
 		if (input->isKeyDown(jump_button)) {
+			//Jump
 			m_shouldTransition = true;
 			m_target = HeroStateMachine::jump_state;
-		} else if (input->isKeyDown(HeroState::right_move_button)) {
-			//TODO hero turns around based on direction
+		}
+		else if (input->isKeyDown(HeroState::right_move_button)) {
+			// Face right
 			if (hero->getPosition()->getGlobalTransform()[0][0] < 0.0f) {
 				hero->getPosition()->applyTransform({ -1,0,0,0, 1,0,0,0,1 });
 			}
 		}
 		else if (input->isKeyDown(HeroState::left_move_button)) {
-			//TODO hero turns around based on direction
+			// Face left
 			if (hero->getPosition()->getGlobalTransform()[0][0] > 0.0f) {
 				hero->getPosition()->applyTransform({ -1,0,0,0, 1,0,0,0,1 });
 			}
-		} else {
+		}
+		else {
+			// Idle if no input pressed
 			m_shouldTransition = true;
 			m_target = HeroStateMachine::idle_state;
 		}
+		// Move forward
 		hero->getPosition()->translate({ HeroController::move_speed * deltaTime,0 });
 	}
 	GroundState::update(deltaTime);
