@@ -40,14 +40,6 @@ const Box EntityFactory::platform_hitbox = { {-32,-5},{32,15},BoxType::body };
 const Box EntityFactory::door_hitbox = { { -16,-96 },{ 16,0 },BoxType::trigger };
 const Box EntityFactory::floor_hitbox = { { -650,-50 },{ 650, 0},BoxType::body };
 
-//TODO define platform sprite position, hitbox
-
-const std::string EntityFactory::hero_sprite_filepath = filepath::hero_blue;
-const std::string EntityFactory::hero_robe_filepath = filepath::robe_red;
-const std::string EntityFactory::hero_armour_filepath = filepath::armour_samurai;
-const std::string EntityFactory::hero_shield_filepath = filepath::shield_wooden;
-const std::string EntityFactory::hero_helmet_filepath = filepath::helmet_gold;
-
 
 EntityFactory::EntityFactory(GameProjectApp* app) : m_app(app)
 {
@@ -94,11 +86,11 @@ EntityPtr EntityFactory::createEntity(EntityType type, glm::mat3 position, Scene
 void EntityFactory::loadResources()
 {
 	// Hero sprite sheet
-	TexturePtr texture = m_app->getResourceManager()->getTexture(hero_sprite_filepath);
-	texture = m_app->getResourceManager()->getTexture(hero_robe_filepath);
-	texture = m_app->getResourceManager()->getTexture(hero_armour_filepath);
-	texture = m_app->getResourceManager()->getTexture(hero_shield_filepath);
-	texture = m_app->getResourceManager()->getTexture(hero_helmet_filepath);
+	TexturePtr texture = m_app->getResourceManager()->getTexture(filepath::hero_sprite);
+	texture = m_app->getResourceManager()->getTexture(filepath::hero_robe);
+	texture = m_app->getResourceManager()->getTexture(filepath::hero_armour);
+	texture = m_app->getResourceManager()->getTexture(filepath::hero_shield);
+	texture = m_app->getResourceManager()->getTexture(filepath::hero_helmet);
 	// Door, block, and platform tiles
 	texture = m_app->getResourceManager()->getTexture(filepath::castle_tiles);
 }
@@ -113,11 +105,11 @@ EntityPtr EntityFactory::createHero(glm::mat3 position, SceneObjectPtr parent)
 	std::pair<float, float> startFrame = HeroController::animation_frames.at(HeroController::idle);
 	// Add MultiSprite with hero textures
 	las::Array<TexturePtr> textures({
-		m_app->getResourceManager()->getTexture(hero_sprite_filepath),
-		m_app->getResourceManager()->getTexture(hero_robe_filepath),
-		m_app->getResourceManager()->getTexture(hero_armour_filepath),
-		m_app->getResourceManager()->getTexture(hero_helmet_filepath),
-		m_app->getResourceManager()->getTexture(hero_shield_filepath) });
+		m_app->getResourceManager()->getTexture(filepath::hero_sprite),
+		m_app->getResourceManager()->getTexture(filepath::hero_robe),
+		m_app->getResourceManager()->getTexture(filepath::hero_armour),
+		m_app->getResourceManager()->getTexture(filepath::hero_helmet),
+		m_app->getResourceManager()->getTexture(filepath::hero_shield) });
 	hero->addComponent(std::make_shared<MultiSprite>(textures,
 		hero_sprite_width, hero_sprite_height, startFrame.first, startFrame.second,
 		HeroController::sprite_uv_width, HeroController::sprite_uv_height));

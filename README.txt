@@ -1,6 +1,18 @@
 Data Structures Game Project
 by L. Andrew Spencer 2017
 
+
+
+CONTROLS
+All screens:
+F	Toggle FPS display
+
+Battle:
+A,D	Move left and right
+S	Crouch
+W	Jump
+`	Toggle showing hitboxes
+
 ATTRIBUTIONS
 
 Accessories, armor, player and weapons sprite sheets from "Hero Spritesheets (Ars Notoria)" by Balmer

@@ -17,6 +17,7 @@ const float WinState::quit_button_x = 1150.f;
 const float WinState::quit_button_y = 100.f;
 const float WinState::button_width = 200.f;
 const float WinState::button_height = 50.f;
+const float WinState::music_volume = 0.4f;
 
 
 WinState::WinState(GameProjectApp * app) : GameState(app)
@@ -71,6 +72,7 @@ void WinState::onEnter()
 
 	m_music = m_app->getResourceManager()->getAudio(filepath::win_music);
 	m_music->get()->setLooping(true);
+	m_music->get()->setGain(music_volume);
 	if (!m_music->get()->getIsPlaying()) {
 		m_music->get()->play();
 	}

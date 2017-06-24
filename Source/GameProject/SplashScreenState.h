@@ -1,11 +1,20 @@
 #pragma once
 #include "GameState.h"
+#include "TextBar.h"
 #include "ResourceManager.h"
 class SplashScreenState :
 	public GameState
 {
 public:
 	static const float splash_duration;
+	static const float load_pos_x;
+	static const float load_pos_y;
+	static const unsigned short load_font_height;
+
+	static const std::string load_bg_msg;
+	static const std::string load_sprite_msg;
+	static const std::string load_audio_msg;
+	static const std::string load_done_msg;
 
 	SplashScreenState(GameProjectApp* app);
 	virtual ~SplashScreenState();
@@ -22,7 +31,8 @@ public:
 
 protected:
 	float m_timer;
-	bool m_resourcesLoaded, m_splashShown;
+	bool m_audioLoaded, m_backgroundLoaded, m_spritesLoaded;
+	std::unique_ptr<TextBar> m_loadText;
 	TexturePtr m_splashImage;
 	AudioPtr m_music;
 };

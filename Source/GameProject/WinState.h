@@ -9,7 +9,9 @@ class WinState :
 public:
 	static const std::string win_message;
 	static const std::string win_font_path;
+	
 	static const unsigned short win_font_height;
+	
 	static const float text_pos_x;
 	static const float text_pos_y;
 	static const float menu_button_x;
@@ -18,6 +20,9 @@ public:
 	static const float quit_button_y;
 	static const float button_width;
 	static const float button_height;
+	
+	static const float music_volume;
+
 	static const std::string button_font_path;
 	static const unsigned short button_font_height;
 

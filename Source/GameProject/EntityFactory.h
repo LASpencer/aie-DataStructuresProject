@@ -68,14 +68,6 @@ public:
 	static const float platform_uvw;
 	static const float platform_uvh;
 
-	// Filepaths for hero texture sheets
-	static const std::string hero_sprite_filepath;
-	static const std::string hero_robe_filepath;
-	static const std::string hero_armour_filepath;
-	static const std::string hero_shield_filepath;
-	static const std::string hero_helmet_filepath;
-	static const std::string sword_sprite_filepath;
-
 
 	EntityFactory(GameProjectApp* app);
 	~EntityFactory();

@@ -18,6 +18,7 @@ GameProjectApp::~GameProjectApp() {
 
 bool GameProjectApp::startup() {
 	
+	m_showFPS = false;
 	m_2dRenderer = new aie::Renderer2D();
 	m_resourceManager = new ResourceManager();
 	m_stateMachine = new GameStateMachine(this);
@@ -41,8 +42,11 @@ void GameProjectApp::shutdown() {
 
 void GameProjectApp::update(float deltaTime) {
 
-	// input example
+	// Toggle fps
 	aie::Input* input = aie::Input::getInstance();
+	if (input->wasKeyPressed(aie::INPUT_KEY_F)) {
+		m_showFPS = !m_showFPS;
+	}
 
 	m_stateMachine->update(deltaTime);
 }
@@ -60,10 +64,12 @@ void GameProjectApp::draw() {
 	m_stateMachine->draw(m_2dRenderer);
 
 	//fps info
-	m_2dRenderer->setRenderColour(1, 1, 0, 1);
-	char fps[32];
-	sprintf_s(fps, 32, "FPS: %i", getFPS());
-	m_2dRenderer->drawText((m_resourceManager->getFont(filepath::consolas_path, 32))->get(), fps, 0, 720 - 32);
+	if (m_showFPS) {
+		m_2dRenderer->setRenderColour(1, 1, 0, 1);
+		char fps[32];
+		sprintf_s(fps, 32, "FPS: %i", getFPS());
+		m_2dRenderer->drawText((m_resourceManager->getFont(filepath::consolas_path, 32))->get(), fps, 0, 720 - 32);
+	}
 	// done drawing sprites
 	m_2dRenderer->end();
 }

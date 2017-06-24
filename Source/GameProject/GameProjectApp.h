@@ -26,11 +26,12 @@ public:
 	las::Array<EntityPtr>& getEntityList();
 
 protected:
-
 	aie::Renderer2D*	m_2dRenderer;
 	ResourceManager*	m_resourceManager;
 	GameStateMachine*	m_stateMachine;
 	las::Array<EntityPtr>	m_entityList;
 	EntityFactory*		m_entityFactory;
 	SceneObjectPtr		m_sceneRoot;
+
+	bool m_showFPS;
 };
