@@ -69,11 +69,10 @@ void WinState::onEnter()
 {
 	GameState::onEnter();
 
-	AudioPtr bgm = m_app->getResourceManager()->getAudio(filepath::win_music);
-	m_app->setMusic(bgm);
-	bgm->get()->setLooping(true);
-	if (!bgm->get()->getIsPlaying()) {
-		bgm->get()->play();
+	m_music = m_app->getResourceManager()->getAudio(filepath::win_music);
+	m_music->get()->setLooping(true);
+	if (!m_music->get()->getIsPlaying()) {
+		m_music->get()->play();
 	}
 
 	m_winImage = m_app->getResourceManager()->getTexture(filepath::win_background);
@@ -83,7 +82,6 @@ void WinState::onEnter()
 
 void WinState::onExit()
 {
-	AudioPtr bgm = m_app->getMusic();
-	bgm->get()->stop();
-	m_app->setMusic(AudioPtr());
+	GameState::onExit();
+	m_music->get()->stop();
 }

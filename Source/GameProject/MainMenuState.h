@@ -39,6 +39,7 @@ public:
 
 protected:
 	TexturePtr m_menuImage;
+	AudioPtr m_music;
 	std::unique_ptr<TextBar> m_titleText;
 	std::shared_ptr<Button> m_playButton;
 	std::shared_ptr<Button> m_exitButton;

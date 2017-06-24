@@ -85,6 +85,11 @@ void BattleState::draw(aie::Renderer2D * renderer)
 void BattleState::onEnter()
 {
 	GameState::onEnter();
+	m_music = m_app->getResourceManager()->getAudio(filepath::castle_music);
+	m_music->get()->setLooping(true);
+	if (!m_music->get()->getIsPlaying()) {
+		m_music->get()->play();
+	}
 	// Load background from resource manager
 	m_battleImage = m_app->getResourceManager()->getTexture(filepath::castle_background);
 	// Create all entities needed for game
@@ -104,8 +109,23 @@ void BattleState::onEnter()
 
 void BattleState::onExit()
 {
+	GameState::onExit();
+	GameState::onExit();
+	m_music->get()->stop();
 	// Destroy entities
 	m_app->getEntityList().clear();
+}
+
+void BattleState::onFocus()
+{
+	GameState::onFocus();
+	m_music->get()->play();
+}
+
+void BattleState::onLoseFocus()
+{
+	GameState::onLoseFocus();
+	m_music->get()->pause();
 }
 
 void BattleState::notify(Subject * subject, EventBase * event)

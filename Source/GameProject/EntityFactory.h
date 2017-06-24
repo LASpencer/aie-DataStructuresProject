@@ -93,6 +93,8 @@ public:
 	*	@return reference to created entity*/
 	EntityPtr createEntity(EntityType type, glm::mat3 position, SceneObjectPtr parent);
 
+	// Loads all resources used into the Resource Manager to prevent frame drops later
+	void loadResources();
 
 private:
 	GameProjectApp* m_app;

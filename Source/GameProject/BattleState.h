@@ -39,6 +39,10 @@ public:
 	// Remove all entities from the list 
 	virtual void onExit();
 
+	virtual void onFocus();
+
+	virtual void onLoseFocus();
+
 	virtual void notify(Subject* subject, EventBase* event) ;
 
 	virtual bool addSubject(Subject* subject);
@@ -46,7 +50,7 @@ public:
 
 protected:
 	TexturePtr m_battleImage;		// Background image for game
-
+	AudioPtr	m_music;
 	
 };
 

@@ -21,10 +21,10 @@ The work was originally in the form of an animated gif, and the frames were move
 "Prepare Your Swords" by Bojidar Marinov
 Available at https://opengameart.org/content/prepare-your-swords
 
-"Breves Dies Hominis" by Magdalen Kadel
-Available at https://opengameart.org/content/breves-dies-hominis
+"Dungeon Ambience"(dungeon002.ogg) by yd
+Available at https://opengameart.org/content/dungeon-ambience
 
-"Soft Mysterious Harp Loop" by Jordan Hake
+"Soft Mysterious Harp Loop"(Harp.ogg) by Jordan Hake
 Avaialbe at https://opengameart.org/content/soft-mysterious-harp-loop
 under CC BY 3.0 license https://creativecommons.org/licenses/by/3.0/
 

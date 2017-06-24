@@ -10,6 +10,7 @@ namespace filepath {
 	//Audio
 	const std::string menu_music = "./audio/Harp.ogg";
 	const std::string win_music = "./audio/prepare_your_swords.ogg";
+	const std::string castle_music = "./audio/dungeon002.ogg";
 
 	//Textures
 	// Background tiles

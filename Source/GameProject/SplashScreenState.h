@@ -5,7 +5,7 @@ class SplashScreenState :
 	public GameState
 {
 public:
-	static const float TIMER_DURATION;
+	static const float splash_duration;
 
 	SplashScreenState(GameProjectApp* app);
 	virtual ~SplashScreenState();
@@ -18,8 +18,12 @@ public:
 	virtual void draw(aie::Renderer2D* renderer);
 	virtual void onEnter();
 
+	virtual void onExit();
+
 protected:
 	float m_timer;
+	bool m_resourcesLoaded, m_splashShown;
 	TexturePtr m_splashImage;
+	AudioPtr m_music;
 };
 

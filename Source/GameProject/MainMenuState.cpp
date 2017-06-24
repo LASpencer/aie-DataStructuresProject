@@ -97,11 +97,10 @@ void MainMenuState::draw(aie::Renderer2D* renderer)
 void MainMenuState::onEnter()
 {
 	GameState::onEnter();
-	AudioPtr bgm = m_app->getResourceManager()->getAudio(filepath::menu_music);
-	m_app->setMusic(bgm);
-	bgm->get()->setLooping(true);
-	if (!bgm->get()->getIsPlaying()) {
-		bgm->get()->play();
+	m_music = m_app->getResourceManager()->getAudio(filepath::menu_music);
+	m_music->get()->setLooping(true);
+	if (!m_music->get()->getIsPlaying()) {
+		m_music->get()->play();
 	}
 
 	m_menuImage = m_app->getResourceManager()->getTexture(filepath::menu_background);
@@ -113,8 +112,6 @@ void MainMenuState::onEnter()
 
 void MainMenuState::onExit()
 {
-	AudioPtr bgm = m_app->getMusic();
-	bgm->get()->stop();
-	m_app->setMusic(AudioPtr());
-
+	GameState::onExit();
+	m_music->get()->stop();
 }

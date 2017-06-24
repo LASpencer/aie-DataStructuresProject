@@ -35,6 +35,7 @@ public:
 	virtual void onExit();
 protected:
 	TexturePtr	m_winImage;
+	AudioPtr	m_music;
 	std::unique_ptr<TextBar> m_winText;
 	std::shared_ptr<Button> m_menuButton;
 	std::shared_ptr<Button> m_quitButton;

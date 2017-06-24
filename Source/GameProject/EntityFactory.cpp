@@ -91,6 +91,18 @@ EntityPtr EntityFactory::createEntity(EntityType type, glm::mat3 position, Scene
 	return entity;
 }
 
+void EntityFactory::loadResources()
+{
+	// Hero sprite sheet
+	TexturePtr texture = m_app->getResourceManager()->getTexture(hero_sprite_filepath);
+	texture = m_app->getResourceManager()->getTexture(hero_robe_filepath);
+	texture = m_app->getResourceManager()->getTexture(hero_armour_filepath);
+	texture = m_app->getResourceManager()->getTexture(hero_shield_filepath);
+	texture = m_app->getResourceManager()->getTexture(hero_helmet_filepath);
+	// Door, block, and platform tiles
+	texture = m_app->getResourceManager()->getTexture(filepath::castle_tiles);
+}
+
 EntityPtr EntityFactory::createHero(glm::mat3 position, SceneObjectPtr parent)
 {
 	EntityPtr hero = std::make_shared<Entity>();
