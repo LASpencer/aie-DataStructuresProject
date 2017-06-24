@@ -17,14 +17,14 @@ const las::Map < HeroController::Pose, std::pair<float, float>>
 	{HeroController::strike_2, { 0.5f,0 }},
 	{HeroController::wind_down, { 0.625f, 0 }},
 	{HeroController::jump, { 0.75f,0 }},
-	{HeroController::land, { 0.875f,0 }},
+	{HeroController::falling, { 0.875f,0 }},
 	{HeroController::hurt, { 0,0.25f }},
 	{HeroController::crouch_hurt, { 0.125f,0.25f }},
 	{HeroController::jump_wind_up, { 0.25f,0.25f }},
 	{HeroController::jump_strike_1, { 0.325f,0.25f }},
 	{HeroController::jump_strike_2, { 0.5f,0.25f }},
 	{HeroController::jump_wind_down, { 0.625f, 0.25f }},
-	{HeroController::falling, { 0,0.5f }},
+	{HeroController::knockback, { 0,0.5f }},
 	{HeroController::downed, { 0.125f, 0.5f }},
 	{HeroController::crouch_wind_up, { 0.25f,0.5f }},
 	{HeroController::crouch_strike_1, { 0.325f,0.5f }},
@@ -126,13 +126,13 @@ void HeroController::setPose(Pose pose)
 		//Fall through to get hitbox
 	case(idle):
 	case(jump):
-	case(land):
+	case(falling):
 	case(wind_up):
 	case(wind_down):
 	case(jump_wind_up):
 	case(jump_wind_down):
 	case(hurt):
-	case(falling):
+	case(knockback):
 		hitbox.push_back(stand_hitbox);
 		hitbox.push_back(stand_feetbox);
 		break;

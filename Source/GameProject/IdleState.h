@@ -1,8 +1,12 @@
 #pragma once
 #include "GroundState.h"
 
-//TODO should descend from GroundState, which keeps track of whether feet touched ground last frame
-class IdleState : public GroundState {
+/*	Hero is not doing anything
+	Can transition to Jump, Crouch, or Walk states though input,
+	or to Fall state if feet are not supported by floor
+*/
+class IdleState 
+	: public GroundState {
 
 public:
 	IdleState(HeroController* controller);
@@ -16,8 +20,6 @@ public:
 	virtual void onExit();
 
 	virtual void update(float deltaTime);
-
-	virtual void draw(aie::Renderer2D* renderer);
 
 	virtual void notify(Subject* subject, EventBase* event);
 };

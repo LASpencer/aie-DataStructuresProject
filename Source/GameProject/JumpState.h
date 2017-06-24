@@ -1,11 +1,12 @@
 #pragma once
 #include "AirState.h"
-//TODO add FallingState
-class JumpState : public AirState {
-	/*TODO	Moves to FallState if velocity <0
-	*		Moves to AerialAttackState on pressing attack button
-	*		Moves to AerialHurtState on taking damage
-	*/
+
+/*	Hero is jumping
+	Entered on pressing Jump key.
+	Exits to Fall state after vertical speed reaches 0
+*/
+class JumpState 
+	: public AirState {
 public:
 	JumpState(HeroController* controller);
 

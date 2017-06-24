@@ -12,8 +12,7 @@ typedef std::shared_ptr<HeroState> HeroStatePtr;
 
 class HeroController;
 
-//TODO write and implement
-//TODO write HeroStateMachine
+// Base state for states in HeroStateMachine
 class HeroState 
 	: public State, public Observer
 {
@@ -27,6 +26,8 @@ public:
 
 	virtual void onExit();
 
+	virtual void draw(aie::Renderer2D* renderer) {};
+
 	virtual bool addSubject(Subject* subject);
 	virtual void removeSubject(Subject* subject);
 
@@ -37,6 +38,6 @@ public:
 	static const aie::EInputCodes attack_button;
 
 protected:
-	EntityWeakPtr m_hero;
-	HeroController* m_controller;
+	EntityWeakPtr m_hero;			// Entity this state is controlling
+	HeroController* m_controller;	// Controller component containing this state
 };

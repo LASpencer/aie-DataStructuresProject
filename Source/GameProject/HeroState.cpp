@@ -20,7 +20,13 @@ HeroState::~HeroState()
 
 void HeroState::setHero(EntityPtr hero)
 {
-	m_hero = EntityWeakPtr(hero);
+	if ((hero->getComponentMask() & (Component::sprite | Component::collider))
+		== (Component::sprite | Component::collider) &&
+		(hero->getTagMask() & Entity::player)) {
+		m_hero = EntityWeakPtr(hero);
+	} else {
+		throw std::invalid_argument("Hero must have Sprite and Collider components and be tagged as Player");
+	}
 }
 
 void HeroState::onEnter()

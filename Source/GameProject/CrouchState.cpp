@@ -29,20 +29,19 @@ void CrouchState::onExit()
 
 void CrouchState::update(float deltaTime)
 {
-	/*TODO	Moves to IdleState on release crouch button
-	*		Moves to CrouchAttackState on pressing attack button
-	*		Moves to JumpState on pressing jump button
-	*		Moves to CrouchHurtState on taking damage
-	*/
+	// Set crouching pose
 	m_controller->setPose(HeroController::crouch);
 	aie::Input* input = aie::Input::getInstance();
 	if (!m_onFloor) {
+		// Fall if floor not touched last update
 		m_shouldTransition = true;
 		m_target = HeroStateMachine::fall_state;
 	} else if (input->isKeyDown(jump_button)) {
+		// Jump 
 		m_shouldTransition = true;
 		m_target = HeroStateMachine::jump_state;
 	} else if (input->isKeyUp(crouch_button)) {
+		// Stand up on releasing crouch
 		m_shouldTransition = true;
 		m_target = HeroStateMachine::idle_state;
 	}
@@ -50,7 +49,8 @@ void CrouchState::update(float deltaTime)
 	GroundState::update(deltaTime);
 }
 
-void CrouchState::draw(aie::Renderer2D * renderer)
+void CrouchState::notify(Subject * subject, EventBase * event)
 {
+	GroundState::notify(subject, event);
 }
 

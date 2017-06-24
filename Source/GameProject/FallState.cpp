@@ -20,6 +20,7 @@ State * FallState::clone() const
 void FallState::onEnter()
 {
 	AirState::onEnter();
+	// Vertical speed is 0 at start of fall
 	m_controller->setVerticalSpeed(std::max(0.f, m_controller->getVerticalSpeed()));
 }
 
@@ -31,13 +32,10 @@ void FallState::onExit()
 void FallState::update(float deltaTime)
 {
 	AirState::update(deltaTime);
-	EntityPtr hero(m_hero);
-	m_controller->setPose(HeroController::land);
+	// Set falling pose
+	m_controller->setPose(HeroController::falling);
 }
 
-void FallState::draw(aie::Renderer2D * renderer)
-{
-}
 
 void FallState::notify(Subject * subject, EventBase * event)
 {
@@ -57,7 +55,8 @@ void FallState::notify(Subject * subject, EventBase * event)
 				(collision->getMyType() == BoxType::body) &&		// Hero's hitbox was body
 				(collision->getOtherType() == BoxType::body)) { 	// Other hitbox was body
 				glm::vec2 penetration = collision->getPenetration();
-				if (penetration.y > 0) {	//Hero on top of something
+				if (penetration.y > 0) {	//Hero on top of floor
+					// Hero has landed, transition to idle
 					m_shouldTransition = true;
 					m_target = HeroStateMachine::idle_state;
 				}

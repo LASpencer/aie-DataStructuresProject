@@ -18,6 +18,7 @@ State * JumpState::clone() const
 void JumpState::onEnter()
 {
 	AirState::onEnter();
+	// Start moving upward at jump speed
 	m_controller->setVerticalSpeed(HeroController::jump_speed);
 }
 

@@ -1,4 +1,6 @@
 #include "stdafx.h"
+#include "Entity.h"
+#include "Component.h"
 #include "HeroStateMachine.h"
 #include "IdleState.h"
 #include "CrouchState.h"
@@ -23,9 +25,16 @@ HeroStateMachine::~HeroStateMachine()
 
 void HeroStateMachine::setHero(EntityPtr hero)
 {
-	m_hero = EntityWeakPtr(hero);
-	for (las::Map<int, HeroStatePtr>::iterator it = m_states.begin();
-		it != m_states.end(); ++it) {
-		it->second->setHero(hero);
+	if ((hero->getComponentMask() & (Component::sprite | Component::collider))
+		== (Component::sprite | Component::collider) &&
+		(hero->getTagMask() & Entity::player)) {
+		m_hero = EntityWeakPtr(hero);
+		for (las::Map<int, HeroStatePtr>::iterator it = m_states.begin();
+			it != m_states.end(); ++it) {
+			it->second->setHero(hero);
+		}
+	}
+	else {
+		throw std::invalid_argument("Hero must have Sprite and Collider components and be tagged as Player");
 	}
 }
