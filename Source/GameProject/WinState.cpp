@@ -63,15 +63,16 @@ void WinState::draw(aie::Renderer2D * renderer)
 void WinState::onEnter()
 {
 	GameState::onEnter();
-
+	// Play victory music
 	m_music = m_app->getResourceManager()->getAudio(filepath::win_music);
 	m_music->get()->setLooping(true);
-	m_music->get()->setGain(music_volume);
+	m_music->get()->setGain(music_volume);	// Full volume is too loud
 	if (!m_music->get()->getIsPlaying()) {
 		m_music->get()->play();
 	}
 
 	m_winImage = m_app->getResourceManager()->getTexture(filepath::win_background);
+	// Reset and observe buttons
 	m_menuButton->reset();
 	m_menuButton->addObserver(shared_from_this());
 	m_quitButton->reset();

@@ -99,6 +99,7 @@ void MainMenuState::onEnter()
 	// Reset animation to first frame
 	m_uvCol = m_uvRow = 0;
 	m_timer = 0.f;
+	// Reset and observe buttons
 	m_playButton->reset();
 	m_playButton->addObserver(shared_from_this());
 	m_exitButton->reset();

@@ -54,7 +54,3 @@ void CrouchState::draw(aie::Renderer2D * renderer)
 {
 }
 
-void CrouchState::notify(Subject * subject, EventBase * event)
-{
-	GroundState::notify(subject, event);
-}

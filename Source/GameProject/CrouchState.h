@@ -1,14 +1,12 @@
 #pragma once
 #include "GroundState.h"
 
+/*	Hero is crouching
+	Can transition to Jump (by pressing jump key), Idle (by releasing crouch key) 
+	or Fall (if feet aren't touching a floor entity)
+*/
 class CrouchState : public GroundState {
 public:
-	/*TODO	Moves to IdleState on release crouch button
-	*		Moves to CrouchAttackState on pressing attack button
-	*		Moves to JumpState on pressing jump button
-	*		Moves to CrouchHurtState on taking damage
-	*/
-	//TODO: Maybe allow slides while crouched?
 
 	CrouchState(HeroController* controller);
 
@@ -23,7 +21,5 @@ public:
 	virtual void update(float deltaTime);
 
 	virtual void draw(aie::Renderer2D* renderer);
-
-	virtual void notify(Subject* subject, EventBase* event);
 
 };

@@ -34,14 +34,14 @@ void AirState::update(float deltaTime)
 	bool lateralMove = false;
 	aie::Input* input = aie::Input::getInstance();
 	if (input->isKeyDown(HeroState::right_move_button)) {
-		//TODO hero turns around based on direction
+		// hero turns around based on direction
 		if (hero->getPosition()->getGlobalTransform()[0][0] < 0.0f) {
 			hero->getPosition()->applyTransform({ -1,0,0,0, 1,0,0,0,1 });
 		}
 		lateralMove = true;
 	}
 	else if (input->isKeyDown(HeroState::left_move_button)) {
-		//TODO hero turns around based on direction
+		// hero turns around based on direction
 		if (hero->getPosition()->getGlobalTransform()[0][0] > 0.0f) {
 			hero->getPosition()->applyTransform({ -1,0,0,0, 1,0,0,0,1 });
 		}
@@ -55,7 +55,7 @@ void AirState::update(float deltaTime)
 void AirState::notify(Subject * subject, EventBase * event)
 {
 	EntityPtr entity = m_hero.lock();
-	// If vertical body-body collision, clamp vertical speed
+	// If vertical body-body collision, clamp vertical speed to not move towards object
 	if (event->getEventID() == EventBase::collision) {
 		CollisionEvent* collision = dynamic_cast<CollisionEvent*>(event);
 		assert(collision != nullptr);

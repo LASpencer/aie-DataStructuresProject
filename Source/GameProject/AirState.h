@@ -1,11 +1,11 @@
 #pragma once
 #include "HeroState.h"
 
+/*	Abstract state for hero in air
+	Moves hero by verticalSpeed, and applies downward acceleration to it*/
 class AirState :
 	public HeroState {
-	//TODO Every frame reduce verticalSpeed by some rate, and move up by vertical speed
-	//If body collides from above, verticalSpeed instead set to 0
-	//other states derive from this, so can be partly abstract
+
 public:
 	AirState(HeroController* controller);
 
@@ -16,5 +16,6 @@ public:
 
 	virtual void update(float deltaTime);
 
+	// On collision, stop moving towards colliding entity
 	virtual void notify(Subject* subject, EventBase* event);
 };

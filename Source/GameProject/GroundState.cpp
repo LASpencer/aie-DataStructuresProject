@@ -44,6 +44,7 @@ void GroundState::notify(Subject * subject, EventBase * event)
 				(collider == entity.get()->getComponent(Component::collider).get()) &&		// Subject was hero's collider
 				(collision->getMyType() == BoxType::feet) &&		// Hero's hitbox was feet
 				(collision->getOtherType() == BoxType::body)) { 	// Other hitbox was body
+				// Hero is supported by floor
 				m_onFloor = true;
 			}
 		} else {

@@ -76,6 +76,7 @@ void PauseState::draw(aie::Renderer2D * renderer)
 void PauseState::onEnter()
 {
 	GameState::onEnter();
+	// Reset and observe buttons
 	m_quitButton->reset();
 	m_quitButton->addObserver(shared_from_this());
 }
