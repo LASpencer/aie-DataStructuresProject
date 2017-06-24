@@ -193,20 +193,6 @@ namespace las {
 			}
 		}
 
-		//const TreeNode<K, V>* getPredecessor() const {
-		//	if (m_left != nullptr) {
-		//		return m_left->getSubtreeMax();
-		//	}
-		//	else {
-		//		const TreeNode<K, V>* node = this;
-		//		const TreeNode<K, V>* parent = m_parent;
-		//		while (parent != nullptr && node == parent->m_left) {
-		//			node = parent;
-		//			parent = parent->m_parent;
-		//		}
-		//		return parent;
-		//	}
-		//}
 
 		/** getSuccessor
 		* @return Pointer to node with next greatest key in tree, or nullptr if this is greatest*/
@@ -228,20 +214,7 @@ namespace las {
 			}
 		}
 
-		//const TreeNode<K, V> getSuccessor() const{
-		//	if (m_right != nullptr) {
-		//		return m_right->getSubtreeMin();
-		//	}
-		//	else {
-		//		const TreeNode<K, V>* node = this;
-		//		const TreeNode<K, V>* parent = m_parent;
-		//		while (parent != nullptr && node == parent->m_right) {
-		//			node = parent;
-		//			parent = parent->m_parent;
-		//		}
-		//		return parent;
-		//	}
-		//}
+	
 
 		// Returns node with minimum key in subtree with this as root
 		TreeNode<K, V>* getSubtreeMin() {
@@ -255,16 +228,6 @@ namespace las {
 			}
 			return min;
 		}
-
-		//const TreeNode<K, V>* getSubtreeMin() const {
-		//	const TreeNode<K, V>* node = this;
-		//	const TreeNode<K, V>* min;
-		//	while (node != nullptr) {
-		//		min = node;
-		//		node = node->m_left;
-		//	}
-		//	return min;
-		//}
 
 
 		// Returns node with maximum key in subtree with this as root
@@ -280,16 +243,6 @@ namespace las {
 			return max;
 		}
 
-		// Returns node with maximum key in subtree with this as root
-		//const TreeNode<K, V>* getSubtreeMax() const {
-		//	const TreeNode<K, V>* node = this;
-		//	const TreeNode<K, V>* max;
-		//	while (node != nullptr) {
-		//		max = node;
-		//		node = node->m_right;
-		//	}
-		//	return max;
-		//}
 
 		// Creates array containing copies of all key-value pairs in tree
 		Array<std::pair<K, V>> flattenSubtree() {
