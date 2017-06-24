@@ -7,6 +7,11 @@
 
 class TextBar;
 
+/*	State for a paused game
+
+	Popped when pause key (Esc) is pressed
+	Transitions to FinalState if quit button clicked
+*/
 class PauseState :
 	public GameState
 {

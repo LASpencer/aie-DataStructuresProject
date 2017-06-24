@@ -56,24 +56,24 @@ void SplashScreenState::update(float deltaTime)
 	if (m_focus) {
 		m_timer += deltaTime;
 		aie::Input* input = aie::Input::getInstance();
-		// Load resources now to avoid frame drops later
+		// Load resources
 		if (!m_backgroundLoaded) {
 			TexturePtr texture = m_app->getResourceManager()->getTexture(filepath::menu_background);
 			texture = m_app->getResourceManager()->getTexture(filepath::castle_background);
 			texture = m_app->getResourceManager()->getTexture(filepath::win_background);
-			m_loadText->setContent(load_sprite_msg);
+			m_loadText->setContent(load_sprite_msg);	// Update load message
 			m_backgroundLoaded = true;
 		} 
 		else if (!m_spritesLoaded) {
 			m_app->getEntityFactory()->loadResources();
-			m_loadText->setContent(load_audio_msg);
+			m_loadText->setContent(load_audio_msg);		// Update load message
 			m_spritesLoaded = true;
 		}
 		else if (!m_audioLoaded) {
 			AudioPtr audio = m_app->getResourceManager()->getAudio(filepath::win_music);
 			audio = m_app->getResourceManager()->getAudio(filepath::castle_music);
 			m_audioLoaded = true;
-			m_loadText->setContent(load_done_msg);
+			m_loadText->setContent(load_done_msg);		// Update load message
 		}
 		else if (m_timer > splash_duration|| input->getPressedKeys().size() != 0) {
 			// Let player skip if everything loaded
@@ -94,6 +94,7 @@ void SplashScreenState::draw(aie::Renderer2D* renderer)
 void SplashScreenState::onEnter()
 {
 	GameState::onEnter();
+	// Play music
 	AudioPtr m_music = m_app->getResourceManager()->getAudio(filepath::menu_music);
 	m_music->get()->setLooping(true);
 	if (!m_music->get()->getIsPlaying()) {
@@ -107,5 +108,6 @@ void SplashScreenState::onEnter()
 void SplashScreenState::onExit()
 {
 	GameState::onExit();
+	// Music continues in MainMenuState, so no need to stop it
 }
 

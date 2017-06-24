@@ -2,6 +2,14 @@
 #include "GameState.h"
 #include "TextBar.h"
 #include "ResourceManager.h"
+
+/*	Splash Sceen displays splash image and loads assets
+	As this state doesn't use any animations or respond to user
+	input, assets are loaded here to avoid noticable load times later.
+
+	Transitons to MainMenuState if all assets have loaded and either timer
+	runs out or the player presses any key
+*/
 class SplashScreenState :
 	public GameState
 {

@@ -4,6 +4,11 @@
 #include "Button.h"
 #include <string>
 
+/*	Displays victory message and prompts player to replay the game
+
+	Transitions to MainMenuState on clicking menu button
+	Transitions to FinalState on clicking quit button
+*/
 class WinState :
 	public GameState {
 public:
