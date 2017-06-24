@@ -6,8 +6,7 @@
 #include "Audio.h"
 #include "Font.h"
 
-//TODO comment, document and test new resource manager
-//TODO create specialized FontManager
+// Templated class for storing Audio and Texture assets identified by filepath
 template<class T>
 class Resource
 {
@@ -30,7 +29,6 @@ public:
 		return *m_data;
 	}
 
-	// Passes 
 	T* operator->() {
 		return m_data.get();
 	}
@@ -40,6 +38,7 @@ private:
 		std::string m_filename;
 };
 
+// Templated class for storing Font assets identified by filepath and size
 class FontResource
 {
 public:
@@ -64,7 +63,6 @@ public:
 		return *m_data;
 	}
 
-	// Passes 
 	aie::Font* operator->() {
 		return m_data.get();
 	}
@@ -78,6 +76,10 @@ typedef std::shared_ptr<Resource<aie::Audio>> AudioPtr;
 typedef std::shared_ptr<FontResource> FontPtr;
 typedef std::shared_ptr<Resource<aie::Texture>> TexturePtr;
 
+/*	Resource Manager class loads and stores resources requested
+	by other objects
+
+*/
 class ResourceManager
 {
 public:
@@ -92,15 +94,19 @@ public:
 	ResourceManager(const ResourceManager&) = delete;
 	ResourceManager& operator=(const ResourceManager&) = delete;
 
+
 	TexturePtr getTexture(const std::string& filename);
 
 	AudioPtr getAudio(const std::string& filename); 
 
-	FontPtr getFont(const std::string& filename, unsigned short size);//TODO set default font size
+	FontPtr getFont(const std::string& filename, unsigned short size);
 
+	/** Counts stored resources
+	*	@param type Resource to check
+	*	@return number of objects of type stored by resource manager*/
 	size_t size(ResourceType type); 
 		
-
+	// Release any unused resources
 	void collectGarbage();
 
 private:

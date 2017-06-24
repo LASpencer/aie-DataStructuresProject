@@ -4,7 +4,7 @@
 TexturePtr ResourceManager::getTexture(const std::string & filename)
 {
 	if (!m_textures.exists(filename)) {
-	m_textures.insert(filename, std::make_shared<Resource<aie::Texture>>(filename));
+		m_textures.insert(filename, std::make_shared<Resource<aie::Texture>>(filename));
 	}
 	return m_textures.at(filename);
 }
@@ -34,7 +34,7 @@ size_t ResourceManager::size(ResourceType type)
 		return m_textures.size();
 	case (audio):
 		return m_audio.size();
-	case(font):
+	case(font):			// m_font is map of maps
 	{	size_t total = 0;
 		for (std::pair<std::string, las::Map<unsigned short, FontPtr >> fontMap : m_fonts) {
 			total += fontMap.second.size();

@@ -1031,8 +1031,6 @@ namespace las {
 		}
 	};
 
-	//TODO test iterators work
-
 	// Iterator for map classes
 	template <typename K, typename V>
 	class MapIter : public std::iterator<std::bidirectional_iterator_tag, std::pair<const K&,V&>> {

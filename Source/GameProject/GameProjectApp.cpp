@@ -35,7 +35,6 @@ void GameProjectApp::shutdown() {
 	m_sceneRoot.reset();
 	delete m_entityFactory;
 	delete m_stateMachine;
-	m_resourceManager->collectGarbage();
 	delete m_resourceManager;
 	delete m_2dRenderer;
 }

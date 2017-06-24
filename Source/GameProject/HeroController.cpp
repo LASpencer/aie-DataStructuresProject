@@ -122,8 +122,7 @@ void HeroController::setPose(Pose pose)
 	case(strike_2):
 	case(jump_strike_1):
 	case(jump_strike_2):
-		//TODO hurtbox from weapon
-		//Fall through to get hitbox
+		// Attack box goes here
 	case(idle):
 	case(jump):
 	case(falling):
@@ -149,8 +148,7 @@ void HeroController::setPose(Pose pose)
 		break;
 	case(crouch_strike_1):
 	case(crouch_strike_2):
-		//TODO hurtbox from weapon
-		//Fall through to get hitbox
+		// Attack box goes here
 	case(crouch):
 	case(crouch_wind_up):
 	case(crouch_wind_down):

@@ -50,6 +50,5 @@ protected:
 	std::shared_ptr<Button> m_exitButton;
 	int m_uvCol, m_uvRow;					// UVRect position of frame in background image
 	float m_timer;
-	//TODO make this an observer, deal with buttons through events
 };
 

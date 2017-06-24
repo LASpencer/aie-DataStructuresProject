@@ -15,10 +15,9 @@ bool compare(float a, float b, float tolerance = default_tolerance) {
 }
 
 bool compare(glm::mat3 a, glm::mat3 b, float tolerance = default_tolerance) {
-	//TODO compare each element in a and b
+	// compare each element in a and b
 	for (size_t i = 0; i < 3; ++i) {
 		for (size_t j = 0; j < 3; ++j) {
-			//TODO use vec3 compare when done
 			if (!compare(a[i][j], b[i][j], tolerance)) {
 				return false;
 			}
@@ -27,12 +26,9 @@ bool compare(glm::mat3 a, glm::mat3 b, float tolerance = default_tolerance) {
 	return true;
 }
 
-//TODO vec2,vec3 compare (switchless)
 
 TEST_CASE("Scene Object", "[scene object][component][glm]") {
 	SceneObjectPtr obj = SceneObjectPtr(new SceneObject());
-	//REQUIRE(obj->getLocalTransform() == glm::mat3(1));
-	//REQUIRE(obj->getGlobalTransform() == glm::mat3(1));
 	REQUIRE(compare(obj->getLocalTransform(), glm::mat3(1)));
 	REQUIRE(compare(obj->getGlobalTransform(), glm::mat3(1)));
 	SECTION("Set and Apply transforms") {
@@ -43,7 +39,6 @@ TEST_CASE("Scene Object", "[scene object][component][glm]") {
 			REQUIRE(compare(obj->getLocalTransform(), matA));
 			REQUIRE(compare(obj->getGlobalTransform(), matA));
 		}
-		//TODO compare with epsilon
 		SECTION("Apply transform") {
 			obj->applyTransform(matA);
 			REQUIRE(compare(obj->getLocalTransform(), matA));
@@ -62,5 +57,4 @@ TEST_CASE("Scene Object", "[scene object][component][glm]") {
 			}
 		}
 	}
-	//TODO test further methods
 }

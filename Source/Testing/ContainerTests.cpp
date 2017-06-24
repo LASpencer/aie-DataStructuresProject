@@ -439,9 +439,6 @@ TEST_CASE("List Iterator", "[list][container][iterator]") {
 		las::List<int> list2(first, last);
 		REQUIRE(list2 == las::List<int>({ 3,4,5 }));
 	}
-	/* TODO test ListIter, based on http://www.cplusplus.com/reference/iterator/
-	Also test +=, -=*/
-	// TODO insert from list iterator to stl container
 }
 
 TEST_CASE("List Algorithms", "[list][container][iterator][algorithm]") {

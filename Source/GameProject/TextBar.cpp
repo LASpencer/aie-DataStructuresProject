@@ -64,7 +64,7 @@ void TextBar::draw(aie::Renderer2D * renderer)
 		renderer->setRenderColour(m_boxColour);
 		renderer->drawBox(m_xPos, m_yPos, width + m_margin, height * (1.0 + m_margin));
 		renderer->setRenderColour(m_textColour);
-		renderer->drawText((*m_font).get(), m_content.c_str(), m_xPos - (width / 2.0f), m_yPos - (height / 2.0f));//TODO test this is right height
+		renderer->drawText((*m_font).get(), m_content.c_str(), m_xPos - (width / 2.0f), m_yPos - (height / 2.0f));
 		renderer->setRenderColour(0xffffffff);
 	}
 }

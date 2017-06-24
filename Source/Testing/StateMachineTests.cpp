@@ -8,9 +8,6 @@
 #include "FooStackState.h"
 
 
-//TODO rewrite tests statemachine
-//TODO rewrite tests statestackmachine
-
 std::shared_ptr<FooState> update(StateMachine<FooState>& machine) {
 	machine.update(0.1f);
 	return machine.getState();

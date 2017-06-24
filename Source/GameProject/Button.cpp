@@ -161,7 +161,7 @@ void Button::draw(aie::Renderer2D * renderer)
 		float width, height;
 		(*m_font)->getStringSize(m_content.c_str(), width, height);
 		renderer->setRenderColour(m_textColour);
-		renderer->drawText((*m_font).get(), m_content.c_str(), m_xPos - (width / 2.0f), m_yPos - (height / 4.0f));//TODO test this is right height
+		renderer->drawText((*m_font).get(), m_content.c_str(), m_xPos - (width / 2.0f), m_yPos - (height / 4.0f));
 	}
 	renderer->setRenderColour(0xffffffff);
 }
