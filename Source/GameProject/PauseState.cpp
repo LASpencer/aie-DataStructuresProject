@@ -6,8 +6,6 @@
 #include "Filepaths.h"
 
 const std::string PauseState::pause_message = "Paused";
-const std::string PauseState::pause_font_path = filepath::consolas_bold_path;
-const std::string PauseState::button_font_path = filepath::consolas_bold_path;
 const unsigned short PauseState::pause_font_height = 64;
 const unsigned short PauseState::button_font_height = 32;
 const float PauseState::text_pos_x = 640;
@@ -21,8 +19,8 @@ const aie::EInputCodes PauseState::unpause_key = aie::INPUT_KEY_ESCAPE;
 
 PauseState::PauseState(GameProjectApp* app) : GameState(app)
 {
-	FontPtr pauseFont = m_app->getResourceManager()->getFont(pause_font_path, pause_font_height);
-	FontPtr buttonFont = m_app->getResourceManager()->getFont(button_font_path, button_font_height);
+	FontPtr pauseFont = m_app->getResourceManager()->getFont(filepath::consolas_bold_path, pause_font_height);
+	FontPtr buttonFont = m_app->getResourceManager()->getFont(filepath::consolas_bold_path, button_font_height);
 	m_quitButton = std::make_shared<Button>(buttonFont, "Quit", quit_button_x, quit_button_y, button_width, button_height);
 	m_pauseText = std::make_unique<TextBar>(pauseFont, pause_message, text_pos_x, text_pos_y, TextBar::def_text_colour, 0x00000000);
 	//TODO follow quit button

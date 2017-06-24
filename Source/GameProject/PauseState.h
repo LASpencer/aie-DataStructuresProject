@@ -12,7 +12,6 @@ class PauseState :
 {
 public:
 	static const std::string pause_message;
-	static const std::string pause_font_path;
 	static const unsigned short pause_font_height;
 	static const float text_pos_x;
 	static const float text_pos_y;
@@ -20,7 +19,6 @@ public:
 	static const float quit_button_y;
 	static const float button_width;
 	static const float button_height;
-	static const std::string button_font_path;
 	static const unsigned short button_font_height;
 
 	static const aie::EInputCodes unpause_key;
@@ -41,7 +39,7 @@ public:
 
 
 protected:
-	std::unique_ptr<TextBar> m_pauseText;//TODO convert to uniqueptr
+	std::unique_ptr<TextBar> m_pauseText;
 	std::shared_ptr<Button> m_quitButton;
 };
 

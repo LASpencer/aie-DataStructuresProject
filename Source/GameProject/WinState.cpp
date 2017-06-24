@@ -9,11 +9,11 @@ const std::string WinState::win_font_path = filepath::consolas_bold_path;
 const std::string WinState::button_font_path = filepath::consolas_bold_path;
 const unsigned short WinState::win_font_height = 64;
 const unsigned short WinState::button_font_height = 32;
-const float WinState::text_pos_x = 640.f;
-const float WinState::text_pos_y = 500.f;
-const float WinState::menu_button_x = 800.f;
+const float WinState::text_pos_x = 515.f;
+const float WinState::text_pos_y = 650.f;
+const float WinState::menu_button_x = 1150.f;
 const float WinState::menu_button_y = 200.f;
-const float WinState::quit_button_x = 800.f;
+const float WinState::quit_button_x = 1150.f;
 const float WinState::quit_button_y = 100.f;
 const float WinState::button_width = 200.f;
 const float WinState::button_height = 50.f;
@@ -25,7 +25,7 @@ WinState::WinState(GameProjectApp * app) : GameState(app)
 	FontPtr winFont = m_app->getResourceManager()->getFont(win_font_path, win_font_height);
 	m_menuButton = std::make_shared<Button>(buttonFont, "Main Menu", menu_button_x, menu_button_y, button_width, button_height);
 	m_quitButton = std::make_shared<Button>(buttonFont, "Quit", quit_button_x, quit_button_y, button_width, button_height);
-	m_winText = std::make_unique<TextBar>(winFont, win_message, text_pos_x, text_pos_y);
+	m_winText = std::make_unique<TextBar>(winFont, win_message, text_pos_x, text_pos_y, 0x000000FF, 0x00000000);
 }
 
 WinState::~WinState()
@@ -59,7 +59,7 @@ void WinState::update(float deltaTime)
 
 void WinState::draw(aie::Renderer2D * renderer)
 {
-	renderer->drawSprite(m_winImage->get(), 640, 360);
+	renderer->drawSprite(m_winImage->get(), 515, 360);
 	m_winText->draw(renderer);
 	m_menuButton->draw(renderer);
 	m_quitButton->draw(renderer);
