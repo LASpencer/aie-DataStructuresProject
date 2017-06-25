@@ -4,6 +4,9 @@ by L. Andrew Spencer 2017
 This program plays a 2d platformer. The player must make their way to the door on the right side of the 
 screen to win the game.
 
+A repository for this project can be found at https://github.com/LASpencer/aie-DataStructuresProject
+
+
 I. USE
 -------
 
@@ -18,12 +21,22 @@ W		Jump
 ESC		Pause/Unpause
 `(Grave key)	Toggle showing hitboxes
 
-On running 
+On running the game, a splash screen appears for a few seconds. When all game assets 
+are loaded, you can press any key to skip to the menu screen instead of waiting.
+
+The menu screen has Play and Quit buttons. Clicking Play begins the game.
+While playing, you may quit the game by pausing (ESC) and clicking the Quit button
+On reaching the door at the right of the screen, a Win Screen is shown. Clicking Quit
+ends the program, and clicking Main Menu returns to the main menu so the game can be 
+played again.
 
 II. DESIGN
 -----------
 
+Documentation for the container classes used in this project can be found in the 
+repository wiki at https://github.com/LASpencer/aie-DataStructuresProject/wiki/Containers
 
+See the Design Document in the Docs folder for further details.
 
 This program uses three main design patterns: Component, Factory, and Observer
 
