@@ -13,7 +13,6 @@ Entity::~Entity()
 
 bool Entity::addComponent(const ComponentPtr & component)
 {
-	//TODO figure out how to make this a lambda/function object
 	Component::Identifier id = component->getID();
 	bool canAdd = true;
 		if (m_componentMask & id) {

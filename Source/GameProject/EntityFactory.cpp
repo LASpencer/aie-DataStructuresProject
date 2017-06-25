@@ -26,7 +26,7 @@ const float EntityFactory::door_uvh = 3.f/11.f;
 
 const float EntityFactory::platform_uvx = 11.f / 15.f;
 const float EntityFactory::platform_uvy = 2.75f / 11.f;
-const float EntityFactory::platform_uvw = 1.f / 15.f; // TODO try this, or width three and sprite is 192 wide
+const float EntityFactory::platform_uvw = 1.f / 15.f; 
 const float EntityFactory::platform_uvh = 1.f / 11.f;
 
 const float EntityFactory::block_uvx = 1.f / 15.f;

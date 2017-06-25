@@ -33,20 +33,56 @@ played again.
 II. DESIGN
 -----------
 
+As required, this program uses custom container classes: Array (a dynamic array), List (a double linked
+list), and Map (a search tree map). These containers are also used to implement Stack, Queue, and Deque
+containers.
+
 Documentation for the container classes used in this project can be found in the 
 repository wiki at https://github.com/LASpencer/aie-DataStructuresProject/wiki/Containers
 
+The program's state is managed through a stack state machine, GameStateMachine. The GameProjectApp
+object (inheriting from the bootstrap Application class) contains a GameStateMachine object. During update
+and draw, it calls the respective methods on the GameStateMachine. This in turn calls update on each
+state in the stack (starting from the top), and then checks if the top state has set any flags for popping it,
+pushing another state on top, or transferring to a new state. 
+During Draw, it calls each state's draw method, but in reverse order (bottom to top). This means that during
+the pause state, the game can still be seen behind the pause screen.
+
+A state machine is also used for controlling the hero, with transitions based on player input and whether the
+hero is touching the floor.
+
+This program uses the Component, Factory, and Observer design patterns. 
+Component is used in defining the behaviour of game entities. The Entity class has a position, a bitset of
+identifying tags, and several components. The components currently used are Sprite (including MultiSprite) for
+drawing the entity on the screen, Collider for testing collision with other entities, and Controller (implemented
+with HeroController) for controlling the entity. During update and draw, components of the same type are updated
+(and drawn) together. This means that systems such as collision detection and resolution can update as a single
+unit, rather than being incrementally updated as each entity involved updates. It also allows code to be 
+flexibly reused, as any entity that needs to perform some behaviour is just given the appropriate component.
+
+Since entities are defined by their components and tags, rather than a class heirarchy of Entity subclasses, there
+needs to be a way to create particular types of Entities. This is accomplished with the Factory design pattern. The
+EntityFactory class is given a private method to produce each type of entity needed, by putting together the 
+required components with the right data, and setting the appropriate tags. Calling its public createEntity method
+with a value from the EntityType enumeration causes it to create the entity requested and add it to the 
+GameProjectApp object's entities list.
+
+The Observer pattern is used to allow objects to cause behaviour in other objects without creating a dependency 
+between them. It involves two abstract classes: Subject, which provides an interface to add Observers to a list and
+send them Event objects, and Observer which provides an interface for being notified of Events by a Subject. 
+Event is a class that contains an EventID, indicating what the event is, and some subclasses have additional data.
+So the CollisionEvent also contains information about the entity the Subject collided with, how their hitboxes were
+tagged, and the penetration vector. Based on the information in the Event object, and the identity of the Subject
+producing it, the Observer can respond accordingly without the Subject needing to know what, if any, response its 
+Observers should have.
+
+This is mainly used in collision resolution, as Collider components are also Subjects which notify their Observers 
+when a collision occurs. It is also used in triggering state transitions: several states observe Button objects for
+click events, and BattleState observes the door's collider for a collision with the player.
+
+
 See the Design Document in the Docs folder for further details.
 
-This program uses three main design patterns: Component, Factory, and Observer
-
-The Component pattern is used to define the behaviour of Entities in this game. An Entity
-is an object with a position and various components. 
-An entity may only have one component of any particular type. These types are given a particular value, 
-returned by the component's getID method. The values are chosen to be powers of two, so they have no 
-overlapping bits and so can be used for a bitset to easily check the components an entity has.
-
-It also uses the State 
 
 III. ATTRIBUTIONS
 ------------------

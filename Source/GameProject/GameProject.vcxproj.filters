@@ -333,4 +333,7 @@
       <Filter>Header Files\State Machine\States\Hero States</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
+  </ItemGroup>
 </Project>
