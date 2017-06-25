@@ -15,10 +15,15 @@ Battle:
 A,D		Move left and right
 S		Crouch
 W		Jump
+ESC		Pause/Unpause
 `(Grave key)	Toggle showing hitboxes
+
+On running 
 
 II. DESIGN
 -----------
+
+
 
 This program uses three main design patterns: Component, Factory, and Observer
 
